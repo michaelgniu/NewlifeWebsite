@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>讲道集 | 新生命国语播道会</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:    #0f2044;
+      --navy-mid:#1a3461;
+      --gold:    #c8922a;
+      --gold-lt: #e8b04a;
+      --cream:   #faf7f2;
+      --white:   #ffffff;
+      --text:    #1a1a2e;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif; color: var(--text); background: var(--cream); line-height: 1.75; }
+
+    /* NAV */
+    #nav { position:fixed; top:0; left:0; right:0; z-index:1000; background:rgba(15,32,68,0.97); backdrop-filter:blur(8px); border-bottom:1px solid rgba(200,146,42,0.25); }
+    .nav-inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; height:68px; }
+    .nav-logo { display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:var(--white); }
+    .nav-logo-icon { width:44px; height:44px; flex-shrink:0; }
+    .nav-logo-icon img { width:100%; height:100%; object-fit:contain; }
+    .nav-logo-text { line-height:1.2; }
+    .nav-logo-main { font-size:0.85rem; font-weight:700; }
+    .nav-logo-sub  { font-size:0.7rem; color:var(--gold-lt); }
+    .nav-links { list-style:none; display:flex; gap:0.25rem; }
+    .nav-links a { display:block; padding:0.4rem 0.75rem; border-radius:6px; color:rgba(255,255,255,0.85); text-decoration:none; font-size:0.85rem; transition:color .2s,background .2s; }
+    .nav-links a:hover, .nav-links a.active { color:var(--gold-lt); background:rgba(200,146,42,0.12); }
+    .nav-cta { background:var(--gold)!important; color:var(--navy)!important; font-weight:700!important; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--white); border-radius:2px; }
+    .mobile-menu { display:none; background:var(--navy); padding:1rem 1.5rem 1.5rem; }
+    .mobile-menu ul { list-style:none; }
+    .mobile-menu li a { display:block; padding:0.65rem 0; color:rgba(255,255,255,0.85); text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.08); font-size:0.95rem; }
+    .mobile-menu.open { display:block; }
+    @media(max-width:768px){ .nav-links{display:none;} .hamburger{display:flex;} }
+
+    /* PAGE HEADER */
+    .page-header { background:var(--navy); padding:7rem 1.5rem 3.5rem; text-align:center; }
+    .page-header .eyebrow { font-size:0.78rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:0.75rem; }
+    .page-header h1 { font-family:'Noto Serif SC',serif; font-size:clamp(1.8rem,4vw,2.8rem); color:var(--white); margin-bottom:1rem; }
+    .page-header p { color:rgba(255,255,255,0.65); max-width:600px; margin:0 auto; font-size:0.95rem; }
+    .bar { width:48px; border:none; border-top:3px solid var(--gold); margin:1rem auto 0; }
+
+    /* CONTAINER */
+    .container { max-width:1000px; margin:0 auto; padding:0 1.5rem; }
+
+    /* SERMONS */
+    .sermons-section { padding:3rem 0 5rem; }
+    .section-label { font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:1.25rem; }
+    .section-desc { font-size:0.9rem; color:#555; margin-bottom:1.5rem; }
+
+    .year-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:1rem; margin-bottom:3rem; }
+    .year-card {
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:0.5rem; padding:1.75rem 1rem;
+      background:var(--white); border-radius:12px;
+      box-shadow:0 2px 10px rgba(15,32,68,0.07);
+      text-decoration:none; color:var(--text);
+      transition:transform .2s, box-shadow .2s;
+      border-top:3px solid transparent;
+    }
+    .year-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(15,32,68,0.14); border-top-color:var(--gold); }
+    .year-number { font-family:'Noto Serif SC',serif; font-size:2rem; font-weight:700; color:var(--navy); line-height:1; }
+    .year-label { font-size:0.8rem; color:#888; }
+    .year-icon { font-size:1.4rem; }
+
+    .folder-link {
+      display:inline-flex; align-items:center; gap:0.6rem;
+      background:var(--navy); color:var(--white);
+      padding:0.65rem 1.25rem; border-radius:8px;
+      text-decoration:none; font-size:0.88rem;
+      transition:background .2s;
+    }
+    .folder-link:hover { background:var(--navy-mid); }
+
+    hr.divider { border:none; border-top:1px solid rgba(15,32,68,0.1); margin:2.5rem 0; }
+
+    /* COLLAPSIBLE */
+    .collapsible { margin-bottom:2.5rem; }
+    .collapsible summary {
+      list-style:none; cursor:pointer;
+      display:flex; align-items:center; justify-content:space-between;
+      background:var(--navy); color:var(--white);
+      padding:1rem 1.25rem; border-radius:10px;
+      font-weight:600; font-size:1rem;
+      user-select:none;
+      transition:background .2s;
+    }
+    .collapsible summary::-webkit-details-marker { display:none; }
+    .collapsible summary:hover { background:var(--navy-mid); }
+    .collapsible[open] summary { border-radius:10px 10px 0 0; }
+    .chevron { font-style:normal; transition:transform .25s; font-size:0.9rem; }
+    .collapsible[open] .chevron { transform:rotate(180deg); }
+    .collapsible-body {
+      background:var(--white); border-radius:0 0 10px 10px;
+      box-shadow:0 4px 16px rgba(15,32,68,0.08);
+      overflow:hidden;
+    }
+    .sermon-table { width:100%; border-collapse:collapse; font-size:0.88rem; }
+    .sermon-table thead tr { background:rgba(15,32,68,0.05); }
+    .sermon-table th { padding:0.6rem 1rem; text-align:left; font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color:#666; font-weight:600; }
+    .sermon-table td { padding:0.7rem 1rem; border-top:1px solid rgba(15,32,68,0.06); vertical-align:middle; }
+    .sermon-table tr:hover td { background:rgba(200,146,42,0.04); }
+    .sermon-date { color:#888; white-space:nowrap; }
+    .sermon-title a { color:var(--navy); text-decoration:none; font-weight:500; }
+    .sermon-title a:hover { color:var(--gold); text-decoration:underline; }
+    .sermon-speaker { color:#666; white-space:nowrap; }
+    .yt-badge { display:inline-block; background:#ff0000; color:#fff; font-size:0.7rem; font-weight:700; padding:0.15rem 0.45rem; border-radius:3px; margin-left:0.4rem; vertical-align:middle; text-decoration:none; }
+    .yt-badge:hover { background:#cc0000; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <div class="nav-logo-icon"><img src="logo.png" alt="新生命logo" /></div>
+      <div class="nav-logo-text">
+        <div class="nav-logo-main">新生命国语播道会</div>
+        <div class="nav-logo-sub">New Life Evangelical Free Church · Calgary</div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">关于我们</a></li>
+      <li><a href="index.html#services">主日聚会</a></li>
+      <li><a href="index.html#ministries">教会事工</a></li>
+      <li><a href="sermons.html" class="active">讲道集</a></li>
+      <li><a href="videos.html">视频</a></li>
+      <li><a href="docs.html">教会文档</a></li>
+      <li><a href="index.html#contact" class="nav-cta">联络我们</a></li>
+    </ul>
+    <div class="hamburger" onclick="this.closest('nav').querySelector('.mobile-menu').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="mobile-menu">
+    <ul>
+      <li><a href="index.html#about">关于我们</a></li>
+      <li><a href="index.html#services">主日聚会</a></li>
+      <li><a href="index.html#ministries">教会事工</a></li>
+      <li><a href="sermons.html">讲道集</a></li>
+      <li><a href="videos.html">视频</a></li>
+      <li><a href="docs.html">教会文档</a></li>
+      <li><a href="index.html#contact">联络我们 →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="eyebrow">信息与讲道</div>
+  <h1>讲道集</h1>
+  <hr class="bar" />
+  <p style="margin-top:1rem;">新生命国语播道会历年主日讲道录音，愿神的话语继续在您心中工作。</p>
+</div>
+
+<section class="sermons-section">
+  <div class="container">
+
+    <!-- 2026 视频 -->
+    <div class="section-label">2026年　讲道视频</div>
+    <details class="collapsible">
+      <summary>
+        <span>2026年讲道视频（共26讲）</span>
+        <i class="chevron">▼</i>
+      </summary>
+      <div class="collapsible-body">
+        <table class="sermon-table">
+          <thead><tr><th>日期</th><th>题目</th><th>讲员</th></tr></thead>
+          <tbody>
+            <tr><td class="sermon-date">2026-06-28</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=fXZw8UhDLwk" target="_blank" rel="noopener">不小的服事 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">张疏影传道</td></tr>
+            <tr><td class="sermon-date">2026-06-21</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=REE5j1iHD3s" target="_blank" rel="noopener">圣洁与污秽 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2026-06-14</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=3W9Ii4nZoPc" target="_blank" rel="noopener">看哪！荣上加荣 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2026-06-07</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=Kv0PopAqqSk" target="_blank" rel="noopener">后来的荣耀必大过先前的荣耀 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2026-05-31</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=6YaQv7qEFMU" target="_blank" rel="noopener">我们起来建造吧 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2026-05-24</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=fON_xZfAtwo" target="_blank" rel="noopener">尊荣文化 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王乾洲牧师</td></tr>
+            <tr><td class="sermon-date">2026-05-17</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=bfTwOJu6xDo" target="_blank" rel="noopener">那从天上来的异象 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2026-05-10</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=2DOBIiLOtnM" target="_blank" rel="noopener">妈亲儿与儿亲妈 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2026-05-03</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=HLZ64J7Rabs" target="_blank" rel="noopener">神的控诉 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2026-04-26</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=JYxw8NK10g8" target="_blank" rel="noopener">不能息灭的爱 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2026-04-19</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=MF5XWsbefhQ" target="_blank" rel="noopener">敬拜的真意 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">吉喆牧师</td></tr>
+            <tr><td class="sermon-date">2026-04-12</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=Z0B6nXhUjek" target="_blank" rel="noopener">盼望神的荣耀 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2026-04-05</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=bemquLrOtPQ" target="_blank" rel="noopener">我们当怎样行？ <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2026-03-29</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=jmf-g3dwlQY" target="_blank" rel="noopener">突破定罪的文化 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王乾洲牧师</td></tr>
+            <tr><td class="sermon-date">2026-03-22</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=u2VRs6PMxes" target="_blank" rel="noopener">日光之下 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2026-03-15</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=rco6jg5wfkY" target="_blank" rel="noopener">预苦期之选择 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">陈明偉牧师</td></tr>
+            <tr><td class="sermon-date">2026-03-08</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=hvrglMipbZQ" target="_blank" rel="noopener">才德的丈夫 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2026-03-01</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=EBDG4mf_YTQ" target="_blank" rel="noopener">祈求的智慧 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2026-02-22</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=wgwy3uoqNPw" target="_blank" rel="noopener">在失序动荡中盼望那不能震动的国 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">邹洪波传道</td></tr>
+            <tr><td class="sermon-date">2026-02-15</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=mZc88ZbM0qg" target="_blank" rel="noopener">三位一体真神的荣耀 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2026-02-08</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=fXZw8UhDLwk" target="_blank" rel="noopener">认识你的神 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2026-02-01</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=iJTsh4y-BUg" target="_blank" rel="noopener">求神使我们复兴 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2026-01-25</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=mtDcw10qy80" target="_blank" rel="noopener">当寻求耶和华 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">吉喆牧师</td></tr>
+            <tr><td class="sermon-date">2026-01-18</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=-7RDE0BLb-0" target="_blank" rel="noopener">你们来看！ <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2026-01-11</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=QYJ0M4NgKUI" target="_blank" rel="noopener">多重身份——水深之处 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2026-01-04</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=XFXMm2KAo-8" target="_blank" rel="noopener">看哪，神的荣耀！ <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- 2025 视频 -->
+    <div class="section-label">2025年　讲道视频</div>
+    <details class="collapsible">
+      <summary>
+        <span>2025年讲道视频（共51讲）</span>
+        <i class="chevron">▼</i>
+      </summary>
+      <div class="collapsible-body">
+        <table class="sermon-table">
+          <thead><tr><th>日期</th><th>题目</th><th>讲员</th></tr></thead>
+          <tbody>
+            <tr><td class="sermon-date">2025-01-05</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=543fKI6thUA" target="_blank" rel="noopener">開到水深之處 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-01-12</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=bC5mGKpV8mk" target="_blank" rel="noopener">要有光 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-01-19</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=avfe-w_c14E" target="_blank" rel="noopener">2025迎新事 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2025-01-26</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=8Et21aMtB_E" target="_blank" rel="noopener">道就是神 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-02-02</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=BChxDLrzdNU" target="_blank" rel="noopener">该隐与亚伯 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-02-09</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=27A5WaKbc8s" target="_blank" rel="noopener">一生所求 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">潘玨瑾传道</td></tr>
+            <tr><td class="sermon-date">2025-02-16</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=VdjiNF6OIQk" target="_blank" rel="noopener">从梦见到面见 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-02-23</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=eRkffsxYr74" target="_blank" rel="noopener">不可思议的先知——约拿 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">杨立人传道</td></tr>
+            <tr><td class="sermon-date">2025-03-02</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=ov4nTbyTCjc" target="_blank" rel="noopener">神的行与人的不行 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-03-09</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=a42uatGxPxY" target="_blank" rel="noopener">耶和华尼西 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-03-16</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=F7wmjTLpb50" target="_blank" rel="noopener">在神凡事都能 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">高峰传道</td></tr>
+            <tr><td class="sermon-date">2025-03-23</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=3CDdpk68Rdg" target="_blank" rel="noopener">娶亲筵席比喻的教训 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳弟兄</td></tr>
+            <tr><td class="sermon-date">2025-03-30</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=CtGkVjT02qg" target="_blank" rel="noopener">远处不算远——本土宣教 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2025-04-06</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=WvJbRHv8CRY" target="_blank" rel="noopener">是法利赛人还是先知？ <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">Pastor Ray</td></tr>
+            <tr><td class="sermon-date">2025-04-13</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=zYiJ7oz8qZY" target="_blank" rel="noopener">荣耀真神的彰显——耶稣登山变相 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">孙静文传道</td></tr>
+            <tr><td class="sermon-date">2025-04-20</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=AX7i0Sn-vxg" target="_blank" rel="noopener">作神的儿女 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-04-27</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=JPAC34JN8kQ" target="_blank" rel="noopener">出路 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">吉喆牧师</td></tr>
+            <tr><td class="sermon-date">2025-05-04</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=tC6araKkyPU" target="_blank" rel="noopener">圣洁的神与圣洁的民 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-05-11</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=lNzYJAuJmvI" target="_blank" rel="noopener">母亲 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">邹洪波传道</td></tr>
+            <tr><td class="sermon-date">2025-05-18</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=8S4XfZb9-cw" target="_blank" rel="noopener">拿细耳人 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-05-25</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=G1lRbz-jn3w" target="_blank" rel="noopener">近处有亲情 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2025-06-01</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=n-7p7Hkimro" target="_blank" rel="noopener">律法、恩典与真理 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-06-08</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=d9J3FPZFyHc" target="_blank" rel="noopener">十诫：神给人的礼物 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-06-15</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=if6RFLsY44Q" target="_blank" rel="noopener">成为儿女的祝福 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王乾洲牧师</td></tr>
+            <tr><td class="sermon-date">2025-06-22</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=T3R4X3OQcsk" target="_blank" rel="noopener">三个标竿——水深之处 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2025-07-06</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=cVmbRPR0Jic" target="_blank" rel="noopener">从吉甲到波金 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-07-13</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=xxxDu2DgHzo" target="_blank" rel="noopener">耶稣医治瞎子巴底买 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">杨立人传道</td></tr>
+            <tr><td class="sermon-date">2025-07-20</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=xIWbJEv-5g8" target="_blank" rel="noopener">作谁的见证？ <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-07-27</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=De7On2HC_d4" target="_blank" rel="noopener">活着就是基督——水深之处 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2025-08-03</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=-HLZb7F0LhU" target="_blank" rel="noopener">你看见了吗？ <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-08-10</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=2p-0huYSCGE" target="_blank" rel="noopener">你们要休息 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">吉喆牧师</td></tr>
+            <tr><td class="sermon-date">2025-08-17</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=0FaYop3pHaA" target="_blank" rel="noopener">毗列斯乌撒 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-08-24</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=soNg5OtcDDc" target="_blank" rel="noopener">圣洁教会——水深之处 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2025-08-31</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=DdCdSYof8qQ" target="_blank" rel="noopener">耶和华是神 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-09-07</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=HPT5AMI3oDQ" target="_blank" rel="noopener">苦难的缘由 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-09-14</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=wdIfZzvOEVo" target="_blank" rel="noopener">猜疑之间——水深之处 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2025-09-21</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=tcidOhg5K_E" target="_blank" rel="noopener">混乱与次序 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">孔祥正牧师</td></tr>
+            <tr><td class="sermon-date">2025-09-28</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=BRMkXSooYfI" target="_blank" rel="noopener">不以福音为耻——水深之处 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2025-10-05</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=tE47yaI00_s" target="_blank" rel="noopener">聆听的操练 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-10-12</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=oCXNRtuu73Q" target="_blank" rel="noopener">大卫的回信 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-10-19</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=2IVGtDdmIRI" target="_blank" rel="noopener">失落的信 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-10-26</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=DyRWLDd7nXA" target="_blank" rel="noopener">前瞻的回顾——高山、水深之处 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2025-11-02</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=k0PlCcbpmYw" target="_blank" rel="noopener">禁食的操练 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-11-09</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=ILyj64ySxnk" target="_blank" rel="noopener">心灵的改换一新 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳弟兄</td></tr>
+            <tr><td class="sermon-date">2025-11-16</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=IzKRs9fTkok" target="_blank" rel="noopener">天职 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-11-23</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=9PXjHD95hz8" target="_blank" rel="noopener">居住在圣山——水深之处 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2025-11-30</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=VL9NlMb3KIQ" target="_blank" rel="noopener">唯独圣经 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-12-07</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=ca0snIXoFW4" target="_blank" rel="noopener">金苹果和银网子 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-12-14</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=NiH3MT_Tvdk" target="_blank" rel="noopener">建造合神心意的婚姻 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">甄健威牧师</td></tr>
+            <tr><td class="sermon-date">2025-12-21</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=3QB8BvUA6vs" target="_blank" rel="noopener">从圣灵而生 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2025-12-28</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=tC3cEM2IIOk" target="_blank" rel="noopener">弥赛亚——神本体的真像 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- 2024 视频 -->
+    <div class="section-label">2024年　讲道视频</div>
+    <details class="collapsible">
+      <summary>
+        <span>2024年讲道视频（共50讲）</span>
+        <i class="chevron">▼</i>
+      </summary>
+      <div class="collapsible-body">
+        <table class="sermon-table">
+          <thead><tr><th>日期</th><th>题目</th><th>讲员</th></tr></thead>
+          <tbody>
+            <tr><td class="sermon-date">2024-01-07</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=so-i4S-fXAE" target="_blank" rel="noopener">装备圣徒——巩固羊圈 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-01-14</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=6Ywe6XmbPFY" target="_blank" rel="noopener">爱就跟从 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">吴爱玲传道</td></tr>
+            <tr><td class="sermon-date">2024-01-21</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=lLDvOVZguTA" target="_blank" rel="noopener">巩固羊圈——教会三人行 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-01-28</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=V7_9vhF--NE" target="_blank" rel="noopener">愿你的国降临 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">邹洪波传道</td></tr>
+            <tr><td class="sermon-date">2024-02-04</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=Tn9I-7NBaOQ" target="_blank" rel="noopener">为的是纪念主 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-02-11</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=TtCGGVEPSOc" target="_blank" rel="noopener">爱主我的神 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳弟兄</td></tr>
+            <tr><td class="sermon-date">2024-02-18</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=NPcIQudY2YA" target="_blank" rel="noopener">巩固羊圈——你，他，我 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-02-25</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=73nVc9aMHIg" target="_blank" rel="noopener">患难时的祷告 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王利弟兄</td></tr>
+            <tr><td class="sermon-date">2024-03-03</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=Plt69pFlbek" target="_blank" rel="noopener">巩固羊圈——小我与众小我 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-03-10</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=8F1vYFFk-jY" target="_blank" rel="noopener">命令的总归就是爱 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">吴爱玲传道</td></tr>
+            <tr><td class="sermon-date">2024-03-17</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=5h98H3dF5kY" target="_blank" rel="noopener">巩固羊圈——另一些话题 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-03-24</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=jm20Hco4VBY" target="_blank" rel="noopener">七十个七中的棕树节 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">吕谦牧师</td></tr>
+            <tr><td class="sermon-date">2024-03-29</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=paU9X6bKQFo" target="_blank" rel="noopener">受难日晚崇拜 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">—</td></tr>
+            <tr><td class="sermon-date">2024-03-31</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=L6qPPdUJlbk" target="_blank" rel="noopener">慈爱 Charity <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">Pastor Ray</td></tr>
+            <tr><td class="sermon-date">2024-04-07</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=otxhlxQetPM" target="_blank" rel="noopener">过了八日——寻找迷羊 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-04-14</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=6cmxGE06pBM" target="_blank" rel="noopener">住了吧！静了吧！<span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2024-04-21</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=ZPctm_vELGM" target="_blank" rel="noopener">荣耀的福音与律法 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">吴爱玲传道</td></tr>
+            <tr><td class="sermon-date">2024-04-28</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=BN9MMyqbaDc" target="_blank" rel="noopener">明日将如何 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">李经寰牧师</td></tr>
+            <tr><td class="sermon-date">2024-05-05</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=BRMXIHBpqLM" target="_blank" rel="noopener">灵的边界 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">孔祥正牧师</td></tr>
+            <tr><td class="sermon-date">2024-05-12</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=AZA3zojmbVc" target="_blank" rel="noopener">撒种比喻的教导 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳弟兄</td></tr>
+            <tr><td class="sermon-date">2024-05-19</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=jIYWWnR4DHw" target="_blank" rel="noopener">心里火热——寻找迷羊 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-05-26</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=RBXdqsFbY8U" target="_blank" rel="noopener">见证西罗亚 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">邹洪波传道</td></tr>
+            <tr><td class="sermon-date">2024-06-02</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=Yo5KUhmuaQY" target="_blank" rel="noopener">心里火热——决心找着 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-06-09</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=-ja9XrLtKLo" target="_blank" rel="noopener">重生 vs 永生 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">邹洪波传道</td></tr>
+            <tr><td class="sermon-date">2024-06-16</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=8W3VLbYrl6o" target="_blank" rel="noopener">寻找迷羊——父子情怀 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-06-23</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=sCco_nVz3G8" target="_blank" rel="noopener">耶稣是好牧者 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王利弟兄</td></tr>
+            <tr><td class="sermon-date">2024-07-07</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=xtFr-jPPcHQ" target="_blank" rel="noopener">心里火热——迷羊归途 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-07-21</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=FuwDSWCwQq0" target="_blank" rel="noopener">装备圣徒——基督精兵 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-07-28</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=cK98-aY7ZVc" target="_blank" rel="noopener">牛仔精神的圣经基础 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">吴组洪传道</td></tr>
+            <tr><td class="sermon-date">2024-08-04</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=muf8CigA6Qk" target="_blank" rel="noopener">装备圣徒——个人谈道 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-08-11</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=6SOCkRn9-0U" target="_blank" rel="noopener">心里火热——寻找迷羊 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">吕谦牧师</td></tr>
+            <tr><td class="sermon-date">2024-08-18</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=BITha9hoCao" target="_blank" rel="noopener">装备圣徒——完整装备 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-08-25</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=FV61uFv8Vio" target="_blank" rel="noopener">主耶稣是生命的粮 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳弟兄</td></tr>
+            <tr><td class="sermon-date">2024-09-01</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=Ou3dHH5zutg" target="_blank" rel="noopener">旧约的宣教神学 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-09-08</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=MiSwSVSh6c8" target="_blank" rel="noopener">与祂同住 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2024-09-15</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=FlBFwRUvdm4" target="_blank" rel="noopener">与祂同行 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2024-09-22</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=dsh4L_wUByc" target="_blank" rel="noopener">与祂同工 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2024-09-29</td><td class="sermon-title"><a href="https://www.youtube.com/live/za6V22_9JHg" target="_blank" rel="noopener">耶稣审判群羊 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王利弟兄</td></tr>
+            <tr><td class="sermon-date">2024-10-06</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=9koikV_3iMA" target="_blank" rel="noopener">放下的操练 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2024-10-13</td><td class="sermon-title"><a href="https://youtube.com/live/wg0AQrqDeRg" target="_blank" rel="noopener">定向的操练 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2024-10-20</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=igEdAVgjpuc" target="_blank" rel="noopener">敬虔的操练 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2024-10-27</td><td class="sermon-title"><a href="https://www.youtube.com/live/BESdj9uNuY4" target="_blank" rel="noopener">装备圣徒"有福的人（一）"<span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-11-03</td><td class="sermon-title"><a href="https://youtube.com/live/eEp25ZH6FVg" target="_blank" rel="noopener">Eyes on Jesus（注目看耶稣）<span class="yt-badge">YT</span></a></td><td class="sermon-speaker">Rev. Trevor Brawdy</td></tr>
+            <tr><td class="sermon-date">2024-11-10</td><td class="sermon-title"><a href="https://youtube.com/live/Jr0iWc7ZZPg" target="_blank" rel="noopener">圣洁的操练 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2024-11-17</td><td class="sermon-title"><a href="https://youtube.com/live/1emm-kK2Ux8" target="_blank" rel="noopener">谦卑的操练 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2024-11-24</td><td class="sermon-title"><a href="https://www.youtube.com/live/L3wH_F-s0eg" target="_blank" rel="noopener">装备圣徒——遗言嘱咐 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-12-01</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=UIpb8BLX07w" target="_blank" rel="noopener">回家的操练 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2024-12-08</td><td class="sermon-title"><a href="https://www.youtube.com/live/4w7uqxgpA-8" target="_blank" rel="noopener">安营在吉甲 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+            <tr><td class="sermon-date">2024-12-15</td><td class="sermon-title"><a href="https://www.youtube.com/live/hCYcLT7Kn3M" target="_blank" rel="noopener">战争与和平 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">邹洪波传道</td></tr>
+            <tr><td class="sermon-date">2024-12-22</td><td class="sermon-title"><a href="https://www.youtube.com/live/gxfZ8R9llmk" target="_blank" rel="noopener">时候满足——万民的大喜信息 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2024-12-29</td><td class="sermon-title"><a href="https://www.youtube.com/live/GyPEsAsaEr8" target="_blank" rel="noopener">与祂同活 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郝洪琦牧师</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <hr class="divider" />
+
+    <!-- 2023 视频 -->
+    <div class="section-label">2023年　讲道视频</div>
+    <details class="collapsible">
+      <summary>
+        <span>2023年讲道视频（共46讲）</span>
+        <i class="chevron">▼</i>
+      </summary>
+      <div class="collapsible-body">
+        <table class="sermon-table">
+          <thead><tr><th>日期</th><th>题目</th><th>讲员</th></tr></thead>
+          <tbody>
+            <tr><td class="sermon-date">2023-01-01</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=NRyQHNVqefg" target="_blank" rel="noopener">向天父祈祷 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2023-01-08</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=30bIfRf6GKs" target="_blank" rel="noopener">来投靠神的翅膀下 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">陈伍能牧师</td></tr>
+            <tr><td class="sermon-date">2023-01-15</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=jwyUh8Qazwc" target="_blank" rel="noopener">神在我心中 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2023-01-22</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=L4uXONluyWA" target="_blank" rel="noopener">全家进方舟 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2023-01-29</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=FLYFJp62T0Y" target="_blank" rel="noopener">两个异象及争战得胜的秘诀 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2023-02-05</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=-f88OfDrQrI" target="_blank" rel="noopener">效法主基督 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2023-02-12</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=EI4rv_XtOzQ" target="_blank" rel="noopener">再思神的救恩 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳老师</td></tr>
+            <tr><td class="sermon-date">2023-02-19</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=LOQHVZwNOhM" target="_blank" rel="noopener">二兽及圣徒的坚忍信心 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2023-02-26</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=YchPz8L0Bho" target="_blank" rel="noopener">得胜者约瑟 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2023-03-05</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=AwvP80s98kg" target="_blank" rel="noopener">全家归主——基督化家庭 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2023-03-12</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=MmG_vTiuIpg" target="_blank" rel="noopener">夫妻（一家人）同心——基督化家庭 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2023-03-19</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=ii3lrdCufYE" target="_blank" rel="noopener">得着生命和健康 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">陈伍能牧师</td></tr>
+            <tr><td class="sermon-date">2023-03-26</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=c38j_3_HQ-c" target="_blank" rel="noopener">跟随基督的圣徒及审判的异象 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2023-04-02</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=32bnTbL_z5s" target="_blank" rel="noopener">看米非波设 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2023-04-09</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=bdg-kyuwL_Q" target="_blank" rel="noopener">主复活了 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2023-04-23</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=yVFCMqiCx-4" target="_blank" rel="noopener">主啊！谁敢不敬畏你、不荣耀你的名呢？<span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2023-04-30</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=oE3MKBKOI84" target="_blank" rel="noopener">认识神的应许和祝福 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王达年弟兄</td></tr>
+            <tr><td class="sermon-date">2023-05-07</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=7gpLUMwdlzE" target="_blank" rel="noopener">沉浸在爱中 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2023-05-14</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=4WbwhEtx9N4" target="_blank" rel="noopener">敬神者生，抗拒者亡 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王利弟兄</td></tr>
+            <tr><td class="sermon-date">2023-05-21</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=g02CBBI14BQ" target="_blank" rel="noopener">敬畏上帝——家蒙恩福 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2023-05-28</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=T9nf2v5MZeU" target="_blank" rel="noopener">Three Foot-Washings <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">Rev. Trevor Brawdy</td></tr>
+            <tr><td class="sermon-date">2023-06-04</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=PzFtTSbPvVA" target="_blank" rel="noopener">传纯正教义 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2023-06-11</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=O58faWNszwI" target="_blank" rel="noopener">姐弟三人一家亲 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2023-06-18</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=yt02IeELNsE" target="_blank" rel="noopener">做神好儿男 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2023-06-25</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=M_DYk5QNvAI" target="_blank" rel="noopener">父亲的本分 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2023-07-02</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=cAscoKrmMR4" target="_blank" rel="noopener">基督的教会 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2023-07-09</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=xMxUZCWp8EA" target="_blank" rel="noopener">琴瑟和鸣——子孙满堂 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2023-07-16</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=0V3YsLx5exw" target="_blank" rel="noopener">大使命？<span class="yt-badge">YT</span></a></td><td class="sermon-speaker">陈明伟牧师</td></tr>
+            <tr><td class="sermon-date">2023-07-23</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=wtcQykxRO0Q" target="_blank" rel="noopener">敬虔的品格 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2023-07-30</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=Y7dqQCEajpU" target="_blank" rel="noopener">主耶稣带领门徒去经历风浪 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳弟兄</td></tr>
+            <tr><td class="sermon-date">2023-08-20</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=S7krJqRvlQI" target="_blank" rel="noopener">一同承受生命之恩 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">蒋发明传道</td></tr>
+            <tr><td class="sermon-date">2023-08-27</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=LU1020WKgPs" target="_blank" rel="noopener">预备主再来 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2023-09-10</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=u1iS7wmEU3g" target="_blank" rel="noopener">主教导祷告有三愿 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2023-09-17</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=JVEHQAVeXkc" target="_blank" rel="noopener">回应神的呼召 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">孔祥正牧师</td></tr>
+            <tr><td class="sermon-date">2023-10-01</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=vWxCyGtJnDQ" target="_blank" rel="noopener">在困境中敬拜神 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">方幼林传道</td></tr>
+            <tr><td class="sermon-date">2023-10-15</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=HTTBq5jLKkE" target="_blank" rel="noopener">大使命 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳弟兄</td></tr>
+            <tr><td class="sermon-date">2023-10-29</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=EjB8Hs7d248" target="_blank" rel="noopener">道成肉身的见证 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋蕴哲姐妹</td></tr>
+            <tr><td class="sermon-date">2023-11-05</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=-1jAQonf30s" target="_blank" rel="noopener">密室祷告 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2023-11-12</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=HgGe2-CmFsI" target="_blank" rel="noopener">为己有四求 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2023-11-19</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=5KXDBXpKm2Y" target="_blank" rel="noopener">毕士大池的见证 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">邹明波传道</td></tr>
+            <tr><td class="sermon-date">2023-11-26</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=dBlFBLGAtuc" target="_blank" rel="noopener">如果你们家有个浪子 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王凤玲姐妹</td></tr>
+            <tr><td class="sermon-date">2023-12-03</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=-9Paz1KBwGI" target="_blank" rel="noopener">心里火热——寻找迷羊 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2023-12-10</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=jUQEcPypYVc" target="_blank" rel="noopener">作个怎样的撒种人 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">黄国扬牧师</td></tr>
+            <tr><td class="sermon-date">2023-12-17</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=2vag9gGF1u0" target="_blank" rel="noopener">天国接力赛 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">李义金牧师</td></tr>
+            <tr><td class="sermon-date">2023-12-24</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=p8rA5T7JgI4" target="_blank" rel="noopener">谁家婴孩 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2023-12-31</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=wN8LChjZUR8" target="_blank" rel="noopener">调正焦点 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">梁永恩传道</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <hr class="divider" />
+
+    <!-- 2022 视频 -->
+    <div class="section-label">2022年　讲道视频</div>
+    <details class="collapsible">
+      <summary>
+        <span>2022年讲道视频（共51讲）</span>
+        <i class="chevron">▼</i>
+      </summary>
+      <div class="collapsible-body">
+        <table class="sermon-table">
+          <thead><tr><th>日期</th><th>题目</th><th>讲员</th></tr></thead>
+          <tbody>
+            <tr><td class="sermon-date">2022-01-02</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=HYfvtPdzCag" target="_blank" rel="noopener">不变的盼望 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-01-09</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=LS-h6ItZUT8" target="_blank" rel="noopener">不怕万一 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">陈思律牧师</td></tr>
+            <tr><td class="sermon-date">2022-01-16</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=XFIz1expSxw" target="_blank" rel="noopener">理才（恩赐运用）回报 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2022-01-23</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=jHAE5SVaXH4" target="_blank" rel="noopener">全力向前行 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-01-30</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=Oj7vhcAO_0M" target="_blank" rel="noopener">以基督为至宝 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2022-02-06</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=aT8s4IsCiQo" target="_blank" rel="noopener">新春祝愿 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2022-02-13</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=cUzcn6-MO3s" target="_blank" rel="noopener">同在荣耀中 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-02-20</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=OB7vgDk20Bc" target="_blank" rel="noopener">逾越节与春节 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2022-02-27</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=tf-s6wvmZVI" target="_blank" rel="noopener">活出新生命 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-03-06</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=hQFJUOaQ0sU" target="_blank" rel="noopener">少种的少收 多种的多收 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2022-03-13</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=WgASyCr476g" target="_blank" rel="noopener">回到神的殿 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-03-20</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=sXQQ6k5nSRI" target="_blank" rel="noopener">撒种的比喻 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳弟兄</td></tr>
+            <tr><td class="sermon-date">2022-03-27</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=SL2uJiFUI2w" target="_blank" rel="noopener">向玛利亚学习 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2022-04-03</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=sDB4xRYO838" target="_blank" rel="noopener">先求国和义 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-04-10</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=ByMdZt2tt1s" target="_blank" rel="noopener">耶稣拯救悔改的妇人 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王利弟兄</td></tr>
+            <tr><td class="sermon-date">2022-04-17</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=ZkbE1qWhcgw" target="_blank" rel="noopener">复活的见证 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-04-24</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=G2PldjKTZfo" target="_blank" rel="noopener">使徒信经（1）神看着是好的 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2022-05-01</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=8gDRAmt6Pag" target="_blank" rel="noopener">一同活过来 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-05-08</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=p1OP04stlCM" target="_blank" rel="noopener">迦南妇人的信心 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳弟兄</td></tr>
+            <tr><td class="sermon-date">2022-05-15</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=a5rFq4yEbdY" target="_blank" rel="noopener">使徒信经（2）道成肉身 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2022-05-22</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=MBa3iq62CTE" target="_blank" rel="noopener">神家的奥秘 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-05-29</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=X-b8uYDggj8" target="_blank" rel="noopener">宣读听见并遵守这预言都是有福的 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2022-06-05</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=zqIcHH3Z_TU" target="_blank" rel="noopener">教会的合一 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-06-12</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=7lqW0GgGbvM" target="_blank" rel="noopener">使徒信经（3）成了 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2022-06-19</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=PCuHv8ZE0yc" target="_blank" rel="noopener">丈夫与妻子 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-06-26</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=htivIJ4nbXc" target="_blank" rel="noopener">父亲的心 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2022-07-03</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=rRUpbPLp41E" target="_blank" rel="noopener">穿神赐军装 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-07-10</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=wZaoImLBDJQ" target="_blank" rel="noopener">十个童女的比喻 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳弟兄</td></tr>
+            <tr><td class="sermon-date">2022-07-17</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=rQOjKUycWz8" target="_blank" rel="noopener">主所疼爱的，就必责备管教 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2022-07-24</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=8o0Xs4_d7HU" target="_blank" rel="noopener">服侍的态度 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-07-31</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=NSIQ0pXDcJg" target="_blank" rel="noopener">使徒信经之四——今生的延续 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2022-08-07</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=txIUwGtun_Q" target="_blank" rel="noopener">让圣灵带领 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-08-14</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=bJPquy_3TSs" target="_blank" rel="noopener">心志上做大人 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2022-08-21</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=SkJaql-JNzM" target="_blank" rel="noopener">唯有基督配展开那书卷 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2022-08-28</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=WVBrdoXrZ-c" target="_blank" rel="noopener">洗礼的意义 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-09-04</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=lwUKdnHETAY" target="_blank" rel="noopener">宣教的态度 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-09-11</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=KdKxZzOFntg" target="_blank" rel="noopener">差与传 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2022-09-18</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=T9jw2BuUr5s" target="_blank" rel="noopener">宣教的腓利 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王利弟兄</td></tr>
+            <tr><td class="sermon-date">2022-09-25</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=H7Uhpp_7QlE" target="_blank" rel="noopener">苦难中的拯救 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2022-10-02</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=BVjJa2qjntE" target="_blank" rel="noopener">秋雨和春雨 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2022-10-09</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=O-81iMW9kqQ" target="_blank" rel="noopener">当感谢神 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">陈伍能牧师</td></tr>
+            <tr><td class="sermon-date">2022-10-16</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=E4tgwMocgxY" target="_blank" rel="noopener">光明的果子：当感谢神 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-10-23</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=J7pyh5NdqME" target="_blank" rel="noopener">从一碗红豆汤看对儿女的管教 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王利弟兄</td></tr>
+            <tr><td class="sermon-date">2022-10-30</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=9Vz2WWOTlWg" target="_blank" rel="noopener">祷告如香 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2022-11-13</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=1t8FSiAhe7w" target="_blank" rel="noopener">主赐的平安 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-11-20</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=vwOF8PAJ2RU" target="_blank" rel="noopener">前六号 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2022-11-27</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=pgL1xAug6aM" target="_blank" rel="noopener">主耶稣基督的权柄 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳老师</td></tr>
+            <tr><td class="sermon-date">2022-12-04</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=jv_X2eBXkfc" target="_blank" rel="noopener">人生的意义 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2022-12-11</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=MbsIjCu7qjo" target="_blank" rel="noopener">真光照亮 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2022-12-18</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=wkdK7DF63rc" target="_blank" rel="noopener">恩典 The Grace <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">Br. Ray</td></tr>
+            <tr><td class="sermon-date">2022-12-24</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=EuqaBdt6hD8" target="_blank" rel="noopener">平安夜崇拜 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">—</td></tr>
+            <tr><td class="sermon-date">2022-12-25</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=0XjOrip4tRQ" target="_blank" rel="noopener">圣诞的意义 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <hr class="divider" />
+
+    <!-- 2021 视频 -->
+    <div class="section-label">2021年　讲道视频</div>
+    <details class="collapsible">
+      <summary>
+        <span>2021年讲道视频（共52讲）</span>
+        <i class="chevron">▼</i>
+      </summary>
+      <div class="collapsible-body">
+        <table class="sermon-table">
+          <thead><tr><th>日期</th><th>题目</th><th>讲员</th></tr></thead>
+          <tbody>
+            <tr><td class="sermon-date">2021-01-03</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=mA2xANx_Rbw" target="_blank" rel="noopener">稳健中前行 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-01-10</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=ql0C0kI8Esw" target="_blank" rel="noopener">2021跨年展望 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2021-01-17</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=n4jApH5jr6w" target="_blank" rel="noopener">悔不当初 临涯勒马 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2021-01-24</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=d-yBRaxWBe8" target="_blank" rel="noopener">亲密的关系 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-01-31</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=7nJm1FMyJ08" target="_blank" rel="noopener">傲视独行 唯我独尊 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2021-02-07</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=ZZSkkEQUNYk" target="_blank" rel="noopener">奸狡与忠心 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2021-02-14</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=wEAQ2E6LdFc" target="_blank" rel="noopener">今生，来生，今生的比喻 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2021-02-21</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=hqcMgmQONdc" target="_blank" rel="noopener">来到主面前 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-02-28</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=LXN_itL9FYw" target="_blank" rel="noopener">唯独等候神，得享安息 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2021-03-07</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=LRDiFPAlZCo" target="_blank" rel="noopener">反思税吏长 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-03-14</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=bHDwKY9_-HU" target="_blank" rel="noopener">真知道 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郑艺牧师</td></tr>
+            <tr><td class="sermon-date">2021-03-21</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=o3ACSJ0B2sI" target="_blank" rel="noopener">真爱来自神 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-03-28</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=hPx7WrHsLoo" target="_blank" rel="noopener">玛拉的苦水 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-04-04</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=SjvBVXJTIHE" target="_blank" rel="noopener">全新的状态 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-04-11</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=LZZk9K8GLqw" target="_blank" rel="noopener">谨慎与持守 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-04-18</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=4IdKr-ZpM5w" target="_blank" rel="noopener">主与我们同在 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2021-04-25</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=lbiiuTZZtWE" target="_blank" rel="noopener">饶恕 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王利弟兄</td></tr>
+            <tr><td class="sermon-date">2021-05-02</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=9h1bCdfHfUw" target="_blank" rel="noopener">内心的平安 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-05-09</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=FkSh5N6hMvo" target="_blank" rel="noopener">做个基督徒 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-05-16</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=sNtgi9wtmN8" target="_blank" rel="noopener">蒙福的家庭 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2021-05-23</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=Bw5VOiLztho" target="_blank" rel="noopener">取舍的智慧 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-05-30</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=QBZ4AVbzAxE" target="_blank" rel="noopener">神爱世人 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳弟兄</td></tr>
+            <tr><td class="sermon-date">2021-06-06</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=c8ElXd1BTkw" target="_blank" rel="noopener">进迦南的路 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-06-13</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=DxWIsp3e70Q" target="_blank" rel="noopener">谨守与遵行 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-06-20</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=ju23XMqbKgM" target="_blank" rel="noopener">天父的慈爱 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-06-27</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=SXdGN8B5IuE" target="_blank" rel="noopener">成为合神心意的父亲 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2021-07-04</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=0koQ4pAqOIQ" target="_blank" rel="noopener">回归的渴望 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-07-11</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=CYcyC7vBm_E" target="_blank" rel="noopener">迦南妇人的信心 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王利弟兄</td></tr>
+            <tr><td class="sermon-date">2021-07-18</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=QtPUvj40TlY" target="_blank" rel="noopener">事奉的楷模 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-07-25</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=VJTio8Bi4l0" target="_blank" rel="noopener">家里也要效法主 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2021-08-01</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=Z7tamldzO54" target="_blank" rel="noopener">爱主我的神 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳弟兄</td></tr>
+            <tr><td class="sermon-date">2021-08-08</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=aexCVBcniYA" target="_blank" rel="noopener">爱主的实践 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-08-15</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=iSvVq-7BcL8" target="_blank" rel="noopener">聚会不能停 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-08-22</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=ZmnuAvrRDCM" target="_blank" rel="noopener">今昔情怀 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2021-08-29</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=Z6MUVcgcRiE" target="_blank" rel="noopener">都要从心里给主做 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2021-09-05</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=3O3QQbKrZlw" target="_blank" rel="noopener">相连葡萄树 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-09-12</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=V7h1lK1h5Vw" target="_blank" rel="noopener">患难中见证 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-09-19</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=7Vu3-thsDcI" target="_blank" rel="noopener">恒切祷告，用智慧作见证 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2021-09-26</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=XqyEvY8LLw8" target="_blank" rel="noopener">本份与使命 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2021-10-03</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=8qJ1cVgusbQ" target="_blank" rel="noopener">何事上爱我 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-10-10</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=jgwjlmPOvTY" target="_blank" rel="noopener">耶稣是真光 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">宋一阳弟兄</td></tr>
+            <tr><td class="sermon-date">2021-10-17</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=gvld_qXYE-Q" target="_blank" rel="noopener">撒拉为什么要赶走使女和她儿子？<span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2021-10-24</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=3JyIuHUOUaE" target="_blank" rel="noopener">恒切祷告 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2021-10-31</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=JxUNT9G0jXY" target="_blank" rel="noopener">称职的同工 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-11-07</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=3ZcMiy7Ro-0" target="_blank" rel="noopener">耶稣医治麻风病人所带来的思考 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">王利弟兄</td></tr>
+            <tr><td class="sermon-date">2021-11-14</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=sASiJRsbNRw" target="_blank" rel="noopener">自以为高与自甘卑微 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2021-11-21</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=elqqGaRKSV8" target="_blank" rel="noopener">基督的身体 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-11-28</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=8bIS8_Z61ss" target="_blank" rel="noopener">神的国只在乎公义和平及喜乐 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">俞忠传道</td></tr>
+            <tr><td class="sermon-date">2021-12-05</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=JKFDTpDYGAQ" target="_blank" rel="noopener">及至时候满足 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2021-12-12</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=EggK-XzI4hg" target="_blank" rel="noopener">荣卑互映 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2021-12-19</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=p6pDSLI2HTg" target="_blank" rel="noopener">道成了肉身 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2021-12-26</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=I4A8Q9GINMQ" target="_blank" rel="noopener">仰望与建设 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <hr class="divider" />
+
+    <!-- 2020 视频 -->
+    <div class="section-label">2020年　讲道视频</div>
+    <details class="collapsible">
+      <summary>
+        <span>2020年讲道视频（共39讲）</span>
+        <i class="chevron">▼</i>
+      </summary>
+      <div class="collapsible-body">
+        <table class="sermon-table">
+          <thead><tr><th>日期</th><th>题目</th><th>讲员</th></tr></thead>
+          <tbody>
+            <tr><td class="sermon-date">2020-12-27</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=lq59-VCDC4o" target="_blank" rel="noopener">跨年回望 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-12-20</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=Zfk0hgoa7fg" target="_blank" rel="noopener">耶稣生平 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-12-13</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=tlMSTKOkniA" target="_blank" rel="noopener">传报好消息 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2020-12-06</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=KhQ4ocApE6Y" target="_blank" rel="noopener">为父之心 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-11-29</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=y4pOMytabqg" target="_blank" rel="noopener">屋里寻回 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-11-22</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=ZL90mqyHTSo" target="_blank" rel="noopener">喜乐的源泉 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2020-11-15</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=hQc_VcUCrEE" target="_blank" rel="noopener">七次当向耶和华欢呼 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-11-08</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=2v9rEGb1na8" target="_blank" rel="noopener">三失与失羊 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-11-01</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=VG6ZPQuw2A8" target="_blank" rel="noopener">建造新圣城 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2020-10-25</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=MHtyiRXiwKA" target="_blank" rel="noopener">被召与选上 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-10-18</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=sJgElQGM1OE" target="_blank" rel="noopener">座不虚设 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-10-11</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=2LdayO0Db9E" target="_blank" rel="noopener">更深经历神 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2020-10-04</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=UT3vv_I4v_E" target="_blank" rel="noopener">风度与气质 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-09-27</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=NqGKwK0-jqQ" target="_blank" rel="noopener">开花与结果 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-09-20</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=gj3JBxC0kOE" target="_blank" rel="noopener">挑战中前行 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松传道</td></tr>
+            <tr><td class="sermon-date">2020-09-13</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=IQ6pzl8xRtc" target="_blank" rel="noopener">神的名号 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭袁柏龄师母</td></tr>
+            <tr><td class="sermon-date">2020-09-06</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=KaJ-CTJcP3U" target="_blank" rel="noopener">衣食与寿数 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-08-30</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=0gDvMS4vc1M" target="_blank" rel="noopener">健全教会——属灵体验 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-08-23</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=TUbH-JvZWV0" target="_blank" rel="noopener">信实与回应 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松弟兄</td></tr>
+            <tr><td class="sermon-date">2020-08-16</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=7aGAnKcMMEo" target="_blank" rel="noopener">祷告与祈求 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-08-09</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=Lmk_yxf4J5E" target="_blank" rel="noopener">律法与永生 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-07-26</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=qQIU8n2bAC8" target="_blank" rel="noopener">五十两与五两 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-07-19</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=1_xKUh1JlT0" target="_blank" rel="noopener">福音的疆界 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">徐岩松弟兄</td></tr>
+            <tr><td class="sermon-date">2020-07-12</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=46Vv2wMApHc" target="_blank" rel="noopener">主耶稣的比喻法教学 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-06-28</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=gwa2sUkqKmk" target="_blank" rel="noopener">基督门徒的属灵争战 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-06-21</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=GtBJilszojQ" target="_blank" rel="noopener">父慈子孝 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭袁柏龄师母</td></tr>
+            <tr><td class="sermon-date">2020-06-14</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=LSiZQxOB4JY" target="_blank" rel="noopener">基督门徒的成熟生命 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-06-07</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=DSLn4Q6rnq4" target="_blank" rel="noopener">我们亲爱的他 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-05-31</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=TgvK7k6QtVw" target="_blank" rel="noopener">基督门徒的服事基础 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-05-24</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=pN6rs7KpUpM" target="_blank" rel="noopener">基督门徒的侍奉配搭 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-05-17</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=xf10A_JRCFU" target="_blank" rel="noopener">作主精兵 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭袁柏龄师母</td></tr>
+            <tr><td class="sermon-date">2020-05-10</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=SGvMJvRXjO8" target="_blank" rel="noopener">一门三杰的母亲 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-04-26</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=kjW6fJ4Jm14" target="_blank" rel="noopener">健全教会——成分与质素 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-04-19</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=D40jqA6umXY" target="_blank" rel="noopener">怎能如此 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭袁柏龄师母</td></tr>
+            <tr><td class="sermon-date">2020-04-12</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=_tBi84YYJqg" target="_blank" rel="noopener">基督门徒的终极盼望 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-04-05</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=i4X8qCgSM90" target="_blank" rel="noopener">基督门徒的天路历程（二）<span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-04-05</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=tv6DFUNTV1k" target="_blank" rel="noopener">基督门徒的天路历程（一）<span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-03-29</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=i_JAnUt5DiE" target="_blank" rel="noopener">安得烈运动 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭必锋牧师</td></tr>
+            <tr><td class="sermon-date">2020-03-22</td><td class="sermon-title"><a href="https://www.youtube.com/watch?v=NLTnFX45iyo" target="_blank" rel="noopener">基督徒的生活——谨慎行事 <span class="yt-badge">YT</span></a></td><td class="sermon-speaker">郭袁柏龄师母</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <hr class="divider" />
+
+    <!-- 2013–2020 -->
+    <div class="section-label">2013年 — 2020年3月15日　讲道录音</div>
+    <p class="section-desc">点击年份即可在 Google Drive 中收听该年份的讲道录音。</p>
+
+    <div class="year-grid">
+
+      <a class="year-card" href="https://drive.google.com/drive/folders/1wi2JS7FJBeF4WqRzERiwiSXeWZts9DdX" target="_blank" rel="noopener">
+        <span class="year-icon">🎙</span>
+        <span class="year-number">2013</span>
+        <span class="year-label">讲道录音</span>
+      </a>
+
+      <a class="year-card" href="https://drive.google.com/drive/folders/1tdMKiaiTDzjRP2elv6Orle_-MtOtHOqW" target="_blank" rel="noopener">
+        <span class="year-icon">🎙</span>
+        <span class="year-number">2014</span>
+        <span class="year-label">讲道录音</span>
+      </a>
+
+      <a class="year-card" href="https://drive.google.com/drive/folders/1JS6TdTFbbyxFPoeELaPzZFHS2xdCIxuA" target="_blank" rel="noopener">
+        <span class="year-icon">🎙</span>
+        <span class="year-number">2015</span>
+        <span class="year-label">讲道录音</span>
+      </a>
+
+      <a class="year-card" href="https://drive.google.com/drive/folders/1bzPfHESwpWvHNADUeRyOP1LGyYchUcDD" target="_blank" rel="noopener">
+        <span class="year-icon">🎙</span>
+        <span class="year-number">2016</span>
+        <span class="year-label">讲道录音</span>
+      </a>
+
+      <a class="year-card" href="https://drive.google.com/drive/folders/1gimPRXTeyOY1N5QoS-hkS2LIDlutpJFe" target="_blank" rel="noopener">
+        <span class="year-icon">🎙</span>
+        <span class="year-number">2017</span>
+        <span class="year-label">讲道录音</span>
+      </a>
+
+      <a class="year-card" href="https://drive.google.com/drive/folders/12FBxKZWMK6yI8keFiHWLzM3xv8f9IP1S" target="_blank" rel="noopener">
+        <span class="year-icon">🎙</span>
+        <span class="year-number">2018</span>
+        <span class="year-label">讲道录音</span>
+      </a>
+
+      <a class="year-card" href="https://drive.google.com/drive/folders/1xQaxWM84KZaM_UBiI6egAAJq020DH8ri" target="_blank" rel="noopener">
+        <span class="year-icon">🎙</span>
+        <span class="year-number">2019</span>
+        <span class="year-label">讲道录音</span>
+      </a>
+
+      <a class="year-card" href="https://drive.google.com/drive/folders/1bES41QOtXikl9fuX-vGQZqcrWxJ8i8b0" target="_blank" rel="noopener">
+        <span class="year-icon">🎙</span>
+        <span class="year-number">2020</span>
+        <span class="year-label">讲道录音</span>
+      </a>
+
+    </div>
+
+    <a class="folder-link" href="https://drive.google.com/drive/folders/1sso2hM54F7q-mEd_y14C81KzZTs_BkWl" target="_blank" rel="noopener">
+      &#128193; 打开完整文件夹（2013–2020）
+    </a>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:var(--navy);color:rgba(255,255,255,0.5);text-align:center;padding:2rem 1.5rem;font-size:0.8rem;">
+  <p>© 新生命国语播道会 · New Life Evangelical Free Church · Calgary, Alberta</p>
+  <p style="margin-top:0.5rem;"><a href="index.html" style="color:var(--gold-lt);text-decoration:none;">← 返回主页</a></p>
+</footer>
+
+</body>
+</html>

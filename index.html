@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>新生命国语播道会 | New Life Evangelical Free Church Calgary</title>
+  <meta name="description" content="新生命国语播道会，卡加利首所国语播道会，自1995年起服事华人社区。主日崇拜上午9:30。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0f2044;
+      --navy-mid:#1a3461;
+      --gold:    #c8922a;
+      --gold-lt: #e8b04a;
+      --cream:   #faf7f2;
+      --white:   #ffffff;
+      --gray-100:#f1f3f5;
+      --gray-300:#ced4da;
+      --gray-500:#6c757d;
+      --gray-700:#343a40;
+      --text:    #1a1a2e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.75;
+    }
+
+    /* ─── NAV ─────────────────────────────────────────────── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(15,32,68,0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(200,146,42,0.25);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem; height: 68px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 0.75rem;
+      text-decoration: none; color: var(--white);
+    }
+    .nav-logo-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+    }
+    .nav-logo-icon img {
+      width: 100%; height: 100%; object-fit: contain;
+    }
+    .nav-logo-text { line-height: 1.2; }
+    .nav-logo-main { font-size: 0.85rem; font-weight: 700; }
+    .nav-logo-sub  { font-size: 0.7rem; color: var(--gold-lt); }
+
+    .nav-links { display: flex; align-items: center; gap: 0.1rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      font-size: 0.9rem; font-weight: 400;
+      padding: 0.5rem 0.85rem; border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold-lt); background: rgba(255,255,255,0.08); }
+    .nav-links .nav-cta {
+      background: var(--gold); color: var(--navy) !important;
+      font-weight: 700; margin-left: 0.5rem;
+    }
+    .nav-links .nav-cta:hover { background: var(--gold-lt); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 0.5rem; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: white; border-radius: 2px; }
+    .mobile-menu { display: none; background: var(--navy); padding: 1rem 1.5rem; }
+    .mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; }
+    .mobile-menu ul li a {
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      display: block; padding: 0.6rem 0; font-size: 0.95rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .mobile-menu ul li:last-child a { border-bottom: none; color: var(--gold-lt); font-weight: 700; }
+
+    /* ─── HERO ────────────────────────────────────────────── */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 120px 1.5rem 80px;
+      overflow: hidden;
+    }
+    .hero-slides {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .hero-slide {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: 0; transition: opacity 1.2s ease;
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, rgba(8,16,42,0.82) 0%, rgba(8,16,42,0.65) 100%);
+      z-index: 1;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(200,146,42,0.2); border: 1px solid var(--gold);
+      color: var(--gold-lt); font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.1em; padding: 0.35rem 1.1rem; border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2.4rem, 7vw, 4.8rem);
+      font-weight: 700; color: var(--white);
+      line-height: 1.15; margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+    .hero-theme {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--gold-lt); font-weight: 600;
+      margin-bottom: 0.5rem; letter-spacing: 0.08em;
+    }
+    .hero-sub {
+      font-size: 1rem; color: rgba(255,255,255,0.7);
+      margin-bottom: 2.5rem;
+    }
+    .hero-info-box {
+      display: inline-flex; flex-wrap: wrap; gap: 0;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px; overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+    .info-item {
+      padding: 1rem 1.75rem; text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.15);
+    }
+    .info-item:last-child { border-right: none; }
+    .info-label { font-size: 0.72rem; letter-spacing: 0.12em; color: var(--gold-lt); margin-bottom: 0.25rem; }
+    .info-value { font-size: 1rem; font-weight: 600; color: var(--white); }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-gold {
+      background: var(--gold); color: var(--navy);
+      font-weight: 700; font-size: 0.95rem;
+      padding: 0.85rem 2rem; border-radius: 8px;
+      text-decoration: none; transition: background 0.2s, transform 0.15s;
+    }
+    .btn-gold:hover { background: var(--gold-lt); transform: translateY(-1px); }
+    .btn-ghost {
+      border: 2px solid rgba(255,255,255,0.55); color: var(--white);
+      font-weight: 600; font-size: 0.95rem;
+      padding: 0.85rem 2rem; border-radius: 8px;
+      text-decoration: none; transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--white); background: rgba(255,255,255,0.08); }
+
+    /* Slide dots */
+    .slide-dots {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      z-index: 3; display: flex; gap: 8px;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.4); cursor: pointer; transition: background 0.3s;
+    }
+    .dot.active { background: var(--gold); }
+
+    /* ─── SHARED SECTIONS ─────────────────────────────────── */
+    section { padding: 5.5rem 1.5rem; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-eyebrow {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      font-weight: 700; color: var(--navy);
+      line-height: 1.2; margin-bottom: 1rem;
+    }
+    .section-desc {
+      font-size: 1rem; color: var(--gray-500);
+      max-width: 580px; line-height: 1.8;
+    }
+    .section-header { margin-bottom: 3.5rem; }
+    .section-header.center { text-align: center; }
+    .section-header.center .section-desc { margin: 0 auto; }
+    hr.bar {
+      border: none; border-top: 3px solid var(--gold);
+      width: 44px; margin: 1rem 0 1.5rem;
+    }
+    .center hr.bar { margin: 1rem auto 1.5rem; }
+
+    /* ─── ABOUT ───────────────────────────────────────────── */
+    #about { background: var(--cream); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .photo-mosaic {
+      display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 0.75rem;
+    }
+    .photo-mosaic img {
+      width: 100%; height: 220px; object-fit: cover;
+      border-radius: 12px; display: block;
+    }
+    .photo-mosaic img:first-child {
+      grid-column: 1 / -1; height: 280px;
+    }
+    .about-quote {
+      background: var(--navy); color: var(--white);
+      border-radius: 12px; padding: 1.5rem 1.75rem;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--gold);
+    }
+    .about-quote p {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1rem; line-height: 1.8; color: rgba(255,255,255,0.9);
+    }
+    .about-body p { color: var(--gray-700); line-height: 1.85; margin-bottom: 1rem; font-size: 0.95rem; }
+    .about-stats { display: flex; gap: 2rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--gray-300); }
+    .stat .num { font-size: 2rem; font-weight: 800; color: var(--gold); font-family: 'Noto Serif SC', serif; }
+    .stat .lbl { font-size: 0.82rem; color: var(--gray-500); margin-top: 0.2rem; }
+
+    /* ─── GALLERY ─────────────────────────────────────────── */
+    #gallery { background: var(--navy); padding: 5rem 1.5rem; }
+    #gallery .section-eyebrow { color: var(--gold-lt); }
+    #gallery .section-title { color: var(--white); }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+    .gallery-grid img {
+      width: 100%; height: 200px; object-fit: cover;
+      border-radius: 10px; display: block;
+      transition: transform 0.3s, opacity 0.3s;
+      cursor: pointer;
+    }
+    .gallery-grid img:hover { transform: scale(1.03); opacity: 0.88; }
+    .gallery-grid .wide { grid-column: span 2; height: 260px; }
+
+    /* ─── SERVICES ────────────────────────────────────────── */
+    #services { background: var(--white); }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .svc-card {
+      background: var(--cream); border-radius: 14px; padding: 1.75rem;
+      border: 1px solid var(--gray-100);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .svc-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(15,32,68,0.1); }
+    .svc-icon {
+      width: 48px; height: 48px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1.1rem;
+    }
+    .svc-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+    .svc-card p { font-size: 0.875rem; color: var(--gray-500); line-height: 1.75; }
+    .svc-time {
+      display: inline-block; margin-top: 1rem;
+      background: var(--gold); color: var(--navy);
+      font-size: 0.75rem; font-weight: 700;
+      padding: 0.28rem 0.75rem; border-radius: 100px;
+    }
+
+    /* ─── MINISTRIES ──────────────────────────────────────── */
+    #ministries { background: var(--navy); }
+    #ministries .section-eyebrow { color: var(--gold-lt); }
+    #ministries .section-title { color: var(--white); }
+    #ministries .section-desc { color: rgba(255,255,255,0.65); }
+    .min-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .min-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 1.75rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .min-card:hover { background: rgba(255,255,255,0.1); border-color: var(--gold); }
+    .min-icon { font-size: 1.8rem; margin-bottom: 0.9rem; }
+    .min-card h3 { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
+    .min-card p { font-size: 0.875rem; color: rgba(255,255,255,0.65); line-height: 1.75; }
+
+    /* ─── FAITH ───────────────────────────────────────────── */
+    #faith { background: var(--cream); }
+    .faith-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .faith-item {
+      background: var(--white); border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      border-left: 3px solid var(--gold);
+      display: flex; gap: 0.9rem; align-items: flex-start;
+    }
+    .faith-num {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem; font-weight: 700; color: var(--gold);
+      flex-shrink: 0; line-height: 1.3;
+    }
+    .faith-item p { font-size: 0.9rem; color: var(--gray-700); line-height: 1.75; }
+
+    /* ─── SERMONS ─────────────────────────────────────────── */
+    #sermons { background: var(--white); }
+    .sermon-box {
+      display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;
+      background: var(--navy); border-radius: 18px;
+      padding: 2.5rem; color: var(--white); margin-bottom: 2rem;
+    }
+    .sermon-box-icon { font-size: 3rem; flex-shrink: 0; }
+    .sermon-box-text { flex: 1; min-width: 200px; }
+    .sermon-box-text h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--white); }
+    .sermon-box-text p { font-size: 0.88rem; color: rgba(255,255,255,0.7); }
+    .sermon-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .btn-gold-sm {
+      background: var(--gold); color: var(--navy);
+      font-weight: 700; font-size: 0.875rem;
+      padding: 0.65rem 1.35rem; border-radius: 8px;
+      text-decoration: none; transition: background 0.2s;
+      display: inline-flex; align-items: center; gap: 0.35rem;
+    }
+    .btn-gold-sm:hover { background: var(--gold-lt); }
+    .btn-outline-gold {
+      border: 2px solid var(--gold); color: var(--gold);
+      font-weight: 600; font-size: 0.875rem;
+      padding: 0.65rem 1.35rem; border-radius: 8px;
+      text-decoration: none; transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 0.35rem;
+    }
+    .btn-outline-gold:hover { background: var(--gold); color: var(--navy); }
+    .year-row { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 0.5rem; }
+    .year-pill {
+      background: var(--cream); border: 1px solid var(--gray-300);
+      color: var(--navy); font-weight: 600; font-size: 0.875rem;
+      padding: 0.45rem 1.2rem; border-radius: 100px;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .year-pill:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+
+    /* ─── GIVING ──────────────────────────────────────────── */
+    #giving {
+      background: linear-gradient(135deg, var(--navy) 0%, #071530 100%);
+      text-align: center;
+    }
+    #giving .section-eyebrow { color: var(--gold-lt); }
+    #giving .section-title { color: var(--white); }
+    #giving .section-desc { color: rgba(255,255,255,0.7); margin: 0 auto 2.5rem; }
+    .giving-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; max-width: 800px; margin: 0 auto; }
+    .giving-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 14px; padding: 1.75rem 1.5rem;
+    }
+    .giving-card .gicon { font-size: 1.8rem; margin-bottom: 0.7rem; }
+    .giving-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
+    .giving-card p { font-size: 0.82rem; color: rgba(255,255,255,0.62); line-height: 1.7; }
+    .giving-card .ghighlight { color: var(--gold-lt); font-weight: 600; margin-top: 0.4rem; font-size: 0.83rem; }
+
+    /* ─── CONTACT ─────────────────────────────────────────── */
+    #contact { background: var(--cream); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .cinfo h3 { font-size: 1.05rem; font-weight: 700; color: var(--navy); margin-bottom: 1.5rem; }
+    .citem { display: flex; gap: 1rem; margin-bottom: 1.4rem; }
+    .citem-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      background: var(--white); border: 1px solid var(--gray-300);
+      border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    }
+    .citem-body .clabel { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-500); }
+    .citem-body .cval { font-size: 0.92rem; color: var(--text); margin-top: 0.18rem; }
+    .citem-body a { color: var(--navy); text-decoration: none; }
+    .citem-body a:hover { color: var(--gold); }
+    .leader-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1.75rem; }
+    .leader-card {
+      background: var(--white); border-radius: 10px;
+      padding: 0.85rem 1.1rem; border: 1px solid var(--gray-100);
+    }
+    .leader-card .lname { font-weight: 700; color: var(--navy); font-size: 0.9rem; }
+    .leader-card .lrole { font-size: 0.76rem; color: var(--gray-500); margin-top: 0.1rem; }
+    .map-wrap { border-radius: 14px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+    .map-wrap iframe { display: block; width: 100%; height: 360px; border: 0; }
+
+    /* ─── FOOTER ──────────────────────────────────────────── */
+    #footer { background: #060e20; padding: 4rem 1.5rem 2rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+      padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.09); margin-bottom: 2rem;
+    }
+    .fbrand .fname { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 0.25rem; font-family: 'Noto Serif SC', serif; }
+    .fbrand .fsub { font-size: 0.75rem; color: var(--gold-lt); margin-bottom: 0.9rem; }
+    .fbrand p { font-size: 0.83rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+    .fcol h4 { font-size: 0.82rem; font-weight: 700; color: var(--white); margin-bottom: 0.9rem; letter-spacing: 0.04em; }
+    .fcol ul { list-style: none; }
+    .fcol ul li { margin-bottom: 0.45rem; }
+    .fcol ul li a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.83rem; transition: color 0.2s; }
+    .fcol ul li a:hover { color: var(--gold-lt); }
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      font-size: 0.78rem; color: rgba(255,255,255,0.4);
+    }
+    .social-links { display: flex; gap: 0.6rem; }
+    .slink {
+      width: 34px; height: 34px; background: rgba(255,255,255,0.07);
+      border-radius: 7px; display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .slink:hover { background: var(--gold); color: var(--navy); }
+
+    /* ─── LIGHTBOX ────────────────────────────────────────── */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,0.92); align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 88vh; border-radius: 8px; object-fit: contain; }
+    .lightbox-close {
+      position: absolute; top: 1.25rem; right: 1.5rem;
+      color: white; font-size: 2rem; cursor: pointer; background: none; border: none;
+    }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .services-grid, .min-grid, .giving-row { grid-template-columns: 1fr 1fr; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .gallery-grid { grid-template-columns: repeat(2,1fr); }
+      .gallery-grid .wide { grid-column: span 2; }
+      .faith-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .services-grid, .min-grid, .giving-row { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .hero-info-box { flex-direction: column; }
+      .info-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.15); }
+      .info-item:last-child { border-bottom: none; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ─── ANIMATIONS ──────────────────────────────────────── */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ───────────────────────────────────────────────── -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#hero">
+      <div class="nav-logo-icon"><img src="logo.png" alt="新生命logo" /></div>
+      <div class="nav-logo-text">
+        <div class="nav-logo-main">新生命国语播道会</div>
+        <div class="nav-logo-sub">New Life Evangelical Free Church · Calgary</div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">关于我们</a></li>
+      <li><a href="#services">主日聚会</a></li>
+      <li><a href="#ministries">教会事工</a></li>
+      <li><a href="sermons.html">讲道集</a></li>
+      <li><a href="videos.html">视频</a></li>
+      <li><a href="docs.html">教会文档</a></li>
+      <li><a href="#giving">奉献</a></li>
+      <li><a href="#contact" class="nav-cta">联络我们</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#about"      onclick="toggleMenu()">关于我们</a></li>
+      <li><a href="#services"   onclick="toggleMenu()">主日聚会</a></li>
+      <li><a href="#ministries" onclick="toggleMenu()">教会事工</a></li>
+      <li><a href="sermons.html"    onclick="toggleMenu()">讲道集</a></li>
+      <li><a href="videos.html" onclick="toggleMenu()">视频</a></li>
+      <li><a href="#giving"     onclick="toggleMenu()">奉献</a></li>
+      <li><a href="#contact"    onclick="toggleMenu()">联络我们 →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ─── HERO ───────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">卡加利 · 创立于1995年</div>
+    <h1 class="hero-title">新生命国语播道会</h1>
+    <img src="glory.png" alt="神的荣耀" style="max-width:320px;width:80%;margin-bottom:1rem;display:block;margin-left:auto;margin-right:auto;" />
+    <p class="hero-theme">「看哪，神的荣耀」</p>
+    <p class="hero-sub">New Life Evangelical Free Church · Calgary, Alberta</p>
+    <div class="hero-info-box">
+      <div class="info-item">
+        <div class="info-label">主日崇拜</div>
+        <div class="info-value">上午 9:30</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">语言</div>
+        <div class="info-value">中文 · 英文</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">主日学</div>
+        <div class="info-value">上午 11:00</div>
+      </div>
+    </div>
+    <div class="hero-btns">
+      <a href="#services" class="btn-gold">主日聚会时间</a>
+      <a href="#about"    class="btn-ghost">认识我们</a>
+    </div>
+  </div>
+  <div class="slide-dots">
+    <div class="dot active" onclick="goSlide(0)"></div>
+    <div class="dot" onclick="goSlide(1)"></div>
+    <div class="dot" onclick="goSlide(2)"></div>
+    <div class="dot" onclick="goSlide(3)"></div>
+  </div>
+</section>
+
+<!-- ─── ABOUT ──────────────────────────────────────────────── -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid" style="grid-template-columns:1fr;">
+      <div class="fade-in">
+        <div class="section-eyebrow">关于我们</div>
+        <h2 class="section-title">卡加利首所国语播道会</h2>
+        <hr class="bar" />
+        <div class="about-quote">
+          <p>这是一个因耶稣基督的爱与救恩而建立的大家庭｡ 教会的目的是要成为基督徒在神的爱与真理中灵命成长的地方, 以及非基督徒在敞开接纳的环境中认识耶稣的地方, 更要成为神的荣耀与恩典的彰显, 以致福音由此向普世传开的地方｡</p>
+          <p style="margin-top:1rem;">我们与所有共同信仰的教会一同尊耶稣基督为主, 彼此联系, 互相配合, 同心传扬福音, 使神在教会中, 并在基督耶稣里得着荣耀｡唯愿世上每个灵魂得蒙救赎, 同享神的祝福｡</p>
+        </div>
+        <div class="about-body">
+          <h3 style="color:var(--gold);margin:1.5rem 0 0.5rem;">教会简介</h3>
+          <p>新生命国语播道会（New Life Evangelical Free Church）是卡加利第一所以国语事工为特征的华人福音教会, 也是加拿大播道会系统中第一所国语教会, 成立于1995年11月17日, 1998年4月12日复活节举行首次感恩崇拜, 2003年成立英文堂事工, 其后蒙多位牧者忠心的牧养与带领, 郝洪琦牧师是现任主任牧师。</p>
+          <h3 style="color:var(--gold);margin:1.5rem 0 0.5rem;">信仰告白</h3>
+          <ul style="list-style:none;padding:0;line-height:2;">
+            <li>✦ 我们相信圣父､圣子､圣灵三位一体的真神｡</li>
+            <li>✦ 我们相信圣经都是神所默示的, 为我们信仰和生活的最高准则｡</li>
+            <li>✦ 我们相信耶稣基督的神性与人性｡ 祂为童女所生, 为世人替死, 身体复活, 必再度降临｡</li>
+            <li>✦ 我们相信得救的唯一途径是本乎恩, 并因着信接受耶稣基督为个人的救主与生命的主｡</li>
+          </ul>
+        </div>
+        <div class="about-stats">
+          <div class="stat"><div class="num">1995</div><div class="lbl">创立年份</div></div>
+          <div class="stat"><div class="num">2</div><div class="lbl">语言事工</div></div>
+          <div class="stat"><div class="num">10+</div><div class="lbl">团契小组</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── GALLERY ─────────────────────────────────────────────── -->
+<section id="gallery">
+  <div class="container">
+    <div class="section-header center fade-in">
+      <div class="section-eyebrow">教会生活</div>
+      <h2 class="section-title" style="color:var(--white);">教会相片集</h2>
+      <hr class="bar" style="border-color:var(--gold);margin:1rem auto 0;" />
+    </div>
+    <div class="gallery-grid" style="margin-top:2.5rem;">
+      <img class="wide" src="https://lh3.googleusercontent.com/sitesv/AA5AbUDgd52tG_wmxbD8NTKg4ZmuKYypMmUFjmPlfhmmXduPEAT6HQLp3k49u2BGiP3CMRyIAJXR8uyakMQgdKmWjq642-WdajRXwGty-lr_836tU-41Fsj74-wLzmbM1jZf-mycuQjAjpWsa9oe9se7dSDqq8h4UWS4UNFUTv5Gy8X1Kc038j9c2xrCT1s4S2Lv8-pwZI2IapEs8qZ1qYXv2YzLPqvQxZ58UPyTB7VUcvg=w1280" alt="教会聚会" onclick="openLightbox(this.src)" />
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUCS15v1p1JWWPsW7gtYwbTI5LrP3TzA3vOAkngxU2FkSfuRJ8ULlArm_8USZFjyPqkGdPzzj3Q-AAA35PNYLe_37Yz6GFpAMzNYuCM81xwBjyo1SsC5tLf_RO9BjqSBWKFyFGS0SeP--PBzcjd_sGayX6nXO6_2BWNGv1Z3Dqifz4KdUKFuPdfMUj9yRKcG7n2P89Y5Q63cmS4IZ4kTL5boEKe7fe3HiDpvEPfVNIw=w1280" alt="敬拜" onclick="openLightbox(this.src)" />
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUCWZTzgn5uGL3t5uv0ZUXLTay8vmyOT7TxPgDmOBxM1pvwG5duDp2iQ12R_3ZvDnJtI7eCzWIp8BV0VhB5MGZjrrEJNHDHCIyWXkmHnlTmM_pOxPylVlRo9rHUl48Tx3f02boZADrDLHfNDAnajp04cTZ1OQx6N_xucVmCiuBf411_kjThv31ASegBlloO4nXjxBIO0AB9rHolMniq0rFQ5LYqqcJa6i_3gs4jWwv0=w1280" alt="团契" onclick="openLightbox(this.src)" />
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUC1ZAOVb2MotfeWQQatVsus6_7bKfZr8Kqmq4NaAnPLc5EsLDoRULaSeSFtv48N9Hr5yp0A0c8xcWQ8kRYh6DwZ_3XKx_RgiPLanKuYA8EVAiQ989Gq6AebSNto8MCWK-YPwi829ODd-SfQHVg_73PGzp0JsCxShG-n-3Cj9eM0Kz0FfQ1Z49HAs_RJWY6HJzBD4AUMma8TArKpQ8A71NigeBsMNnSCNHNOpbVuAIM=w1280" alt="活动" onclick="openLightbox(this.src)" />
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBu-imdeWIufn0E6oeytJcs6UlpkduLT73yZ3i4nT8Rgy6gMv9t9rk2wpxhANEyn7X1Vu4wNNnGRnyj2NWi1e0M30-OYk1Hcz6Gd-CqlHlwYgJKNUgQsAJIWYzoYPQL01klIPn6T16j2b1CNq0h2sZ2-thSXH1wFKu-pSCbYsNZNqQ1oRjILvfonPTCp1OMWnN7D2VZM1G_vD6Pc--Vl9GVlBvCjyCPx85ctWv8My8=w1280" alt="会众" onclick="openLightbox(this.src)" />
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUDs0UXTHGjTh2G536qBOuqZlZ2npVyhEFJmnHFgYR5bhjxRYHmW_AtcPYDVK3T0YtjU1PTKqW6qvB6nJQ7HFCtdIqPmyHx0FDhQlvJDSCgK1wUOX3Soy0QrcymQaQFp1EWsfI78m5C81rZcrn5nX1SmyXDIN5MIQRSUdEkJ_CoDZx0z-BrYDEmW1yFV4FEUNNxvi8NfyP9dFfLrd3jp4SlMK38_xxQiDyNGxXCt=w1280" alt="事工" onclick="openLightbox(this.src)" />
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUD_CUo1y7I1Tbz1l76DiYauD84in-U-QBqj5icf3sirFVX4GLPnEzM1uZ4ss1TswuVlusbHEPZsWFxPbGvmo9G9xAXzg1yNblHEUnprn7VbihaMUXw15bDb2f3jil7JUNfOzW_4DLScnpoHwkOFNM1z7TIpXp2_ZVZremu2OYLOtDQco6U_ZuXxIBhX1SuoOslVT3cDX5r4_MRbIxfhEAvSBKxejlNxLYnIEiLF3xM=w1280" alt="崇拜" onclick="openLightbox(this.src)" />
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICES ───────────────────────────────────────────── -->
+<section id="services">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">主日聚会</div>
+      <h2 class="section-title">主日崇拜</h2>
+      <hr class="bar" style="margin:1rem auto 1.5rem;" />
+      <p class="section-desc">我们相信敬拜神是神儿女们生命中最重要的一件事,也是最大的福气｡ 因此,每主日不仅是全教会弟兄姊妹的欢聚之日,更是我们分别出来亲近神､敬拜神､心灵从神得着更新与建造｡</p>
+      <p class="section-desc" style="margin-top:1rem;">我们的主日崇拜本于圣经, 注重心灵与诚实的敬拜, 要将人带到神的面前, 也将神的荣耀带进人的心中｡主日聚会也帮助仍在探索真理的朋友们体会到神, 更深的认识祂｡</p>
+      <p class="section-desc" style="margin-top:1rem;">每主日我们有中､英文两堂崇拜, 配合儿童､青少年､青年､成人主日学的课程,我们并设有育婴室, 提供幼儿照顾的服务, 让父母们可以专心地敬拜神｡</p>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card fade-in">
+        <div class="svc-icon">🙏</div>
+        <h3>中文主日崇拜</h3>
+        <p>以灵以真地敬拜神，将人带到神面前，并与慕道友建立连接。</p>
+        <span class="svc-time">主日 · 上午 9:30</span>
+      </div>
+      <div class="svc-card fade-in">
+        <div class="svc-icon">✝️</div>
+        <h3>英文主日崇拜</h3>
+        <p>英语崇拜，欢迎各文化背景人士，以圣经真理建立信仰根基。</p>
+        <span class="svc-time">主日 · 上午 9:30</span>
+      </div>
+      <div class="svc-card fade-in">
+        <div class="svc-icon">👶</div>
+        <h3>儿童主日学</h3>
+        <p>按年龄分班，帮助孩子们过群体生活，建立合乎基督的自我形象。</p>
+        <span class="svc-time">主日 · 上午 9:30</span>
+      </div>
+      <div class="svc-card fade-in">
+        <div class="svc-icon">📖</div>
+        <h3>中文成人主日学</h3>
+        <p>提供基础、圣经、生活及应用课程，采选课制度，每年三学期。</p>
+        <span class="svc-time">主日 · 上午 11:00</span>
+      </div>
+      <div class="svc-card fade-in">
+        <div class="svc-icon">🧑‍🤝‍🧑</div>
+        <h3>青少年主日学</h3>
+        <p>为青少年设计的主日学课程，在团体中探索信仰与门徒生命。</p>
+        <span class="svc-time">主日 · 上午 11:00</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MINISTRIES ─────────────────────────────────────────── -->
+<section id="ministries">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">教会事工</div>
+      <h2 class="section-title" style="color:var(--white);">事工理念</h2>
+      <hr class="bar" style="margin:1rem auto 1.5rem;border-color:var(--gold);" />
+      <p class="section-desc" style="color:rgba(255,255,255,0.65);">以基督为中心 · 以圣经为依据 · 训练主的门徒 · 留意家庭价值 · 强调布道为重 · 心在差传使命 · 动员会众参与 · 关怀所处小区 · 服务普及社会 · 热衷推展神国</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FELLOWSHIP ─────────────────────────────────────────── -->
+<section id="fellowship" style="background:var(--cream);">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">团契生活</div>
+      <h2 class="section-title">团契小组</h2>
+      <hr class="bar" style="margin:1rem 0 1.5rem;" />
+      <p class="section-desc" style="color:var(--navy);">我们相信教会是一个家｡每个人在这个家中都应彼此关爱与牧养, 建立真挚亲爱的关系,也在神的爱中彼此服事｡因此,我们组成了将近十个团契与查经班, 借着定期的聚会探讨真理,深入相交,互相帮助,并同心关怀未信主的朋友,活出爱的生活｡</p>
+      <p class="section-desc" style="color:var(--navy);margin-top:1rem;">大部分的团契与查经班都是在家庭里聚会｡有些是以特定区的人为主, 有些则是为特定需要而成立,譬如家庭､单身､年长,慕道友､以及社会青年等等｡</p>
+      <p class="section-desc" style="color:var(--navy);margin-top:1rem;">我们也每年举办教会野餐､敬老会､退修会等跨越团契与查经班的活动,让全教会弟兄姊妹欢聚一堂,彼此联谊,俾使各人能领受在基督里所赐丰富的生命､喜乐与平安｡</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── EVANGELISM ─────────────────────────────────────────── -->
+<section id="evangelism" style="background:var(--navy-mid)">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">宣教事工</div>
+      <h2 class="section-title" style="color:var(--white);">布道与宣教事工</h2>
+      <hr class="bar" style="margin:1rem 0 1.5rem;border-color:var(--gold);" />
+      <p class="section-desc" style="color:rgba(255,255,255,0.8);">我们相信神爱世人,祂愿意万人得救明白真道｡教会的使命就是要将耶稣基督的救恩在本地并在全地传给人｡因此,我们除了藉各个团契与查经班将福音传给未信的亲友之外｡每隔周六在教会举办「福音聚會」,积极邀请慕道友参与｡</p>
+      <p class="section-desc" style="color:rgba(255,255,255,0.8);margin-top:1rem;">每年九月为教会的宣教月｡我们在该月推动宣教信心认献,以金钱支持世界各地的宣教事工,藉以鼓励弟兄姊妹们成为关怀普世的基督徒,并透过宣教与布道知信息以扩展普世宣教之宏观与胸襟｡</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DISCIPLESHIP ───────────────────────────────────────── -->
+<section id="discipleship" style="background:var(--cream);">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">信徒造就</div>
+      <h2 class="section-title">信徒造就事工</h2>
+      <hr class="bar" style="margin:1rem 0 1.5rem;" />
+      <p class="section-desc" style="color:var(--navy);">我们相信神的旨意是要每位信徒都被造就成为基督成熟的门徒,有能力为主作见证｡因此,在成人主日学的课程中,帮助信徒及慕道友在基础课程､圣经课程､生活课程及应用课程四方面,平衡地接受属灵的建造,得以循序渐进地在真理与生命上成长｡</p>
+      <p class="section-desc" style="color:var(--navy);margin-top:1rem;">中文部的成人主日学采选课制度,每年有三个学期,每学期开三～四门课,学期间的空档举办特别讲座或联合主日学｡英文部的成人主日学则以系统查经的方式进行｡</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CHILDREN ────────────────────────────────────────────── -->
+<section id="children" style="background:var(--navy-mid);">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">儿童与青少年</div>
+      <h2 class="section-title" style="color:var(--white);">儿童与青少年事工</h2>
+      <hr class="bar" style="margin:1rem 0 1.5rem;border-color:var(--gold);" />
+      <p class="section-desc" style="color:rgba(255,255,255,0.8);">我们相信儿童与青少年是神所特别珍爱的,也是教会应该致力培育的一群｡因此,我们每主日按年龄分班的儿童及青少年主日学课程,以活泼的方式教导孩子们认识主耶稣,培养圣经所教导的品性,也协助青少年从圣经得着生活上的具体帮助｡</p>
+      <p class="section-desc" style="color:rgba(255,255,255,0.8);margin-top:1rem;">我们为青少年预备了各类有益身心的活动,帮助他们过群体生活,建立合乎基督的自我形象,学习责任感,发挥其人格与恩赐以有效面对青少年所面临的困难,使他们在这个价值混乱的社会中,有个安全与接纳的社交环境,并从圣经中找到人生正确的方向｡</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ELDERLY ──────────────────────────────────────────────── -->
+<section id="elderly" style="background:var(--cream);">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">长者事工</div>
+      <h2 class="section-title">长者事工</h2>
+      <hr class="bar" style="margin:1rem 0 1.5rem;" />
+      <p class="section-desc" style="color:var(--navy);">长者的需要之一就是社交,与别人沟通,建立关系｡ 盼望借着一些聚会材料面对一些北美年长华人所经常遇到的一些课题,其中包括圣经学习､个案讨论与分享､思想与建议､祷告等等,使聚会活动有主题,却不是闲聊或漫谈,帮助契友建立生活的新观念与新的人生,有回顾与省察,不只是怀旧,活在过往,实则有重新定向,在属灵的经历中再接再厉,有目标,有理想,锲而不舍,有更新的力量,在年老不仅保持心理健康,得到心灵的自由,并且更加振奋,使生活更加丰富｡</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── LIBRARY ──────────────────────────────────────────────── -->
+<section id="library" style="background:var(--navy-mid);">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">图书馆</div>
+      <h2 class="section-title" style="color:var(--white);">教会图书馆及资训中心</h2>
+      <hr class="bar" style="margin:1rem 0 1.5rem;border-color:var(--gold);" />
+      <p class="section-desc" style="color:rgba(255,255,255,0.8);">我们有中英文书籍录像（像）带,录音带（磁带）可供借阅,内容包括圣经研究､信仰与生活､家庭､婚姻､亲子沟通､情绪处理等｡此外,亦有适合青少年及儿童的教育性刊物,帮助他们成长｡</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── SERMONS ─────────────────────────────────────────────── -->
+<section id="sermons">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">讲道集</div>
+      <h2 class="section-title">讲道视频与资源</h2>
+      <hr class="bar" />
+      <p class="section-desc">观看过往讲道视频，获取每周周报及教会文件。讲道按年份分类整理。</p>
+    </div>
+    <div class="sermon-box fade-in">
+      <div class="sermon-box-icon">▶️</div>
+      <div class="sermon-box-text">
+        <h3>YouTube 讲道频道</h3>
+        <p>完整讲道视频存于YouTube频道，按年份分类整理，每周更新。</p>
+      </div>
+      <div class="sermon-btns">
+        <a href="https://www.youtube.com/@calgarynewlifeevangelicalf5137" target="_blank" class="btn-gold-sm">▶ 前往YouTube频道</a>
+        <a href="https://drive.google.com/drive/folders/14ypFRf1X-ORDu2rE3NrKWtW4VfHVa5eI?usp=drive_link" target="_blank" class="btn-outline-gold">📄 每周周报</a>
+      </div>
+    </div>
+    <div style="margin-top:1rem;">
+      <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:1rem;">按年份浏览讲道视频</p>
+      <div class="year-row">
+        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2025%E5%B9%B4%E8%AE%B2%E9%81%93%E8%A7%86%E9%A2%91" target="_blank" class="year-pill">2025年</a>
+        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2024%E5%B9%B4%E8%AE%B2%E9%81%93%E8%A7%86%E9%A2%91" target="_blank" class="year-pill">2024年</a>
+        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2023%E5%B9%B4%E8%AE%B2%E9%81%93%E8%A7%86%E9%A2%91" target="_blank" class="year-pill">2023年</a>
+        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2022%E5%B9%B4%E8%AE%B2%E9%81%93%E8%A7%86%E9%A2%91" target="_blank" class="year-pill">2022年</a>
+        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2021%E5%B9%B4%E8%AE%B2%E9%81%93%E8%A7%86%E9%A2%91" target="_blank" class="year-pill">2021年</a>
+        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2020%E5%B9%B4%E8%AE%B2%E9%81%93%E8%A7%86%E9%A2%91" target="_blank" class="year-pill">2020年</a>
+        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2013%E5%B9%B4-2020%E5%B9%B43%E6%9C%8815%E6%97%A5%E8%AE%B2%E9%81%93%E5%BD%95%E9%9F%B3" target="_blank" class="year-pill">2013–2019年</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── GIVING ─────────────────────────────────────────────── -->
+<section id="giving">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-eyebrow">奉献</div>
+      <h2 class="section-title">奉献支持教会</h2>
+      <hr class="bar" style="margin:1rem auto 1.5rem;border-color:var(--gold);" />
+      <p class="section-desc">感谢您的奉献支持教会事工。我们接受多种奉献方式。</p>
+    </div>
+    <div class="giving-row">
+      <div class="giving-card fade-in">
+        <div class="gicon">💳</div>
+        <h3>电子转账（E-Transfer）</h3>
+        <p>E-transfer 至：</p>
+        <div class="ghighlight">giving@calgarynewlife.org</div>
+      </div>
+      <div class="giving-card fade-in">
+        <div class="gicon">💵</div>
+        <h3>现金或支票</h3>
+        <p>主日崇拜时可将现金或支票放入奉献箱。</p>
+        <div class="ghighlight">支票抬头：新生命国语播道会</div>
+      </div>
+      <div class="giving-card fade-in">
+        <div class="gicon">✉️</div>
+        <h3>邮寄支票</h3>
+        <p>支票请寄至教会地址，收款人写新生命国语播道会。</p>
+        <div class="ghighlight">4712-21 Ave. NW, Calgary</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ────────────────────────────────────────────── -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">联络我们</div>
+      <h2 class="section-title">联络信息</h2>
+      <hr class="bar" />
+    </div>
+    <div class="contact-grid">
+      <div>
+        <div class="cinfo">
+          <h3>联络方式</h3>
+          <div class="citem">
+            <div class="citem-icon">📍</div>
+            <div class="citem-body">
+              <div class="clabel">地址</div>
+              <div class="cval">4712-21 Ave. N.W.<br>Calgary, Alberta T3B 0W7</div>
+            </div>
+          </div>
+          <div class="citem">
+            <div class="citem-icon">📞</div>
+            <div class="citem-body">
+              <div class="clabel">电话</div>
+              <div class="cval"><a href="tel:4032479255">(403) 247-9255</a></div>
+            </div>
+          </div>
+          <div class="citem">
+            <div class="citem-icon">👤</div>
+            <div class="citem-body">
+              <div class="clabel">主任牧师（中文堂）</div>
+              <div class="cval">郝洪琦牧师</div>
+              <div class="cval"><a href="tel:4039888333">(403) 988-8333</a></div>
+              <div class="cval"><a href="mailto:newlife4hao@gmail.com">newlife4hao@gmail.com</a></div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:2rem;">
+          <h3 style="font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:1rem;">教会领袖团队</h3>
+          <div class="leader-grid">
+            <div class="leader-card"><div class="lname">陈颖奇弟兄</div><div class="lrole">主席兼宣教</div></div>
+            <div class="leader-card"><div class="lname">王建芳弟兄</div><div class="lrole">副主席兼看顾、基教</div></div>
+            <div class="leader-card"><div class="lname">杨永庄弟兄</div><div class="lrole">英文部</div></div>
+            <div class="leader-card"><div class="lname">朱祖华弟兄</div><div class="lrole">总务</div></div>
+            <div class="leader-card"><div class="lname">王梦诞姐妹</div><div class="lrole">中文堂崇拜</div></div>
+            <div class="leader-card"><div class="lname">代玉玲姐妹</div><div class="lrole">小组团契</div></div>
+            <div class="leader-card"><div class="lname">赵远迪姐妹</div><div class="lrole">儿童兼文书</div></div>
+            <div class="leader-card"><div class="lname">陈蓉姐妹</div><div class="lrole">财务</div></div>
+            <div class="leader-card"><div class="lname">匡达弟兄</div><div class="lrole">青年事工</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="map-wrap fade-in">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2507.7!2d-114.189!3d51.069!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53716f0c07993c57%3A0xb9d5b9ea01d6f4c0!2s4712%2021%20Ave%20NW%2C%20Calgary%2C%20AB%20T3B%200W7!5e0!3m2!1szh-CN!2sca!4v1699000000000!5m2!1szh-CN!2sca"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="新生命国语播道会位置地图"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────────────── -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="fbrand">
+        <div class="fname">新生命国语播道会</div>
+        <div class="fsub">New Life Evangelical Free Church · Calgary</div>
+        <p>卡加利首所国语播道会，自1995年起在卡加利服事华人社区。</p>
+      </div>
+      <div class="fcol">
+        <h4>快速导航</h4>
+        <ul>
+          <li><a href="#about">关于我们</a></li>
+          <li><a href="#services">主日聚会</a></li>
+          <li><a href="#ministries">教会事工</a></li>
+          <li><a href="sermons.html">讲道集</a></li>
+          <li><a href="#giving">奉献</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h4>资源</h4>
+        <ul>
+          <li><a href="https://drive.google.com/drive/folders/14ypFRf1X-ORDu2rE3NrKWtW4VfHVa5eI" target="_blank">每周周报</a></li>
+          <li><a href="https://www.youtube.com/@calgarynewlifeevangelicalf5137" target="_blank">讲道视频</a></li>
+          <li><a href="https://www.calgarynewlife.org/%E5%BC%9F%E5%85%84%E5%A7%90%E5%A6%B9%E8%AE%BF%E8%B0%88%E8%A7%86%E9%A2%91/2025%E5%B9%B4%E6%96%B0%E5%85%A5%E4%BC%9A%E8%AE%BF%E8%B0%88%E9%9B%86" target="_blank">弟兄姐妹访谈</a></li>
+          <li><a href="https://www.calgarynewlife.org/%E6%95%99%E4%BC%9A%E6%96%87%E6%A1%A3" target="_blank">教会文档</a></li>
+          <li><a href="https://www.calgarynewlife.org/%E8%81%98%E8%AF%B7%E8%8B%B1%E6%96%87%E5%A0%82%E7%89%A7%E8%80%85" target="_blank">聘请英文堂牧者</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h4>联络</h4>
+        <ul>
+          <li><a href="tel:4032479255">(403) 247-9255</a></li>
+          <li><a href="mailto:newlife4hao@gmail.com">newlife4hao@gmail.com</a></li>
+          <li><a href="mailto:giving@calgarynewlife.org">giving@calgarynewlife.org</a></li>
+          <li><a href="#contact">4712-21 Ave. NW, Calgary</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 新生命国语播道会 · 卡加利。版权所有。</span>
+      <div class="social-links">
+        <a class="slink" href="https://www.youtube.com/@calgarynewlifeevangelicalf5137" target="_blank" title="YouTube" aria-label="YouTube">▶</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── LIGHTBOX ───────────────────────────────────────────── -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="放大图片" onclick="event.stopPropagation()" />
+</div>
+
+<script>
+  /* ── Mobile menu ─────────────────────────────────────────── */
+  function toggleMenu() {
+    const m = document.getElementById('mobileMenu');
+    m.style.display = m.style.display === 'block' ? 'none' : 'block';
+  }
+
+  /* ── Hero slideshow ──────────────────────────────────────── */
+  let slideIdx = 0;
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots   = document.querySelectorAll('.dot');
+
+  function goSlide(n) {
+    slides[slideIdx].classList.remove('active');
+    dots[slideIdx].classList.remove('active');
+    slideIdx = n % slides.length;
+    slides[slideIdx].classList.add('active');
+    dots[slideIdx].classList.add('active');
+  }
+
+  setInterval(() => goSlide(slideIdx + 1), 4500);
+
+  /* ── Lightbox ────────────────────────────────────────────── */
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  /* ── Scroll fade-ins ─────────────────────────────────────── */
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
+
+
+
+

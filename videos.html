@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>30周年访谈视频集 | 新生命国语播道会</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:    #0f2044;
+      --navy-mid:#1a3461;
+      --gold:    #c8922a;
+      --gold-lt: #e8b04a;
+      --cream:   #faf7f2;
+      --white:   #ffffff;
+      --text:    #1a1a2e;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif; color: var(--text); background: var(--cream); line-height: 1.75; }
+
+    /* NAV */
+    #nav { position:fixed; top:0; left:0; right:0; z-index:1000; background:rgba(15,32,68,0.97); backdrop-filter:blur(8px); border-bottom:1px solid rgba(200,146,42,0.25); }
+    .nav-inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; height:68px; }
+    .nav-logo { display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:var(--white); }
+    .nav-logo-icon { width:44px; height:44px; flex-shrink:0; }
+    .nav-logo-icon img { width:100%; height:100%; object-fit:contain; }
+    .nav-logo-text { line-height:1.2; }
+    .nav-logo-main { font-size:0.85rem; font-weight:700; }
+    .nav-logo-sub  { font-size:0.7rem; color:var(--gold-lt); }
+    .nav-links { list-style:none; display:flex; gap:0.25rem; }
+    .nav-links a { display:block; padding:0.4rem 0.75rem; border-radius:6px; color:rgba(255,255,255,0.85); text-decoration:none; font-size:0.85rem; transition:color .2s,background .2s; }
+    .nav-links a:hover, .nav-links a.active { color:var(--gold-lt); background:rgba(200,146,42,0.12); }
+    .nav-cta { background:var(--gold)!important; color:var(--navy)!important; font-weight:700!important; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--white); border-radius:2px; }
+    .mobile-menu { display:none; background:var(--navy); padding:1rem 1.5rem 1.5rem; }
+    .mobile-menu ul { list-style:none; }
+    .mobile-menu li a { display:block; padding:0.65rem 0; color:rgba(255,255,255,0.85); text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.08); font-size:0.95rem; }
+    .mobile-menu.open { display:block; }
+    @media(max-width:768px){ .nav-links{display:none;} .hamburger{display:flex;} }
+
+    /* PAGE HEADER */
+    .page-header { background:var(--navy); padding:7rem 1.5rem 3.5rem; text-align:center; }
+    .page-header .eyebrow { font-size:0.78rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:0.75rem; }
+    .page-header h1 { font-family:'Noto Serif SC',serif; font-size:clamp(1.8rem,4vw,2.8rem); color:var(--white); margin-bottom:1rem; }
+    .page-header p { color:rgba(255,255,255,0.65); max-width:600px; margin:0 auto; font-size:0.95rem; }
+    .bar { width:48px; border:none; border-top:3px solid var(--gold); margin:1rem auto 0; }
+
+    /* CONTAINER */
+    .container { max-width:1100px; margin:0 auto; padding:0 1.5rem; }
+
+    /* HIGHLIGHT */
+    .highlight-wrap { padding:2.5rem 0 1rem; }
+    .highlight-card {
+      display:block; text-decoration:none;
+      background:var(--navy);
+      border-radius:14px; overflow:hidden;
+      box-shadow:0 6px 32px rgba(15,32,68,0.22);
+      transition:transform .2s, box-shadow .2s;
+    }
+    .highlight-card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(15,32,68,0.3); }
+    .highlight-img { position:relative; aspect-ratio:16/6; overflow:hidden; }
+    .highlight-img img { width:100%; height:100%; object-fit:cover; display:block; }
+    .highlight-img .play-overlay {
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      background:rgba(15,32,68,0.45);
+    }
+    .play-circle { width:72px; height:72px; border-radius:50%; background:rgba(200,146,42,0.9); display:flex; align-items:center; justify-content:center; }
+    .play-circle::after { content:''; display:block; border-left:26px solid white; border-top:16px solid transparent; border-bottom:16px solid transparent; margin-left:6px; }
+    .highlight-body { padding:1.25rem 1.75rem 1.5rem; }
+    .highlight-body h2 { font-family:'Noto Serif SC',serif; font-size:1.3rem; color:var(--white); }
+    .highlight-body p { color:rgba(255,255,255,0.55); font-size:0.85rem; margin-top:0.3rem; }
+
+    /* VIDEO GRID */
+    .videos-section { padding:1.5rem 0 5rem; }
+    .section-label { font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:1.25rem; padding-top:0.5rem; }
+    .videos-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.1rem; }
+    .video-card { background:var(--white); border-radius:10px; overflow:hidden; box-shadow:0 2px 10px rgba(15,32,68,0.07); transition:transform .2s,box-shadow .2s; }
+    .video-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(15,32,68,0.14); }
+    .video-card a { text-decoration:none; color:inherit; display:block; }
+    .video-thumb { position:relative; aspect-ratio:16/9; overflow:hidden; background:var(--navy-mid); }
+    .video-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s; }
+    .video-card:hover .video-thumb img { transform:scale(1.04); }
+    .thumb-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(15,32,68,0.3); }
+    .small-play { width:40px; height:40px; border-radius:50%; background:rgba(200,146,42,0.88); display:flex; align-items:center; justify-content:center; }
+    .small-play::after { content:''; display:block; border-left:14px solid white; border-top:9px solid transparent; border-bottom:9px solid transparent; margin-left:3px; }
+    .video-card-body { padding:0.8rem 0.9rem 0.9rem; }
+    .video-card-body h3 { font-size:0.88rem; font-weight:600; color:var(--navy); line-height:1.4; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <div class="nav-logo-icon"><img src="logo.png" alt="新生命logo" /></div>
+      <div class="nav-logo-text">
+        <div class="nav-logo-main">新生命国语播道会</div>
+        <div class="nav-logo-sub">New Life Evangelical Free Church · Calgary</div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">关于我们</a></li>
+      <li><a href="index.html#services">主日聚会</a></li>
+      <li><a href="index.html#ministries">教会事工</a></li>
+      <li><a href="sermons.html">讲道集</a></li>
+      <li><a href="videos.html" class="active">视频</a></li>
+      <li><a href="docs.html">教会文档</a></li>
+      <li><a href="index.html#contact" class="nav-cta">联络我们</a></li>
+    </ul>
+    <div class="hamburger" onclick="this.closest('nav').querySelector('.mobile-menu').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="mobile-menu">
+    <ul>
+      <li><a href="index.html#about">关于我们</a></li>
+      <li><a href="index.html#services">主日聚会</a></li>
+      <li><a href="index.html#ministries">教会事工</a></li>
+      <li><a href="sermons.html">讲道集</a></li>
+      <li><a href="videos.html">视频</a></li>
+      <li><a href="docs.html">教会文档</a></li>
+      <li><a href="index.html#contact">联络我们 →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="eyebrow">弟兄姐妹访谈视频</div>
+  <h1>弟兄姐妹访谈视频</h1>
+  <hr class="bar" />
+  <p style="margin-top:1rem;">新生命国语播道会弟兄姐妹们分享在教会的恩典与见证。</p>
+</div>
+
+<section class="videos-section">
+  <div class="container">
+
+    <!-- 感恩回顾 highlight -->
+    <div class="highlight-wrap">
+      <a class="highlight-card" href="https://drive.google.com/file/d/1ztdnpAhduY1mAAWuDhaYbaPfn7nb3iYk/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="highlight-img">
+          <img src="thumbs/46_nlc30.jpg" alt="NLC30周年感恩回顾" />
+          <div class="play-overlay"><div class="play-circle"></div></div>
+        </div>
+        <div class="highlight-body">
+          <h2>NLC 30周年感恩回顾</h2>
+          <p>点击观看完整感恩回顾视频</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="highlight-wrap">
+      <a class="highlight-card" href="https://drive.google.com/file/d/1EvExSAyhvD0rZl7MDM-q7IzydFiZ2c-d/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="highlight-img">
+          <img src="thumbs/53_easter.jpg" alt="2026复活节受洗合辑" />
+          <div class="play-overlay"><div class="play-circle"></div></div>
+        </div>
+        <div class="highlight-body">
+          <h2>2026复活节受洗合辑</h2>
+          <p>点击观看复活节受洗感恩视频</p>
+        </div>
+      </a>
+    </div>
+    <div class="section-label">2025年新生命新人访谈</div>
+    <div class="videos-grid">
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1q3d6jW0vQSRE-tWSWVeu0Ie0BYsRtTZU/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/47_shi.jpg" alt="史崇正弟兄" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>史崇正弟兄</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1RD7fIFu9JqJ3Ba3_XLiyV63nR5eWqCht/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/48_wu.jpg" alt="吴必东徐淑娟夫妇" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>吴必东徐淑娟夫妇</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1gewhXqjOsXL5f0rRIg6-2LoA_McwRQxN/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/49_wang.jpg" alt="王子安张荻夫妇" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>王子安张荻夫妇</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1I_FVtGO36JDjSPgOrugWTUAc_-6NGrJN/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/50_song.jpg" alt="宋瑞弟兄" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>宋瑞弟兄</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1e6tdwxL4z00vR8FCf94rKK6MuvnW69lT/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/51_tang.jpg" alt="唐一飞弟兄" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>唐一飞弟兄</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1aiUTkoHKjjOc-tIRZdPk87_1BU1zOwDB/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/52_zhang.jpg" alt="张旭弟兄" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>张旭弟兄</h3></div>
+      </a></div>
+
+    </div>
+
+    <div class="section-label" style="margin-top:2.5rem;">30周年弟兄姐妹访谈分享</div>
+    <div class="videos-grid">
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1yWVkQSYiEqJkbThRaXpow1kLgpDIaL9W/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/01_lian.jpg" alt="廉正弟兄赵沅迪姐妹" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>廉正弟兄赵沅迪姐妹</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1Ww8HirtNmLhh2aqQSwGw-m-uJSKutRMX/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/02_liu.jpg" alt="刘忠琴姐妹" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>刘忠琴姐妹</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1NUzlSL373qgaK7OLPYEa05oNMT--Pr6n/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/03_cheng.jpg" alt="程立弟兄陈蓉姐妹" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>程立弟兄陈蓉姐妹</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1709Qh1Q2QV0ojfZh-cJzIUOteiTe7er7/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/04_qin.jpg" alt="秦少华弟兄" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>秦少华弟兄</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1YKfNew1pqIKJ5982sx-VFiFLovSB-Hab/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/05_song_zj.jpg" alt="宋战江姐妹" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>宋战江姐妹</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/11yqGRjz4NTR8_BK54pGM8bJBfDYnsQuD/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/06_song_yy.jpg" alt="宋一阳弟兄 温大庆姐妹" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>宋一阳弟兄 温大庆姐妹</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1SNmlyop2wffN7jiThXEJGA0zXB8ab5sI/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/07_xiong.jpg" alt="熊银芳姐妹" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>熊银芳姐妹</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/10q3wURWspJtGZX8lXsgnY0ut7coUXeCH/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/08_wang_z.jpg" alt="王忠邱燕夫妇" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>王忠邱燕夫妇</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1SDH7u_vA_Mq1btlEvC0LJKFizf5BGoRP/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/09_wang_l.jpg" alt="王利弟兄" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>王利弟兄</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1B1hvdDLvnMcjoNvfKeoM_tX8u-pKHd27/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/10_liu_m.jpg" alt="刘明孚陈玉勤夫妇" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>刘明孚陈玉勤夫妇</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1RXCCA7Rl3lWD3A44eYIPiWtc7Tso6ZOr/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/11_jiang.jpg" alt="江宗穗姐妹" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>江宗穗姐妹的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/16tI_uEjd5vl60qlVJTzUolNf9tLBAEf8/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/12_hao_sl.jpg" alt="郝绍伦张玉芳夫妇" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>郝绍伦张玉芳夫妇的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1OSa5a4MxX0SgGPR7mO4KDsHx213mxDh9/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/13_chen_yq.jpg" alt="陈颖奇弟兄" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>陈颖奇弟兄</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1kjrqmbis9jEy704Hfnq8nY9fZsZLPMPE/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/14_wang_xj_a.jpg" alt="王小江章为民夫妇（上）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>王小江章为民夫妇的分享（上）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1x4mSB1jAomwFE-BgE-ck3nHn6svh1GuM/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/15_wang_xj_b.jpg" alt="王小江章为民夫妇（下）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>王小江章为民夫妇的分享（下）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/14mw3Vug3Aet8sFetpWNGO5f41G-xzQC0/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/16_wang_md.jpg" alt="王梦诞姐妹" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>王梦诞姐妹的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/12rMiytZeaAyOuHjTbX6YuFdX_UDi8HRP/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/17_liu_fc_a.jpg" alt="刘福春陈虹夫妇（上）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>刘福春陈虹夫妇的分享（上）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1vkZMXc7o-Nq35avCSTVimJAcU-J7UV_m/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/18_liu_fc_b.jpg" alt="刘福春陈虹夫妇（中）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>刘福春陈虹夫妇的分享（中）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1KTgQTjOiGpiiUxJo19V2cCJTkxAbJw2r/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/19_liu_fc_c.jpg" alt="刘福春陈虹夫妇（下）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>刘福春陈虹夫妇的分享（下）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1iDcVBJ_004CnJ_tSQK0VuueHQy3KGOVt/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/20_cao_y.jpg" alt="曹晔黄明达夫妇" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>曹晔黄明达夫妇的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1KbqlhmvpQ8j_SYMUjsIuMjF2ZpuZi4hS/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/21_lin_l.jpg" alt="林蕾姐妹" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>林蕾姐妹的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1jm1bawtPfxMvtKQNURLwwLf38A3IWcEp/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/22_wang_wq.jpg" alt="王文倩姐妹" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>王文倩姐妹的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1hgJMouh8gyNZy9SOf_IX73gnkRbUugxH/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/23_hao_hq_a.jpg" alt="郝洪琦牧师晓敏师母（上）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>郝洪琦牧师晓敏师母的分享（上）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1mxDDoNsBnj0sKrMVzspobdiD-arjWea6/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/24_hao_hq_b.jpg" alt="郝洪琦牧师晓敏师母（下）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>郝洪琦牧师晓敏师母的分享（下）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1iMCDKjc48tycxzmeGNTGBv1iv-2BiiCN/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/25_yang_yx.jpg" alt="杨玉玺王改篆夫妇" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>杨玉玺王改篆夫妇的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1oSLkR9AaZfbwhQYLfYhg4Ryfdzj-PN-a/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/26_song_m.jpg" alt="宋铭牟云霞夫妇" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>宋铭牟云霞夫妇的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1vNH10LIB1BJkEPGBRlh9KbpPzONoULON/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/27_lin_wl.jpg" alt="林文亮郭淑华夫妇" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>林文亮郭淑华夫妇的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1CKRfOzOgWk0MGmvbsETbmb9-l9K80jgH/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/28_zhong_a.jpg" alt="仲宇飞赵莹夫妇（上）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>仲宇飞赵莹夫妇的分享（上）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1RrOTh-z-ImLbyRwyRc0-1T6kPO3xMLiO/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/29_zhong_b.jpg" alt="仲宇飞赵莹夫妇（下）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>仲宇飞赵莹夫妇的分享（下）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/15g2Cj1VujVSnpBbhIiPt6_xiRKkSHSoO/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/43_wu.jpg" alt="武平姐妹" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>武平姐妹的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1RSBSSUA0PAUYEAWuLLs2-mwgnVa-UL9F/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/31_wang_j_a.jpg" alt="王健弟兄（上）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>王健弟兄的分享（上）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1BYqjyZxGUGqc0NjR_lXRpQMWLXLCJoPy/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/32_wang_j_b.jpg" alt="王健弟兄（下）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>王健弟兄的分享（下）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1dEhMD3rMaKjbK91Mem6wx_g_qrqcseZX/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/33_niu_a.jpg" alt="牛国梁杨雪佳夫妇（上）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>牛国梁杨雪佳夫妇的分享（上）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1y3RQIci554Cc3rs2Fblfv0azUg60P75q/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/34_niu_b.jpg" alt="牛国梁杨雪佳夫妇（下）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>牛国梁杨雪佳夫妇的分享（下）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1TQsi4498YBhS1HVDronhXHehsSA7ONYe/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/35_yuan.jpg" alt="袁丽娅姐妹" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>袁丽娅姐妹的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1ushpHDWfTX29EMg30Wagovi_o5-ZYnoc/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/36_fu.jpg" alt="付莉姐妹" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>付莉姐妹的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1VRS52OT2XMMGTf74TxFeIehlqfs75lAO/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/37_zheng.jpg" alt="郑健云弟兄" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>郑健云弟兄的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1UkFgg52Vqa9zmM1-hmdstVISO1FldtEf/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/38_guo.jpg" alt="郭牧师" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>郭牧师的分享</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1oraYmyDfouaNLJzLbcBtPrdeLx8NcuDG/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/39_yang_lr_a.jpg" alt="杨立人况浩兰夫妇（上）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>杨立人况浩兰夫妇的分享（上）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/18gLoPEJ91-k9rruqkwtcDE5jkxunUJmj/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/40_yang_lr_b.jpg" alt="杨立人况浩兰夫妇（下）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>杨立人况浩兰夫妇的分享（下）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1VnPStADBPDEnPNOjieZtM8Me5wE7Ixg5/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/41_cao_j_a.jpg" alt="曹洁姐妹（上）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>曹洁姐妹的分享（上）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/18F0oqxDKY7045CflKZQlPivdj58gO25j/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/42_cao_j_b.jpg" alt="曹洁姐妹（下）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>曹洁姐妹的分享（下）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1VyyErlDsGzx2Jg_JBdeTELHUiLBeG_M5/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/44_wang_bf_a.jpg" alt="王建芳陈沅夫妇（上）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>王建芳陈沅夫妇的分享（上）</h3></div>
+      </a></div>
+
+      <div class="video-card"><a href="https://drive.google.com/file/d/1poOH1lEXkjwRUkogfpcZ6UlqbG2ostAV/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="thumbs/45_wang_bf_b.jpg" alt="王建芳陈沅夫妇（下）" /><div class="thumb-play"><div class="small-play"></div></div></div>
+        <div class="video-card-body"><h3>王建芳陈沅夫妇的分享（下）</h3></div>
+      </a></div>
+    </div>
+
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:var(--navy);color:rgba(255,255,255,0.5);text-align:center;padding:2rem 1.5rem;font-size:0.8rem;">
+  <p>© 新生命国语播道会 · New Life Evangelical Free Church · Calgary, Alberta</p>
+  <p style="margin-top:0.5rem;"><a href="index.html" style="color:var(--gold-lt);text-decoration:none;">← 返回主页</a></p>
+</footer>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
