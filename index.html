@@ -227,24 +227,6 @@
     .stat .num { font-size: 2rem; font-weight: 800; color: var(--gold); font-family: 'Noto Serif SC', serif; }
     .stat .lbl { font-size: 0.82rem; color: var(--gray-500); margin-top: 0.2rem; }
 
-    /* ─── GALLERY ─────────────────────────────────────────── */
-    #gallery { background: var(--navy); padding: 5rem 1.5rem; }
-    #gallery .section-eyebrow { color: var(--gold-lt); }
-    #gallery .section-title { color: var(--white); }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-    }
-    .gallery-grid img {
-      width: 100%; height: 200px; object-fit: cover;
-      border-radius: 10px; display: block;
-      transition: transform 0.3s, opacity 0.3s;
-      cursor: pointer;
-    }
-    .gallery-grid img:hover { transform: scale(1.03); opacity: 0.88; }
-    .gallery-grid .wide { grid-column: span 2; height: 260px; }
-
     /* ─── SERVICES ────────────────────────────────────────── */
     #services { background: var(--white); }
     .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
@@ -411,18 +393,6 @@
     }
     .slink:hover { background: var(--gold); color: var(--navy); }
 
-    /* ─── LIGHTBOX ────────────────────────────────────────── */
-    .lightbox {
-      display: none; position: fixed; inset: 0; z-index: 9000;
-      background: rgba(0,0,0,0.92); align-items: center; justify-content: center;
-    }
-    .lightbox.open { display: flex; }
-    .lightbox img { max-width: 90vw; max-height: 88vh; border-radius: 8px; object-fit: contain; }
-    .lightbox-close {
-      position: absolute; top: 1.25rem; right: 1.5rem;
-      color: white; font-size: 2rem; cursor: pointer; background: none; border: none;
-    }
-
     /* ─── RESPONSIVE ──────────────────────────────────────── */
     @media (max-width: 900px) {
       .services-grid, .min-grid, .giving-row { grid-template-columns: 1fr 1fr; }
@@ -552,26 +522,6 @@
           <div class="stat"><div class="num">10+</div><div class="lbl">团契小组</div></div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── GALLERY ─────────────────────────────────────────────── -->
-<section id="gallery">
-  <div class="container">
-    <div class="section-header center fade-in">
-      <div class="section-eyebrow">教会生活</div>
-      <h2 class="section-title" style="color:var(--white);">教会相片集</h2>
-      <hr class="bar" style="border-color:var(--gold);margin:1rem auto 0;" />
-    </div>
-    <div class="gallery-grid" style="margin-top:2.5rem;">
-      <img class="wide" src="https://lh3.googleusercontent.com/sitesv/AA5AbUDgd52tG_wmxbD8NTKg4ZmuKYypMmUFjmPlfhmmXduPEAT6HQLp3k49u2BGiP3CMRyIAJXR8uyakMQgdKmWjq642-WdajRXwGty-lr_836tU-41Fsj74-wLzmbM1jZf-mycuQjAjpWsa9oe9se7dSDqq8h4UWS4UNFUTv5Gy8X1Kc038j9c2xrCT1s4S2Lv8-pwZI2IapEs8qZ1qYXv2YzLPqvQxZ58UPyTB7VUcvg=w1280" alt="教会聚会" onclick="openLightbox(this.src)" />
-      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUCS15v1p1JWWPsW7gtYwbTI5LrP3TzA3vOAkngxU2FkSfuRJ8ULlArm_8USZFjyPqkGdPzzj3Q-AAA35PNYLe_37Yz6GFpAMzNYuCM81xwBjyo1SsC5tLf_RO9BjqSBWKFyFGS0SeP--PBzcjd_sGayX6nXO6_2BWNGv1Z3Dqifz4KdUKFuPdfMUj9yRKcG7n2P89Y5Q63cmS4IZ4kTL5boEKe7fe3HiDpvEPfVNIw=w1280" alt="敬拜" onclick="openLightbox(this.src)" />
-      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUCWZTzgn5uGL3t5uv0ZUXLTay8vmyOT7TxPgDmOBxM1pvwG5duDp2iQ12R_3ZvDnJtI7eCzWIp8BV0VhB5MGZjrrEJNHDHCIyWXkmHnlTmM_pOxPylVlRo9rHUl48Tx3f02boZADrDLHfNDAnajp04cTZ1OQx6N_xucVmCiuBf411_kjThv31ASegBlloO4nXjxBIO0AB9rHolMniq0rFQ5LYqqcJa6i_3gs4jWwv0=w1280" alt="团契" onclick="openLightbox(this.src)" />
-      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUC1ZAOVb2MotfeWQQatVsus6_7bKfZr8Kqmq4NaAnPLc5EsLDoRULaSeSFtv48N9Hr5yp0A0c8xcWQ8kRYh6DwZ_3XKx_RgiPLanKuYA8EVAiQ989Gq6AebSNto8MCWK-YPwi829ODd-SfQHVg_73PGzp0JsCxShG-n-3Cj9eM0Kz0FfQ1Z49HAs_RJWY6HJzBD4AUMma8TArKpQ8A71NigeBsMNnSCNHNOpbVuAIM=w1280" alt="活动" onclick="openLightbox(this.src)" />
-      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBu-imdeWIufn0E6oeytJcs6UlpkduLT73yZ3i4nT8Rgy6gMv9t9rk2wpxhANEyn7X1Vu4wNNnGRnyj2NWi1e0M30-OYk1Hcz6Gd-CqlHlwYgJKNUgQsAJIWYzoYPQL01klIPn6T16j2b1CNq0h2sZ2-thSXH1wFKu-pSCbYsNZNqQ1oRjILvfonPTCp1OMWnN7D2VZM1G_vD6Pc--Vl9GVlBvCjyCPx85ctWv8My8=w1280" alt="会众" onclick="openLightbox(this.src)" />
-      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUDs0UXTHGjTh2G536qBOuqZlZ2npVyhEFJmnHFgYR5bhjxRYHmW_AtcPYDVK3T0YtjU1PTKqW6qvB6nJQ7HFCtdIqPmyHx0FDhQlvJDSCgK1wUOX3Soy0QrcymQaQFp1EWsfI78m5C81rZcrn5nX1SmyXDIN5MIQRSUdEkJ_CoDZx0z-BrYDEmW1yFV4FEUNNxvi8NfyP9dFfLrd3jp4SlMK38_xxQiDyNGxXCt=w1280" alt="事工" onclick="openLightbox(this.src)" />
-      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUD_CUo1y7I1Tbz1l76DiYauD84in-U-QBqj5icf3sirFVX4GLPnEzM1uZ4ss1TswuVlusbHEPZsWFxPbGvmo9G9xAXzg1yNblHEUnprn7VbihaMUXw15bDb2f3jil7JUNfOzW_4DLScnpoHwkOFNM1z7TIpXp2_ZVZremu2OYLOtDQco6U_ZuXxIBhX1SuoOslVT3cDX5r4_MRbIxfhEAvSBKxejlNxLYnIEiLF3xM=w1280" alt="崇拜" onclick="openLightbox(this.src)" />
     </div>
   </div>
 </section>
@@ -735,13 +685,14 @@
     <div style="margin-top:1rem;">
       <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:1rem;">按年份浏览讲道视频</p>
       <div class="year-row">
-        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2025%E5%B9%B4%E8%AE%B2%E9%81%93%E8%A7%86%E9%A2%91" target="_blank" class="year-pill">2025年</a>
-        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2024%E5%B9%B4%E8%AE%B2%E9%81%93%E8%A7%86%E9%A2%91" target="_blank" class="year-pill">2024年</a>
-        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2023%E5%B9%B4%E8%AE%B2%E9%81%93%E8%A7%86%E9%A2%91" target="_blank" class="year-pill">2023年</a>
-        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2022%E5%B9%B4%E8%AE%B2%E9%81%93%E8%A7%86%E9%A2%91" target="_blank" class="year-pill">2022年</a>
-        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2021%E5%B9%B4%E8%AE%B2%E9%81%93%E8%A7%86%E9%A2%91" target="_blank" class="year-pill">2021年</a>
-        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2020%E5%B9%B4%E8%AE%B2%E9%81%93%E8%A7%86%E9%A2%91" target="_blank" class="year-pill">2020年</a>
-        <a href="https://www.calgarynewlife.org/%E8%AE%B2%E9%81%93%E9%9B%86/2013%E5%B9%B4-2020%E5%B9%B43%E6%9C%8815%E6%97%A5%E8%AE%B2%E9%81%93%E5%BD%95%E9%9F%B3" target="_blank" class="year-pill">2013–2019年</a>
+        <a href="sermons.html" class="year-pill">2026年</a>
+        <a href="sermons.html" class="year-pill">2025年</a>
+        <a href="sermons.html" class="year-pill">2024年</a>
+        <a href="sermons.html" class="year-pill">2023年</a>
+        <a href="sermons.html" class="year-pill">2022年</a>
+        <a href="sermons.html" class="year-pill">2021年</a>
+        <a href="sermons.html" class="year-pill">2020年</a>
+        <a href="sermons.html" class="year-pill">2013–2019年</a>
       </div>
     </div>
   </div>
@@ -888,12 +839,6 @@
   </div>
 </footer>
 
-<!-- ─── LIGHTBOX ───────────────────────────────────────────── -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lightbox-img" src="" alt="放大图片" onclick="event.stopPropagation()" />
-</div>
-
 <script>
   /* ── Mobile menu ─────────────────────────────────────────── */
   function toggleMenu() {
@@ -915,18 +860,6 @@
   }
 
   setInterval(() => goSlide(slideIdx + 1), 4500);
-
-  /* ── Lightbox ────────────────────────────────────────────── */
-  function openLightbox(src) {
-    document.getElementById('lightbox-img').src = src;
-    document.getElementById('lightbox').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
   /* ── Scroll fade-ins ─────────────────────────────────────── */
   const obs = new IntersectionObserver((entries) => {
