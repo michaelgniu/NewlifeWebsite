@@ -482,7 +482,7 @@
     </div>
     <div class="hero-btns">
       <a href="#services" class="btn-gold">主日聚会时间</a>
-      <a href="#about"    class="btn-ghost">认识我们</a>
+      <a href="https://drive.google.com/drive/folders/14ypFRf1X-ORDu2rE3NrKWtW4VfHVa5eI?usp=drive_link" target="_blank" class="btn-ghost">📄 每周周报</a>
     </div>
   </div>
 </section>
@@ -684,7 +684,6 @@
       </div>
       <div class="sermon-btns">
         <a href="https://www.youtube.com/@calgarynewlifeevangelicalf5137" target="_blank" class="btn-gold-sm">▶ 前往YouTube频道</a>
-        <a href="https://drive.google.com/drive/folders/14ypFRf1X-ORDu2rE3NrKWtW4VfHVa5eI?usp=drive_link" target="_blank" class="btn-outline-gold">📄 每周周报</a>
       </div>
     </div>
     <div style="margin-top:1rem;">
@@ -723,7 +722,7 @@
         <div class="gicon">💵</div>
         <h3>现金或支票</h3>
         <p>主日崇拜时可将现金或支票放入奉献箱。</p>
-        <div class="ghighlight">支票抬头：新生命国语播道会</div>
+        <div class="ghighlight">支票：New Life Evangelical Free Church</div>
       </div>
       <div class="giving-card fade-in">
         <div class="gicon">✉️</div>
@@ -853,14 +852,11 @@
   /* ── Hero slideshow ──────────────────────────────────────── */
   let slideIdx = 0;
   const slides = document.querySelectorAll('.hero-slide');
-  const dots   = document.querySelectorAll('.dot');
 
   function goSlide(n) {
     slides[slideIdx].classList.remove('active');
-    dots[slideIdx].classList.remove('active');
     slideIdx = n % slides.length;
     slides[slideIdx].classList.add('active');
-    dots[slideIdx].classList.add('active');
   }
 
   setInterval(() => goSlide(slideIdx + 1), 4500);
