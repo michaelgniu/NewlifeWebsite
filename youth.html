@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>儿童及青少年事工 | 新生命国语播道会</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:    #0f2044;
+      --navy-mid:#1a3461;
+      --gold:    #c8922a;
+      --gold-lt: #e8b04a;
+      --cream:   #faf7f2;
+      --white:   #ffffff;
+      --text:    #1a1a2e;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif; color: var(--text); background: var(--cream); line-height: 1.75; }
+
+    /* NAV */
+    #nav { position:fixed; top:0; left:0; right:0; z-index:1000; background:rgba(15,32,68,0.97); backdrop-filter:blur(8px); border-bottom:1px solid rgba(200,146,42,0.25); }
+    .nav-inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; height:68px; }
+    .nav-logo { display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:var(--white); }
+    .nav-logo-icon { width:44px; height:44px; flex-shrink:0; }
+    .nav-logo-icon img { width:100%; height:100%; object-fit:contain; }
+    .nav-logo-text { line-height:1.2; }
+    .nav-logo-main { font-size:0.85rem; font-weight:700; }
+    .nav-logo-sub  { font-size:0.7rem; color:var(--gold-lt); }
+    .nav-links { list-style:none; display:flex; gap:0.25rem; }
+    .nav-links a { display:block; padding:0.4rem 0.75rem; border-radius:6px; color:rgba(255,255,255,0.85); text-decoration:none; font-size:0.85rem; transition:color .2s,background .2s; }
+    .nav-links a:hover, .nav-links a.active { color:var(--gold-lt); background:rgba(200,146,42,0.12); }
+    .nav-cta { background:var(--gold)!important; color:var(--navy)!important; font-weight:700!important; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--white); border-radius:2px; }
+    .mobile-menu { display:none; background:var(--navy); padding:1rem 1.5rem 1.5rem; }
+    .mobile-menu ul { list-style:none; }
+    .mobile-menu li a { display:block; padding:0.65rem 0; color:rgba(255,255,255,0.85); text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.08); font-size:0.95rem; }
+    .mobile-menu.open { display:block; }
+    @media(max-width:768px){ .nav-links{display:none;} .hamburger{display:flex;} }
+
+    /* PAGE HEADER */
+    .page-header { background:var(--navy); padding:7rem 1.5rem 3.5rem; text-align:center; }
+    .page-header .eyebrow { font-size:0.78rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:0.75rem; }
+    .page-header h1 { font-family:'Noto Serif SC',serif; font-size:clamp(1.8rem,4vw,2.8rem); color:var(--white); margin-bottom:1rem; }
+    .page-header p { color:rgba(255,255,255,0.65); max-width:600px; margin:0 auto; font-size:0.95rem; }
+    .bar { width:48px; border:none; border-top:3px solid var(--gold); margin:1rem auto 0; }
+
+    /* CONTAINER */
+    .container { max-width:900px; margin:0 auto; padding:0 1.5rem; }
+
+    /* MINISTRY CARDS */
+    .ministry-section { padding:3rem 0 5rem; }
+    .ministry-card {
+      background:var(--white); border-radius:14px;
+      padding:2.25rem 2rem;
+      box-shadow:0 2px 14px rgba(15,32,68,0.08);
+      margin-bottom:2rem;
+    }
+    .ministry-card .icon { font-size:2.2rem; margin-bottom:0.75rem; }
+    .ministry-card h2 { font-family:'Noto Serif SC',serif; font-size:1.4rem; color:var(--navy); margin-bottom:0.35rem; }
+    .ministry-card .en-name { font-size:0.85rem; color:var(--gold); font-weight:500; margin-bottom:1rem; }
+    .meta-row { display:flex; flex-wrap:wrap; gap:0.6rem; margin-bottom:1.25rem; }
+    .meta-tag {
+      display:inline-flex; align-items:center; gap:0.4rem;
+      background:var(--cream); border:1px solid rgba(200,146,42,0.35);
+      border-radius:999px; padding:0.3rem 0.9rem;
+      font-size:0.82rem; color:var(--navy); font-weight:500;
+    }
+    .ministry-card p { font-size:0.95rem; color:#444; margin-bottom:0.9rem; }
+    .ministry-card p:last-of-type { margin-bottom:1.5rem; }
+    .btn-gold {
+      display:inline-block; background:var(--gold); color:var(--navy);
+      font-weight:700; font-size:0.9rem; text-decoration:none;
+      padding:0.65rem 1.6rem; border-radius:8px;
+      transition:background .2s, transform .2s;
+    }
+    .btn-gold:hover { background:var(--gold-lt); transform:translateY(-1px); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <div class="nav-logo-icon"><img src="logo.png" alt="新生命logo" /></div>
+      <div class="nav-logo-text">
+        <div class="nav-logo-main">新生命国语播道会</div>
+        <div class="nav-logo-sub">New Life Evangelical Free Church · Calgary</div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">关于我们</a></li>
+      <li><a href="index.html#services">主日聚会</a></li>
+      <li><a href="youth.html" class="active">儿童青少年</a></li>
+      <li><a href="sermons.html">讲道集</a></li>
+      <li><a href="videos.html">视频</a></li>
+      <li><a href="docs.html">教会文档</a></li>
+      <li><a href="index.html#contact" class="nav-cta">联络我们</a></li>
+    </ul>
+    <div class="hamburger" onclick="this.closest('nav').querySelector('.mobile-menu').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="mobile-menu">
+    <ul>
+      <li><a href="index.html#about">关于我们</a></li>
+      <li><a href="index.html#services">主日聚会</a></li>
+      <li><a href="youth.html">儿童青少年</a></li>
+      <li><a href="sermons.html">讲道集</a></li>
+      <li><a href="videos.html">视频</a></li>
+      <li><a href="docs.html">教会文档</a></li>
+      <li><a href="index.html#contact">联络我们 →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="eyebrow">下一代事工</div>
+  <h1>儿童及青少年事工</h1>
+  <hr class="bar" />
+  <p style="margin-top:1rem;">帮助孩子与青少年认识神的爱，学习圣经真理，在信仰、品格和生活中不断成长。</p>
+</div>
+
+<section class="ministry-section">
+  <div class="container">
+
+    <!-- 儿童主日学 -->
+    <div class="ministry-card">
+      <div class="icon">👶</div>
+      <h2>儿童主日学</h2>
+      <div class="en-name">Children's Sunday School</div>
+      <div class="meta-row">
+        <span class="meta-tag">🗓 每周日 9:30–11:00 AM</span>
+        <span class="meta-tag">📍 教会一楼教室</span>
+        <span class="meta-tag">📅 September 2026 – June 2027</span>
+        <span class="meta-tag">🎒 幼儿 – Grade 6</span>
+      </div>
+      <p>欢迎幼儿至 Grade 6 的孩子们加入每周日的儿童主日学！透过活泼有趣的圣经故事、诗歌敬拜、游戏、手作、背诵金句及互动活动，帮助孩子认识神的爱，学习圣经真理，并在信仰、品格和生活中不断成长。</p>
+      <p>我们盼望为孩子打造一个充满爱、喜乐、安全与关怀的学习环境，让每位孩子都能建立对神的信心，并培养敬虔的品格。</p>
+      <p>欢迎所有孩子一起加入，在欢笑中学习，在真理中扎根，在神的爱中成长！</p>
+      <a class="btn-gold" href="https://forms.gle/YLN2FNpx4RmAp99M7" target="_blank" rel="noopener">📝 儿童主日学报名</a>
+    </div>
+
+    <!-- 青少年主日学 -->
+    <div class="ministry-card">
+      <div class="icon">📖</div>
+      <h2>青少年主日学</h2>
+      <div class="en-name">Youth Sunday School</div>
+      <div class="meta-row">
+        <span class="meta-tag">🗓 每周日 9:30–11:00 AM</span>
+        <span class="meta-tag">📍 教会地下室</span>
+        <span class="meta-tag">📅 September 2026 – June 2027</span>
+        <span class="meta-tag">🎓 Grade 7 – 12</span>
+      </div>
+      <p>欢迎 Grade 7–12 的学生加入我们每周日的青少年主日学！在这里，我们不只是研读圣经，更会一起探讨青少年在生活中所面对的各种挑战，例如友情、家庭、学业、身份认同、社群媒体与网络世界等，并从神的话语中寻找智慧与方向，学习如何将信仰实践在每天的生活中。</p>
+      <p>课程采互动式学习，透过圣经教导与小组讨论，帮助青少年建立稳固的信仰根基，培养属灵品格，并与同龄朋友一起成长。</p>
+      <p>无论你已经认识耶稣，或是正在探索信仰，都诚挚欢迎你加入我们，一起建立友谊、认识真理，在基督里成长，经历神的爱与带领！</p>
+    </div>
+
+    <!-- 青少年团契 -->
+    <div class="ministry-card">
+      <div class="icon">🧑‍🤝‍🧑</div>
+      <h2>青少年团契</h2>
+      <div class="en-name">Youth Fellowship</div>
+      <div class="meta-row">
+        <span class="meta-tag">🗓 每周五 7:00 PM</span>
+        <span class="meta-tag">📍 教会地下室</span>
+        <span class="meta-tag">📅 September 2026 – June 2027</span>
+        <span class="meta-tag">🎓 Grade 7 – 12</span>
+      </div>
+      <p>欢迎 Grade 7–12 的学生加入我们每周五晚上的青少年团契！我们透过破冰游戏、诗歌敬拜、见证分享、信仰问答、小组讨论、圣经信息及各种有趣的活动，一起建立友谊、探索信仰，并学习如何将圣经真理应用在每天的生活中。</p>
+      <p>我们希望打造一个充满爱、接纳、安全且彼此支持的群体，让每一位青少年都能自在地做自己，勇敢提出问题，并在信仰与生命中不断成长。</p>
+      <p>无论你正在寻找朋友、探索信仰，或希望更认识耶稣，都欢迎加入我们！</p>
+      <a class="btn-gold" href="https://forms.gle/CWR3T3Dh4RsydMQNA" target="_blank" rel="noopener">📝 青少年事工报名</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:var(--navy);color:rgba(255,255,255,0.5);text-align:center;padding:2rem 1.5rem;font-size:0.8rem;">
+  <p>© 新生命国语播道会 · New Life Evangelical Free Church · Calgary, Alberta</p>
+  <p style="margin-top:0.5rem;"><a href="index.html" style="color:var(--gold-lt);text-decoration:none;">← 返回主页</a></p>
+</footer>
+
+</body>
+</html>
