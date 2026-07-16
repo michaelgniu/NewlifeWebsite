@@ -162,6 +162,19 @@
     }
     .btn-ghost:hover { border-color: var(--white); background: rgba(255,255,255,0.08); }
 
+    /* QUICK LINKS */
+    #quicklinks { background: var(--gold); padding: 1rem 0; }
+    .ql-inner { display: flex; align-items: center; justify-content: center; gap: 1.25rem; flex-wrap: wrap; }
+    .ql-label { color: var(--navy); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em; }
+    .ql-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+    .ql-btn {
+      display: inline-block; background: var(--navy); color: var(--white);
+      text-decoration: none; font-size: 0.88rem; font-weight: 600;
+      padding: 0.55rem 1.3rem; border-radius: 999px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .ql-btn:hover { background: var(--navy-mid); transform: translateY(-1px); }
+
     /* Slide dots */
     .slide-dots {
       position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
@@ -484,7 +497,20 @@
     </div>
     <div class="hero-btns">
       <a href="#services" class="btn-gold">主日聚会时间</a>
-      <a href="https://drive.google.com/drive/folders/14ypFRf1X-ORDu2rE3NrKWtW4VfHVa5eI?usp=drive_link" target="_blank" class="btn-ghost">📄 每周周报</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── QUICK LINKS ────────────────────────────────────────── -->
+<section id="quicklinks">
+  <div class="container">
+    <div class="ql-inner">
+      <span class="ql-label">✦ 快速链接</span>
+      <div class="ql-btns">
+        <a href="https://drive.google.com/drive/folders/14ypFRf1X-ORDu2rE3NrKWtW4VfHVa5eI?usp=drive_link" target="_blank" rel="noopener" class="ql-btn">📄 每周周报</a>
+        <a href="https://forms.gle/YLN2FNpx4RmAp99M7" target="_blank" rel="noopener" class="ql-btn">👶 儿童主日学报名</a>
+        <a href="https://forms.gle/CWR3T3Dh4RsydMQNA" target="_blank" rel="noopener" class="ql-btn">🧑‍🤝‍🧑 青少年事工报名</a>
+      </div>
     </div>
   </div>
 </section>
@@ -634,6 +660,7 @@
       <hr class="bar" style="margin:1rem 0 1.5rem;border-color:var(--gold);" />
       <p class="section-desc" style="color:rgba(255,255,255,0.8);">我们相信儿童与青少年是神所特别珍爱的,也是教会应该致力培育的一群｡因此,我们每主日按年龄分班的儿童及青少年主日学课程,以活泼的方式教导孩子们认识主耶稣,培养圣经所教导的品性,也协助青少年从圣经得着生活上的具体帮助｡</p>
       <p class="section-desc" style="color:rgba(255,255,255,0.8);margin-top:1rem;">我们为青少年预备了各类有益身心的活动,帮助他们过群体生活,建立合乎基督的自我形象,学习责任感,发挥其人格与恩赐以有效面对青少年所面临的困难,使他们在这个价值混乱的社会中,有个安全与接纳的社交环境,并从圣经中找到人生正确的方向｡</p>
+      <a href="youth.html" style="display:inline-block;margin-top:1.5rem;color:var(--gold-lt);text-decoration:none;font-weight:600;font-size:0.95rem;border:1px solid var(--gold);border-radius:8px;padding:0.55rem 1.4rem;transition:background .2s;" onmouseover="this.style.background='rgba(200,146,42,0.15)'" onmouseout="this.style.background='transparent'">了解详情 →</a>
     </div>
   </div>
 </section>
