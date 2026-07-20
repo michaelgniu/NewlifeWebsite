@@ -288,6 +288,7 @@ $commitMsg  = "自动更新讲道集 $commitDate"
 git -C $PSScriptRoot add sermons.html index.html
 git -C $PSScriptRoot commit -m $commitMsg
 if ($LASTEXITCODE -eq 0) {
+    git -C $PSScriptRoot pull --rebase --autostash
     git -C $PSScriptRoot push
     if ($LASTEXITCODE -eq 0) {
         Write-Host "已推送到 GitHub。`n" -ForegroundColor Green
