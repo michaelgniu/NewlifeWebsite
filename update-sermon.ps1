@@ -12,7 +12,46 @@ $env:PYTHONIOENCODING = "utf-8"
 
 $BulletinFolder = "G:\Shared drives\ChurchSharedFolder\Documents\Bulletin\2026\To publish"
 $SermonsHtml    = "$PSScriptRoot\sermons.html"
+$IndexHtml      = "$PSScriptRoot\index.html"
 $YouTubeChannel = "https://www.youtube.com/@calgarynewlifeevangelicalf5137"
+$DriveFolderId  = "14ypFRf1X-ORDu2rE3NrKWtW4VfHVa5eI"
+
+# ─────────────────────────────────────────────────────────────
+# 步骤 0：更新主页每周周报链接（指向Drive文件夹中最新的PDF）
+# ─────────────────────────────────────────────────────────────
+Write-Host "`n[0/4] 更新每周周报链接..." -ForegroundColor Cyan
+$bulletinChanged = $false
+try {
+    $r = Invoke-WebRequest "https://drive.google.com/embeddedfolderview?id=$DriveFolderId#list" -UseBasicParsing -TimeoutSec 30
+    $entries = [regex]::Matches($r.Content, 'id="entry-([^"]+)"[\s\S]*?flip-entry-title">([^<]+)<')
+    # 找出文件名带日期且最新的 PDF（如 Bulletin 20260719.pdf）
+    $latest = $entries | Where-Object { $_.Groups[2].Value -match '(\d{8}).*\.pdf$' } |
+              Sort-Object { [regex]::Match($_.Groups[2].Value, '\d{8}').Value } -Descending |
+              Select-Object -First 1
+    if ($latest) {
+        $fileId   = $latest.Groups[1].Value
+        $fileName = $latest.Groups[2].Value
+        $newHref  = "https://drive.google.com/file/d/$fileId/view"
+        $indexContent = Get-Content $IndexHtml -Encoding UTF8 -Raw
+        $pattern = '(id="weekly-bulletin" href=")[^"]*(")'
+        if ($indexContent -match $pattern) {
+            $updated = [regex]::Replace($indexContent, $pattern, "`${1}$newHref`${2}")
+            if ($updated -ne $indexContent) {
+                Set-Content $IndexHtml -Value $updated -Encoding UTF8 -NoNewline
+                $bulletinChanged = $true
+                Write-Host "  已更新周报链接 -> $fileName" -ForegroundColor Green
+            } else {
+                Write-Host "  周报链接已是最新（$fileName）" -ForegroundColor DarkGray
+            }
+        } else {
+            Write-Host "  index.html 中未找到 weekly-bulletin 标记" -ForegroundColor Yellow
+        }
+    } else {
+        Write-Host "  Drive 文件夹中未找到带日期的PDF" -ForegroundColor Yellow
+    }
+} catch {
+    Write-Host "  获取Drive文件夹失败：$($_.Exception.Message)" -ForegroundColor Yellow
+}
 
 # ─────────────────────────────────────────────────────────────
 # 步骤 1：提取 PDF 讲道信息
@@ -210,46 +249,50 @@ if ($skipped.Count -gt 0) {
     Write-Host "  已跳过（已存在）：$($skipped -join ', ')" -ForegroundColor DarkGray
 }
 
-if ($newRows.Count -eq 0 -and $ytLinksAdded -eq 0) {
-    Write-Host "没有需要新增或更新的讲道记录。" -ForegroundColor Green
+$sermonChanged = ($newRows.Count -gt 0 -or $ytLinksAdded -gt 0)
+if (-not $sermonChanged -and -not $bulletinChanged) {
+    Write-Host "没有需要新增或更新的记录。" -ForegroundColor Green
     exit 0
 }
-
-# 插入到 2026 表格的第一行之前（紧接 <tbody> 后）
-$insertMarker = '<thead><tr><th>日期</th><th>题目</th><th>讲员</th></tr></thead>'
-$tbodyMarker  = $insertMarker + "`n          <tbody>"
-
-# 找到 2026 section 的 tbody，在第一个 <tr> 前插入
-$insertBlock = $newRows -join "`n"
-$pattern = '(<!-- 2026 视频 -->[\s\S]*?<tbody>\s*\n)'
-$html = [regex]::Replace($html, $pattern, "`$1$insertBlock`n", [System.Text.RegularExpressions.RegexOptions]::Singleline)
-
-# 更新讲数统计
-$allRows2026 = [regex]::Matches($html, '(?s)<!-- 2026 视频 -->.*?</details>') | Select-Object -First 1
-if ($allRows2026) {
-    $count = ([regex]::Matches($allRows2026.Value, '<tr><td class="sermon-date">')).Count
-    $html = $html -replace '2026年讲道视频（共\d+讲）', "2026年讲道视频（共${count}讲）"
+if (-not $sermonChanged) {
+    Write-Host "讲道记录无变化，仅提交周报链接更新。" -ForegroundColor DarkGray
 }
 
-Set-Content $SermonsHtml -Value $html -Encoding UTF8 -NoNewline
-Write-Host "`n完成！新增 $($newRows.Count) 条记录到 sermons.html。" -ForegroundColor Green
+if ($sermonChanged) {
+    # 插入到 2026 表格的第一行之前（紧接 <tbody> 后）
+    if ($newRows.Count -gt 0) {
+        $insertBlock = $newRows -join "`n"
+        $pattern = '(<!-- 2026 视频 -->[\s\S]*?<tbody>\s*\n)'
+        $html = [regex]::Replace($html, $pattern, "`$1$insertBlock`n", [System.Text.RegularExpressions.RegexOptions]::Singleline)
+    }
+
+    # 更新讲数统计
+    $allRows2026 = [regex]::Matches($html, '(?s)<!-- 2026 视频 -->.*?</details>') | Select-Object -First 1
+    if ($allRows2026) {
+        $count = ([regex]::Matches($allRows2026.Value, '<tr><td class="sermon-date">')).Count
+        $html = $html -replace '2026年讲道视频（共\d+讲）', "2026年讲道视频（共${count}讲）"
+    }
+
+    Set-Content $SermonsHtml -Value $html -Encoding UTF8 -NoNewline
+    Write-Host "`n完成！新增 $($newRows.Count) 条记录到 sermons.html。" -ForegroundColor Green
+}
 
 # ─────────────────────────────────────────────────────────────
 # 步骤 4：自动 git commit & push
-# ──────────────────────────────────────────────────────────���──
+# ─────────────────────────────────────────────────────────────
 Write-Host "`n[4/4] Git commit & push..." -ForegroundColor Cyan
 
 $commitDate = Get-Date -Format "yyyy-MM-dd"
 $commitMsg  = "自动更新讲道集 $commitDate"
 
-git -C $PSScriptRoot add sermons.html
+git -C $PSScriptRoot add sermons.html index.html
 git -C $PSScriptRoot commit -m $commitMsg
 if ($LASTEXITCODE -eq 0) {
     git -C $PSScriptRoot push
     if ($LASTEXITCODE -eq 0) {
         Write-Host "已推送到 GitHub。`n" -ForegroundColor Green
     } else {
-        Write-Host "推送失��，请手动运行 git push。`n" -ForegroundColor Yellow
+        Write-Host "推送失败，请手动运行 git push。`n" -ForegroundColor Yellow
     }
 } else {
     Write-Host "没有变更需要提交（可能已是最新）。`n" -ForegroundColor DarkGray

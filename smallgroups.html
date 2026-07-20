@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>团契小组 | 新生命国语播道会</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:    #0f2044;
+      --navy-mid:#1a3461;
+      --gold:    #c8922a;
+      --gold-lt: #e8b04a;
+      --cream:   #faf7f2;
+      --white:   #ffffff;
+      --text:    #1a1a2e;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif; color: var(--text); background: var(--cream); line-height: 1.75; }
+
+    /* NAV */
+    #nav { position:fixed; top:0; left:0; right:0; z-index:1000; background:rgba(15,32,68,0.97); backdrop-filter:blur(8px); border-bottom:1px solid rgba(200,146,42,0.25); }
+    .nav-inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; height:68px; }
+    .nav-logo { display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:var(--white); }
+    .nav-logo-icon { width:44px; height:44px; flex-shrink:0; }
+    .nav-logo-icon img { width:100%; height:100%; object-fit:contain; }
+    .nav-logo-text { line-height:1.2; }
+    .nav-logo-main { font-size:0.85rem; font-weight:700; }
+    .nav-logo-sub  { font-size:0.7rem; color:var(--gold-lt); }
+    .nav-links { list-style:none; display:flex; gap:0.25rem; }
+    .nav-links a { display:block; padding:0.4rem 0.75rem; border-radius:6px; color:rgba(255,255,255,0.85); text-decoration:none; font-size:0.85rem; transition:color .2s,background .2s; }
+    .nav-links a:hover, .nav-links a.active { color:var(--gold-lt); background:rgba(200,146,42,0.12); }
+    .nav-cta { background:var(--gold)!important; color:var(--navy)!important; font-weight:700!important; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--white); border-radius:2px; }
+    .mobile-menu { display:none; background:var(--navy); padding:1rem 1.5rem 1.5rem; }
+    .mobile-menu ul { list-style:none; }
+    .mobile-menu li a { display:block; padding:0.65rem 0; color:rgba(255,255,255,0.85); text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.08); font-size:0.95rem; }
+    .mobile-menu.open { display:block; }
+    @media(max-width:768px){ .nav-links{display:none;} .hamburger{display:flex;} }
+
+    /* PAGE HEADER */
+    .page-header { background:var(--navy); padding:7rem 1.5rem 3.5rem; text-align:center; }
+    .page-header .eyebrow { font-size:0.78rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:0.75rem; }
+    .page-header h1 { font-family:'Noto Serif SC',serif; font-size:clamp(1.8rem,4vw,2.8rem); color:var(--white); margin-bottom:1rem; }
+    .page-header p { color:rgba(255,255,255,0.65); max-width:640px; margin:0 auto; font-size:0.95rem; }
+    .bar { width:48px; border:none; border-top:3px solid var(--gold); margin:1rem auto 0; }
+
+    /* CONTAINER */
+    .container { max-width:1000px; margin:0 auto; padding:0 1.5rem; }
+
+    /* GROUP SECTIONS */
+    .groups-section { padding:3rem 0 5rem; }
+    .group-card {
+      background:var(--white); border-radius:14px;
+      padding:2rem;
+      box-shadow:0 2px 14px rgba(15,32,68,0.08);
+      margin-bottom:2.5rem;
+    }
+    .group-card h2 { font-family:'Noto Serif SC',serif; font-size:1.4rem; color:var(--navy); margin-bottom:0.5rem; }
+    .meta-row { display:flex; flex-wrap:wrap; gap:0.6rem; margin-bottom:1.25rem; }
+    .meta-tag {
+      display:inline-flex; align-items:center; gap:0.4rem;
+      background:var(--cream); border:1px solid rgba(200,146,42,0.35);
+      border-radius:999px; padding:0.3rem 0.9rem;
+      font-size:0.82rem; color:var(--navy); font-weight:500;
+    }
+    .group-intro { margin-bottom:1.25rem; }
+    .group-intro p { font-size:0.95rem; color:#444; margin-bottom:0.4rem; }
+    .group-intro .intro-verse { color:var(--gold); font-family:'Noto Serif SC',serif; font-style:italic; }
+    .photo-grid {
+      display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+      gap:0.75rem;
+    }
+    .photo-grid img {
+      width:100%; aspect-ratio:4/3; object-fit:cover;
+      border-radius:10px; cursor:pointer;
+      transition:transform .2s, box-shadow .2s;
+    }
+    .photo-grid img:hover { transform:scale(1.02); box-shadow:0 6px 20px rgba(15,32,68,0.2); }
+
+    /* LIGHTBOX */
+    #lightbox {
+      display:none; position:fixed; inset:0; z-index:2000;
+      background:rgba(10,15,30,0.92);
+      align-items:center; justify-content:center;
+    }
+    #lightbox.open { display:flex; }
+    #lightbox img { max-width:92vw; max-height:88vh; border-radius:8px; }
+    #lightbox .lb-close {
+      position:absolute; top:20px; right:28px;
+      color:#fff; font-size:2rem; cursor:pointer; line-height:1;
+    }
+    #lightbox .lb-prev, #lightbox .lb-next {
+      position:absolute; top:50%; transform:translateY(-50%);
+      color:#fff; font-size:2.5rem; cursor:pointer; user-select:none;
+      padding:0 18px;
+    }
+    #lightbox .lb-prev { left:8px; }
+    #lightbox .lb-next { right:8px; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <div class="nav-logo-icon"><img src="logo.png" alt="新生命logo" /></div>
+      <div class="nav-logo-text">
+        <div class="nav-logo-main">新生命国语播道会</div>
+        <div class="nav-logo-sub">New Life Evangelical Free Church · Calgary</div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">关于我们</a></li>
+      <li><a href="index.html#services">主日聚会</a></li>
+      <li><a href="youth.html">儿童青少年</a></li>
+      <li><a href="smallgroups.html" class="active">团契小组</a></li>
+      <li><a href="sermons.html">讲道集</a></li>
+      <li><a href="videos.html">视频</a></li>
+      <li><a href="docs.html">教会文档</a></li>
+      <li><a href="index.html#contact" class="nav-cta">联络我们</a></li>
+    </ul>
+    <div class="hamburger" onclick="this.closest('nav').querySelector('.mobile-menu').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="mobile-menu">
+    <ul>
+      <li><a href="index.html#about">关于我们</a></li>
+      <li><a href="index.html#services">主日聚会</a></li>
+      <li><a href="youth.html">儿童青少年</a></li>
+      <li><a href="smallgroups.html">团契小组</a></li>
+      <li><a href="sermons.html">讲道集</a></li>
+      <li><a href="videos.html">视频</a></li>
+      <li><a href="docs.html">教会文档</a></li>
+      <li><a href="index.html#contact">联络我们 →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="eyebrow">团契生活</div>
+  <h1>团契小组</h1>
+  <hr class="bar" />
+  <p style="margin-top:1rem;">教会是一个家｡我们组成了多个团契与查经班，借着定期的聚会探讨真理，深入相交，互相帮助，活出爱的生活｡</p>
+</div>
+
+<section class="groups-section">
+  <div class="container">
+
+    <!-- 迦南小组 -->
+    <div class="group-card">
+      <h2>迦南小组</h2>
+      <div class="meta-row">
+        <span class="meta-tag">🗓 每月第一、三周六 7:30 PM</span>
+      </div>
+      <div class="group-intro">
+        <p><strong>迦南小组口号：</strong>仰望基督，活出丰盛，乐在迦南！</p>
+        <p class="intro-verse">「耶和华是我的牧者，我必不至缺乏。」（诗篇 23:1）</p>
+      </div>
+      <div class="photo-grid">
+        <img src="SmallGroups/01迦南一组/Image_20260719124311_46_366.jpg" alt="迦南小组" loading="lazy" />
+        <img src="SmallGroups/01迦南一组/Image_20260719124547_48_366.jpg" alt="迦南小组" loading="lazy" />
+        <img src="SmallGroups/01迦南一组/Image_20260719124548_49_366.jpg" alt="迦南小组" loading="lazy" />
+        <img src="SmallGroups/01迦南一组/Image_20260719124551_52_366.jpg" alt="迦南小组" loading="lazy" />
+        <img src="SmallGroups/01迦南一组/Image_20260719124552_53_366.jpg" alt="迦南小组" loading="lazy" />
+        <img src="SmallGroups/01迦南一组/Image_20260719124553_54_366.jpg" alt="迦南小组" loading="lazy" />
+        <img src="SmallGroups/01迦南一组/Image_20260719124554_55_366.jpg" alt="迦南小组" loading="lazy" />
+        <img src="SmallGroups/01迦南一组/Image_20260719124555_56_366.jpg" alt="迦南小组" loading="lazy" />
+        <img src="SmallGroups/01迦南一组/Image_20260719124557_57_366.jpg" alt="迦南小组" loading="lazy" />
+        <img src="SmallGroups/01迦南一组/Image_20260719124558_58_366.jpg" alt="迦南小组" loading="lazy" />
+      </div>
+    </div>
+
+    <!-- 甘泉一组 -->
+    <div class="group-card">
+      <h2>甘泉一组</h2>
+      <div class="meta-row">
+        <span class="meta-tag">🗓 每月第一、三周五 10:00 AM</span>
+      </div>
+      <div class="photo-grid">
+        <img src="SmallGroups/02甘泉一组/Image_2026-07-19_180008_736.jpg" alt="甘泉一组" loading="lazy" />
+        <img src="SmallGroups/02甘泉一组/Image_2026-07-19_180020_893.jpg" alt="甘泉一组" loading="lazy" />
+        <img src="SmallGroups/02甘泉一组/Image_2026-07-19_180026_946.jpg" alt="甘泉一组" loading="lazy" />
+        <img src="SmallGroups/02甘泉一组/Image_2026-07-19_180033_061.jpg" alt="甘泉一组" loading="lazy" />
+      </div>
+    </div>
+
+    <!-- 甘泉二组 -->
+    <div class="group-card">
+      <h2>甘泉二组</h2>
+      <div class="meta-row">
+        <span class="meta-tag">🗓 每月第一、三周六 7:30 PM</span>
+      </div>
+      <div class="photo-grid">
+        <img src="SmallGroups/03甘泉二组/Image_20260719142939_65_366.jpg" alt="甘泉二组" loading="lazy" />
+        <img src="SmallGroups/03甘泉二组/Image_20260719143123_66_366.jpg" alt="甘泉二组" loading="lazy" />
+        <img src="SmallGroups/03甘泉二组/Image_20260719143125_67_366.jpg" alt="甘泉二组" loading="lazy" />
+        <img src="SmallGroups/03甘泉二组/Image_20260719143128_68_366.jpg" alt="甘泉二组" loading="lazy" />
+        <img src="SmallGroups/03甘泉二组/Image_20260719143129_69_366.jpg" alt="甘泉二组" loading="lazy" />
+        <img src="SmallGroups/03甘泉二组/Image_20260719143415_70_366.jpg" alt="甘泉二组" loading="lazy" />
+        <img src="SmallGroups/03甘泉二组/Image_20260719143513_71_366.jpg" alt="甘泉二组" loading="lazy" />
+        <img src="SmallGroups/03甘泉二组/Image_20260719143628_72_366.jpg" alt="甘泉二组" loading="lazy" />
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <span class="lb-close" onclick="closeLb()">✕</span>
+  <span class="lb-prev" onclick="stepLb(-1)">‹</span>
+  <img id="lb-img" src="" alt="" />
+  <span class="lb-next" onclick="stepLb(1)">›</span>
+</div>
+
+<!-- FOOTER -->
+<footer style="background:var(--navy);color:rgba(255,255,255,0.5);text-align:center;padding:2rem 1.5rem;font-size:0.8rem;">
+  <p>© 新生命国语播道会 · New Life Evangelical Free Church · Calgary, Alberta</p>
+  <p style="margin-top:0.5rem;"><a href="index.html" style="color:var(--gold-lt);text-decoration:none;">← 返回主页</a></p>
+</footer>
+
+<script>
+  const allImgs = Array.from(document.querySelectorAll('.photo-grid img'));
+  let lbIdx = 0;
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
+  allImgs.forEach((img, i) => {
+    img.addEventListener('click', () => { lbIdx = i; lbImg.src = img.src; lb.classList.add('open'); });
+  });
+  function closeLb() { lb.classList.remove('open'); }
+  function stepLb(d) {
+    lbIdx = (lbIdx + d + allImgs.length) % allImgs.length;
+    lbImg.src = allImgs[lbIdx].src;
+  }
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft') stepLb(-1);
+    if (e.key === 'ArrowRight') stepLb(1);
+  });
+</script>
+
+</body>
+</html>
