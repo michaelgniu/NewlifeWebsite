@@ -12,46 +12,9 @@ $env:PYTHONIOENCODING = "utf-8"
 
 $BulletinFolder = "G:\Shared drives\ChurchSharedFolder\Documents\Bulletin\2026\To publish"
 $SermonsHtml    = "$PSScriptRoot\sermons.html"
-$IndexHtml      = "$PSScriptRoot\index.html"
 $YouTubeChannel = "https://www.youtube.com/@calgarynewlifeevangelicalf5137"
-$DriveFolderId  = "14ypFRf1X-ORDu2rE3NrKWtW4VfHVa5eI"
-
-# ─────────────────────────────────────────────────────────────
-# 步骤 0：更新主页每周周报链接（指向Drive文件夹中最新的PDF）
-# ─────────────────────────────────────────────────────────────
-Write-Host "`n[0/4] 更新每周周报链接..." -ForegroundColor Cyan
+# 注：每周周报链接由 Google Apps Script 动态跳转，无需在此更新
 $bulletinChanged = $false
-try {
-    $r = Invoke-WebRequest "https://drive.google.com/embeddedfolderview?id=$DriveFolderId#list" -UseBasicParsing -TimeoutSec 30
-    $entries = [regex]::Matches($r.Content, 'id="entry-([^"]+)"[\s\S]*?flip-entry-title">([^<]+)<')
-    # 找出文件名带日期且最新的 PDF（如 Bulletin 20260719.pdf）
-    $latest = $entries | Where-Object { $_.Groups[2].Value -match '(\d{8}).*\.pdf$' } |
-              Sort-Object { [regex]::Match($_.Groups[2].Value, '\d{8}').Value } -Descending |
-              Select-Object -First 1
-    if ($latest) {
-        $fileId   = $latest.Groups[1].Value
-        $fileName = $latest.Groups[2].Value
-        $newHref  = "https://drive.google.com/file/d/$fileId/view"
-        $indexContent = Get-Content $IndexHtml -Encoding UTF8 -Raw
-        $pattern = '(id="weekly-bulletin" href=")[^"]*(")'
-        if ($indexContent -match $pattern) {
-            $updated = [regex]::Replace($indexContent, $pattern, "`${1}$newHref`${2}")
-            if ($updated -ne $indexContent) {
-                Set-Content $IndexHtml -Value $updated -Encoding UTF8 -NoNewline
-                $bulletinChanged = $true
-                Write-Host "  已更新周报链接 -> $fileName" -ForegroundColor Green
-            } else {
-                Write-Host "  周报链接已是最新（$fileName）" -ForegroundColor DarkGray
-            }
-        } else {
-            Write-Host "  index.html 中未找到 weekly-bulletin 标记" -ForegroundColor Yellow
-        }
-    } else {
-        Write-Host "  Drive 文件夹中未找到带日期的PDF" -ForegroundColor Yellow
-    }
-} catch {
-    Write-Host "  获取Drive文件夹失败：$($_.Exception.Message)" -ForegroundColor Yellow
-}
 
 # ─────────────────────────────────────────────────────────────
 # 步骤 1：提取 PDF 讲道信息
