@@ -10,6 +10,23 @@
 
 $env:PYTHONIOENCODING = "utf-8"
 
+# 记录运行日志（方便排查计划任务失败原因）
+Start-Transcript -Path "$PSScriptRoot\update-sermon.log" -Append -Force | Out-Null
+Write-Host "===== 运行开始：$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') ====="
+
+# 计划任务环境下 PATH 可能不含常用工具，补上常见目录
+$extraPaths = @(
+    "$env:LOCALAPPDATA\Programs\Python\Python314",
+    "$env:LOCALAPPDATA\Programs\Python\Python314\Scripts",
+    "C:\Python314",
+    "C:\Python314\Scripts",
+    "$env:APPDATA\Python\Python314\Scripts",
+    "C:\Program Files\Git\cmd"
+)
+foreach ($p in $extraPaths) {
+    if ((Test-Path $p) -and ($env:PATH -notlike "*$p*")) { $env:PATH = "$p;$env:PATH" }
+}
+
 $BulletinFolder = "G:\Shared drives\ChurchSharedFolder\Documents\Bulletin\2026\To publish"
 $SermonsHtml    = "$PSScriptRoot\sermons.html"
 $YouTubeChannel = "https://www.youtube.com/@calgarynewlifeevangelicalf5137"
@@ -74,6 +91,7 @@ $env:BULLETIN_FOLDER = $BulletinFolder
 $extracted = python -c $pyExtract
 if ($LASTEXITCODE -ne 0) {
     Write-Host "PDF 提取失败，请检查 pypdf2 是否安装。" -ForegroundColor Red
+    Stop-Transcript | Out-Null
     exit 1
 }
 
@@ -215,6 +233,7 @@ if ($skipped.Count -gt 0) {
 $sermonChanged = ($newRows.Count -gt 0 -or $ytLinksAdded -gt 0)
 if (-not $sermonChanged -and -not $bulletinChanged) {
     Write-Host "没有需要新增或更新的记录。" -ForegroundColor Green
+    Stop-Transcript | Out-Null
     exit 0
 }
 if (-not $sermonChanged) {
@@ -261,3 +280,6 @@ if ($LASTEXITCODE -eq 0) {
 } else {
     Write-Host "没有变更需要提交（可能已是最新）。`n" -ForegroundColor DarkGray
 }
+
+Write-Host "===== 运行结束：$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') ====="
+Stop-Transcript | Out-Null
