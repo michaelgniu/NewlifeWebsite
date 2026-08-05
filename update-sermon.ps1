@@ -59,16 +59,33 @@ except ImportError:
 folder = os.environ.get('BULLETIN_FOLDER') or (sys.argv[1] if len(sys.argv) > 1 else '.')
 pdfs = sorted([f for f in os.listdir(folder) if f.lower().endswith('.pdf')])
 
+# 讲员称谓（允许字与字之间有空格，如 "牧 师"）
+SPEAKER_TITLE = r'(?:牧\s*[师師]|传\s*道|長\s*老|长\s*老|弟\s*兄|姊\s*妹|姐\s*妹)'
+
+def extract_sermon(text):
+    for line in text.split('\n'):
+        if '讲道' not in line and '講道' not in line:
+            continue
+        seg = re.sub(r'^.*?[讲講]道', '', line)  # 去掉 "讲道" 及之前
+        # 讲员：行尾以牧师/传道等结尾（允许内部空格）
+        sp = re.search(r'([一-鿿]+\s*' + SPEAKER_TITLE + r')\s*$', seg)
+        if not sp:
+            continue
+        speaker = re.sub(r'\s+', '', sp.group(1))
+        title = seg[:sp.start(1)]
+        # 清理题目：去首尾分隔符(空格/句点/间隔号)、折叠多余空格
+        title = title.strip()
+        title = re.sub(r'[\s.．·。、]+$', '', title).strip()
+        title = re.sub(r'\s*([：:，,])\s*', r'\1', title)  # 去标点两侧空格
+        title = re.sub(r'\s{2,}', ' ', title).strip()
+        if title:
+            return title, speaker
+    return None, None
+
 for fname in pdfs:
     path = os.path.join(folder, fname)
     text = get_text(path)
-    # 匹配 "讲道 题目  讲员" 行（一行内，讲员以牧师/传道结尾）
-    m = re.search(r'讲道\s+(.+?)\s{2,}(.+?(?:牧[　\s]*[师師]|传[　\s]*道))', text)
-    if not m:
-        # 宽松：讲道后跟换行，再一行是讲员
-        m = re.search(r'讲道\s+(.+?)\s+([\S]+(?:牧[师師]|传道))', text)
-    if not m:
-        m = re.search(r'讲道[:：]?\s*\n?\s*(.+?)\n\s*(.+?(?:牧师|传道))', text)
+    title, speaker = extract_sermon(text)
     # 优先从文件名取日期（最可靠）
     dn = re.search(r'(202\d)[_\-\s]?(\d{2})[_\-\s]?(\d{2})', fname)
     if dn:
@@ -79,9 +96,7 @@ for fname in pdfs:
             date_str = f"{date_m.group(1)}-{date_m.group(2).zfill(2)}-{date_m.group(3).zfill(2)}"
         else:
             date_str = "unknown"
-    if m:
-        title   = m.group(1).strip()
-        speaker = m.group(2).strip()
+    if title:
         print(f"{date_str}|{title}|{speaker}")
     else:
         print(f"{date_str}|UNKNOWN|UNKNOWN")
@@ -186,6 +201,24 @@ foreach ($line in $extracted) {
     $parts = $line -split '\|'
     if ($parts.Count -lt 3) { continue }
     $date, $title, $speaker = $parts[0], $parts[1], $parts[2]
+
+    # 如果该日期是之前留下的"（未提取）"占位行，且这次成功提取，则整行替换
+    if (($existingDates -contains $date) -and $title -ne "UNKNOWN") {
+        $placeholderPattern = "(?s)\s*<!-- TODO: $date [^>]*-->\s*<tr><td class=`"sermon-date`">$date</td><td class=`"sermon-title`">（未提取）</td><td class=`"sermon-speaker`">（未提取）</td></tr>"
+        if ($html -match $placeholderPattern) {
+            $yt = $ytVideos[$date]
+            if ($yt) {
+                $ytUrl = "https://www.youtube.com/watch?v=$($yt.id)"
+                $newRow = "`n            <tr><td class=`"sermon-date`">$date</td><td class=`"sermon-title`"><a href=`"$ytUrl`" target=`"_blank`" rel=`"noopener`">$title <span class=`"yt-badge`">YT</span></a></td><td class=`"sermon-speaker`">$speaker</td></tr>"
+            } else {
+                $newRow = "`n            <tr><td class=`"sermon-date`">$date</td><td class=`"sermon-title`">$title</td><td class=`"sermon-speaker`">$speaker</td></tr>"
+            }
+            $html = [regex]::Replace($html, $placeholderPattern, $newRow)
+            $ytLinksAdded++
+            Write-Host "  ✓ 已补全占位行：$date  $title / $speaker" -ForegroundColor Cyan
+            continue
+        }
+    }
 
     # 如果已存在但没有 YT 链接，尝试补上链接
     if ($existingDates -contains $date) {
