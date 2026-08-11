@@ -9,6 +9,11 @@
 #   pip install yt-dlp   (或: winget install yt-dlp)
 
 $env:PYTHONIOENCODING = "utf-8"
+# 强制控制台以 UTF-8 收发，确保正确捕获 Python/yt-dlp 的中文输出
+# （计划任务环境下默认编码可能不是UTF-8，会导致中文乱码）
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+[Console]::InputEncoding  = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.Encoding]::UTF8
 
 # 记录运行日志（方便排查计划任务失败原因）
 Start-Transcript -Path "$PSScriptRoot\update-sermon.log" -Append -Force | Out-Null
