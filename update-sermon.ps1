@@ -32,7 +32,21 @@ foreach ($p in $extraPaths) {
     if ((Test-Path $p) -and ($env:PATH -notlike "*$p*")) { $env:PATH = "$p;$env:PATH" }
 }
 
-$BulletinFolder = "G:\Shared drives\ChurchSharedFolder\Documents\Bulletin\2026\To publish"
+# Google Drive 界面语言可能是英文或中文，共享盘目录名不同，逐个尝试
+$year = (Get-Date).Year
+$bulletinCandidates = @(
+    "G:\Shared drives\ChurchSharedFolder\Documents\Bulletin\$year\To publish",
+    "G:\共享云端硬盘\ChurchSharedFolder\Documents\Bulletin\$year\To publish",
+    "G:\共用雲端硬碟\ChurchSharedFolder\Documents\Bulletin\$year\To publish"
+)
+$BulletinFolder = $bulletinCandidates | Where-Object { Test-Path $_ } | Select-Object -First 1
+if (-not $BulletinFolder) {
+    Write-Host "错误：找不到周报文件夹，请检查 Google Drive 是否已挂载。尝试过的路径：" -ForegroundColor Red
+    $bulletinCandidates | ForEach-Object { Write-Host "  $_" }
+    Stop-Transcript | Out-Null
+    exit 1
+}
+Write-Host "使用周报文件夹：$BulletinFolder" -ForegroundColor DarkGray
 $SermonsHtml    = "$PSScriptRoot\sermons.html"
 $YouTubeChannel = "https://www.youtube.com/@calgarynewlifeevangelicalf5137"
 # 注：每周周报链接由 Google Apps Script 动态跳转，无需在此更新
