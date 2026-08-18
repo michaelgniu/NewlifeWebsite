@@ -1,6 +1,6 @@
 # update-sermon.ps1
-# 从周报PDF提取讲道信息，从YouTube获取直播链接，更新 sermons.html
-#
+# 从周报PDF提取讲道信息，从YouTube获取直播链接，更新 sermons.html 
+# test
 # 使用方法:
 #   .\update-sermon.ps1
 #
