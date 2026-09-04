@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body { font-family: 'Noto Sans SC','Microsoft YaHei',system-ui,sans-serif;
+           background:#faf7f2; color:#1a1a2e; margin:0; padding:1.5rem; line-height:1.7; }
+    .card { max-width:480px; margin:0 auto; background:#fff; border-radius:14px;
+            padding:1.75rem; box-shadow:0 2px 14px rgba(15,32,68,0.1); }
+    h2 { color:#0f2044; font-size:1.3rem; margin:0 0 0.25rem; }
+    .sub { color:#c8922a; font-weight:600; margin-bottom:1.25rem; }
+    label { display:block; margin:1rem 0 0.4rem; font-weight:600; font-size:0.95rem; }
+    .opt { display:flex; align-items:center; gap:0.5rem; margin:0.4rem 0; font-weight:400; }
+    textarea { width:100%; box-sizing:border-box; border:1px solid #ccc; border-radius:8px;
+               padding:0.6rem; font-family:inherit; font-size:0.95rem; }
+    button { margin-top:1.5rem; width:100%; background:#c8922a; color:#0f2044;
+             border:none; border-radius:8px; padding:0.8rem; font-size:1rem;
+             font-weight:700; cursor:pointer; }
+    button:disabled { opacity:0.6; cursor:default; }
+    #msg { margin-top:1rem; text-align:center; font-weight:600; }
+    .ok { color:#1a7a3a; } .err { color:#c0392b; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>探访反馈</h2>
+    <div class="sub" id="who">新朋友：<?= visitorName ?></div>
+
+    <div id="form">
+      <label>联系结果</label>
+      <div class="opt"><input type="radio" name="result" value="已联系" id="r1" checked><label for="r1" style="margin:0;font-weight:400;">已联系（已欢迎并鼓励再来）</label></div>
+      <div class="opt"><input type="radio" name="result" value="未接" id="r2"><label for="r2" style="margin:0;font-weight:400;">打了电话但未接</label></div>
+      <div class="opt"><input type="radio" name="result" value="联系不上" id="r3"><label for="r3" style="margin:0;font-weight:400;">联系不上</label></div>
+
+      <div class="opt" style="margin-top:1rem;"><input type="checkbox" id="enc" checked><label for="enc" style="margin:0;font-weight:400;">已鼓励对方再来教会</label></div>
+
+      <label for="note">备注（可选）</label>
+      <textarea id="note" rows="3" placeholder="例如：对方表示下周会再来 / 电话停机 …"></textarea>
+
+      <button id="btn" onclick="submit()">提交反馈</button>
+    </div>
+    <div id="msg"></div>
+  </div>
+
+  <script>
+    var VISITOR_ID = "<?= visitorId ?>";
+    if (!VISITOR_ID) {
+      document.getElementById('form').style.display='none';
+      document.getElementById('msg').innerHTML='<span class="err">链接缺少访客编号，请从提醒邮件中的链接打开。</span>';
+    }
+    function submit(){
+      var btn=document.getElementById('btn'); btn.disabled=true; btn.textContent='提交中…';
+      var result=document.querySelector('input[name=result]:checked').value;
+      var payload={ visitorId:VISITOR_ID, result:result,
+                    encouraged:document.getElementById('enc').checked,
+                    note:document.getElementById('note').value };
+      google.script.run
+        .withSuccessHandler(function(m){
+          document.getElementById('form').style.display='none';
+          document.getElementById('msg').innerHTML='<span class="ok">'+m+'</span>';
+        })
+        .withFailureHandler(function(e){
+          btn.disabled=false; btn.textContent='提交反馈';
+          document.getElementById('msg').innerHTML='<span class="err">提交失败：'+e.message+'</span>';
+        })
+        .submitFollowup(payload);
+    }
+  </script>
+</body>
+</html>
