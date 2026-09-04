@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>关怀探访系统 | 新生命国语播道会</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--navy:#0f2044;--navy-mid:#1a3461;--gold:#c8922a;--gold-lt:#e8b04a;--cream:#faf7f2;--white:#fff;--text:#1a1a2e;--red:#c0392b;--green:#1a7a3a}
+  body{font-family:'Noto Sans SC','Microsoft YaHei',system-ui,sans-serif;background:var(--cream);color:var(--text);line-height:1.6}
+  a{color:var(--gold)}
+  /* login */
+  #login-view{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+  .login-card{background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(15,32,68,.12);padding:2rem;max-width:400px;width:100%}
+  .login-card h1{font-family:'Noto Serif SC',serif;color:var(--navy);font-size:1.4rem;margin-bottom:.25rem}
+  .login-card .sub{color:var(--gold);font-size:.85rem;margin-bottom:1.5rem}
+  label{display:block;font-weight:600;font-size:.9rem;margin:.9rem 0 .35rem}
+  input,select,textarea{width:100%;border:1px solid #ccc;border-radius:8px;padding:.6rem;font-family:inherit;font-size:.95rem}
+  textarea{resize:vertical}
+  .btn{background:var(--gold);color:var(--navy);border:none;border-radius:8px;padding:.7rem 1.2rem;font-weight:700;font-size:.95rem;cursor:pointer;transition:background .2s}
+  .btn:hover{background:var(--gold-lt)}
+  .btn:disabled{opacity:.6;cursor:default}
+  .btn-sm{padding:.35rem .8rem;font-size:.82rem;border-radius:6px}
+  .btn-ghost{background:transparent;border:1px solid var(--gold);color:var(--navy)}
+  .link{background:none;border:none;color:var(--gold);cursor:pointer;font-size:.85rem;text-decoration:underline;padding:0}
+  .msg{margin-top:.9rem;font-size:.88rem;text-align:center}
+  .msg.err{color:var(--red)} .msg.ok{color:var(--green)}
+  /* app */
+  #app-view{display:none}
+  header{background:var(--navy);color:#fff;padding:.8rem 1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+  header .brand{font-weight:700}
+  header .who{font-size:.82rem;color:rgba(255,255,255,.8)}
+  .rolechip{display:inline-block;background:var(--gold);color:var(--navy);border-radius:999px;padding:.05rem .55rem;font-size:.72rem;font-weight:700;margin-left:.4rem}
+  nav.tabs{display:flex;gap:.25rem;background:var(--navy-mid);padding:0 1rem;flex-wrap:wrap}
+  nav.tabs button{background:none;border:none;color:rgba(255,255,255,.8);padding:.7rem .9rem;cursor:pointer;font-size:.9rem;border-bottom:3px solid transparent}
+  nav.tabs button.active{color:var(--gold-lt);border-bottom-color:var(--gold)}
+  main{max-width:1000px;margin:0 auto;padding:1.25rem}
+  .panel{display:none}
+  .panel.active{display:block}
+  h2.title{font-family:'Noto Serif SC',serif;color:var(--navy);font-size:1.2rem;margin-bottom:1rem}
+  .card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(15,32,68,.08);padding:1.1rem 1.25rem;margin-bottom:1rem}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1rem}
+  @media(max-width:560px){.form-grid{grid-template-columns:1fr}}
+  .vcard{border-left:4px solid var(--gold)}
+  .vcard .vh{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;flex-wrap:wrap}
+  .vcard .vn{font-weight:700;font-size:1.05rem;color:var(--navy)}
+  .vcard .meta{font-size:.85rem;color:#555;margin:.35rem 0}
+  .badge{display:inline-block;border-radius:999px;padding:.1rem .6rem;font-size:.75rem;font-weight:600}
+  .b-待分配{background:#fdeede;color:#a15c00} .b-跟进中{background:#e3edff;color:#1a3f9e}
+  .b-已联系{background:#e3f7e8;color:#1a7a3a} .b-已安排小组{background:#e8e3ff;color:#4b2f9e}
+  .b-福音群{background:#fff3d4;color:#8a6a00} .b-失联{background:#f1f1f1;color:#777}
+  .actions{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
+  .col-head{font-weight:700;color:var(--navy);margin:1rem 0 .5rem;font-size:.95rem;border-bottom:2px solid var(--gold);padding-bottom:.2rem}
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(10,15,30,.55);align-items:center;justify-content:center;padding:1rem;z-index:50}
+  .modal-bg.open{display:flex}
+  .modal{background:#fff;border-radius:14px;padding:1.5rem;max-width:420px;width:100%}
+  .modal h3{color:var(--navy);margin-bottom:.75rem}
+  .opt{display:flex;align-items:center;gap:.5rem;margin:.35rem 0;font-size:.92rem}
+  .opt input{width:auto}
+  .muted{color:#888;font-size:.85rem}
+  table.tbl{width:100%;border-collapse:collapse;font-size:.88rem}
+  table.tbl th,table.tbl td{text-align:left;padding:.5rem;border-bottom:1px solid #eee}
+</style>
+</head>
+<body>
+
+<!-- ============ 登录 ============ -->
+<div id="login-view">
+  <div class="login-card">
+    <h1>关怀探访系统</h1>
+    <div class="sub">新生命国语播道会 · New Life EFC</div>
+    <div id="auth-form">
+      <label for="email">邮箱</label>
+      <input id="email" type="email" autocomplete="username" />
+      <label for="pw">密码</label>
+      <input id="pw" type="password" autocomplete="current-password" />
+      <div id="name-wrap" style="display:none">
+        <label for="rname">姓名</label>
+        <input id="rname" type="text" />
+      </div>
+      <button class="btn" id="auth-btn" style="width:100%;margin-top:1.2rem" onclick="doAuth()">登录</button>
+      <div class="msg" id="auth-msg"></div>
+      <div style="text-align:center;margin-top:1rem">
+        <button class="link" id="toggle-auth" onclick="toggleAuth()">还没有账号？注册</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 应用 ============ -->
+<div id="app-view">
+  <header>
+    <div><span class="brand">关怀探访系统</span></div>
+    <div>
+      <span class="who" id="who"></span>
+      <button class="btn btn-sm btn-ghost" style="margin-left:.6rem;color:#fff;border-color:rgba(255,255,255,.5)" onclick="doLogout()">退出</button>
+    </div>
+  </header>
+  <nav class="tabs" id="tabs"></nav>
+  <main>
+    <!-- 我的待办 -->
+    <section class="panel" id="p-todo">
+      <h2 class="title">我的待办</h2>
+      <div id="todo-list"></div>
+    </section>
+    <!-- 看板 -->
+    <section class="panel" id="p-board">
+      <h2 class="title">探访看板</h2>
+      <div id="board"></div>
+    </section>
+    <!-- 登记 -->
+    <section class="panel" id="p-register">
+      <h2 class="title">登记新朋友</h2>
+      <div class="card">
+        <div class="form-grid">
+          <div><label>姓名 *</label><input id="f-name"></div>
+          <div><label>电话</label><input id="f-phone"></div>
+          <div><label>邮箱</label><input id="f-email"></div>
+          <div><label>居住区域</label><input id="f-area" placeholder="社区名或邮编前3位"></div>
+          <div><label>身份</label><select id="f-identity"><option>未知</option><option>基督徒</option><option>慕道友</option></select></div>
+          <div><label>首次来访日期</label><input id="f-first" type="date"></div>
+          <div><label>来访次数</label><input id="f-count" type="number" value="1" min="1"></div>
+          <div><label>分配同工（可留空，稍后自动分配）</label><select id="f-assignee"></select></div>
+        </div>
+        <label>备注</label><textarea id="f-note" rows="2"></textarea>
+        <button class="btn" style="margin-top:1rem" onclick="registerVisitor()">登记</button>
+        <div class="msg" id="reg-msg"></div>
+      </div>
+    </section>
+    <!-- 管理 -->
+    <section class="panel" id="p-admin">
+      <h2 class="title">管理</h2>
+      <div class="card">
+        <h3 style="color:var(--navy);margin-bottom:.6rem">用户与角色</h3>
+        <div id="admin-users"></div>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--navy);margin-bottom:.6rem">小组</h3>
+        <div id="admin-groups"></div>
+        <div class="form-grid" style="margin-top:.8rem">
+          <div><label>组名</label><input id="g-name"></div>
+          <div><label>覆盖区域</label><input id="g-area"></div>
+          <div><label>负责人姓名</label><input id="g-ln"></div>
+          <div><label>负责人邮箱</label><input id="g-le"></div>
+          <div><label>聚会时间</label><input id="g-time"></div>
+        </div>
+        <button class="btn btn-sm" style="margin-top:.7rem" onclick="addGroup()">添加小组</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- 反馈弹窗 -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h3 id="m-title">填写探访反馈</h3>
+    <div class="opt"><input type="radio" name="mresult" value="已联系" id="mr1" checked><label for="mr1">已联系（已欢迎并鼓励再来）</label></div>
+    <div class="opt"><input type="radio" name="mresult" value="未接" id="mr2"><label for="mr2">打了电话但未接</label></div>
+    <div class="opt"><input type="radio" name="mresult" value="联系不上" id="mr3"><label for="mr3">联系不上</label></div>
+    <div class="opt" style="margin-top:.6rem"><input type="checkbox" id="m-enc" checked><label for="m-enc">已鼓励再来教会</label></div>
+    <label>备注</label><textarea id="m-note" rows="2"></textarea>
+    <div style="display:flex;gap:.6rem;margin-top:1rem">
+      <button class="btn" onclick="submitFeedback()">提交</button>
+      <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+    </div>
+    <div class="msg" id="m-msg"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
