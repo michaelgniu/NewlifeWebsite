@@ -65,7 +65,16 @@ async function boot(){
     ({ data: prof } = await sb.from('profiles').select('*').eq('id', user.id).single());
   }
   ME = prof;
+  // 未批准的用户：显示等待批准页，不能进入应用
+  if (!ME.approved && ME.role !== 'admin'){
+    $('login-view').style.display='none';
+    $('app-view').style.display='none';
+    $('pending-who').textContent = ME.name || ME.email;
+    $('pending-view').style.display='flex';
+    return;
+  }
   $('login-view').style.display='none';
+  $('pending-view').style.display='none';
   $('app-view').style.display='block';
   $('who').innerHTML = `${esc(ME.name||ME.email)} <span class="rolechip">${ROLE_LABEL[ME.role]}</span>`;
   buildTabs();
@@ -247,9 +256,15 @@ async function submitFeedback(){
 // ---------- 管理 ----------
 async function loadAdmin(){
   await loadProfiles();
-  $('admin-users').innerHTML = `<table class="tbl"><tr><th>姓名</th><th>邮箱</th><th>角色</th><th>区域</th><th>启用</th></tr>` +
-    PROFILES.map(p=>`<tr>
+  const pending = PROFILES.filter(p=>!p.approved);
+  const pendingNote = pending.length
+    ? `<p style="color:var(--red);font-weight:600;margin-bottom:.6rem">有 ${pending.length} 位新注册用户待批准</p>` : '';
+  $('admin-users').innerHTML = pendingNote + `<table class="tbl"><tr><th>姓名</th><th>邮箱</th><th>审批</th><th>角色</th><th>区域</th><th>启用</th></tr>` +
+    PROFILES.map(p=>`<tr${!p.approved?' style="background:#fff6f4"':''}>
       <td>${esc(p.name)}</td><td>${esc(p.email)}</td>
+      <td>${ p.approved
+          ? '<span style="color:var(--green)">✓ 已批准</span>'
+          : `<button class="btn btn-sm" onclick="setApproved('${p.id}',true)">批准</button>` }</td>
       <td><select onchange="setRole('${p.id}',this.value)">
         ${['volunteer','leader','admin'].map(r=>`<option value="${r}" ${p.role===r?'selected':''}>${ROLE_LABEL[r]}</option>`).join('')}
       </select></td>
@@ -262,6 +277,7 @@ async function loadAdmin(){
       groups.map(g=>`<tr><td>${esc(g.name)}</td><td>${esc(g.cover_area)}</td><td>${esc(g.leader_name)}</td><td>${esc(g.leader_email)}</td><td>${esc(g.meet_time)}</td></tr>`).join('')+`</table>`
     : '<p class="muted">还没有小组。</p>';
 }
+async function setApproved(id,b){ await sb.from('profiles').update({approved:b}).eq('id',id); loadAdmin(); }
 async function setRole(id,r){ await sb.from('profiles').update({role:r}).eq('id',id); }
 async function setArea(id,a){ await sb.from('profiles').update({area:a}).eq('id',id); }
 async function setActive(id,b){ await sb.from('profiles').update({active:b}).eq('id',id); }

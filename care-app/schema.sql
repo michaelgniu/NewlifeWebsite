@@ -19,6 +19,7 @@ create table if not exists profiles (
   role       user_role not null default 'volunteer',
   area       text,                          -- 负责区域（可选）
   active     boolean default true,
+  approved   boolean not null default false, -- 需管理员批准后才能访问数据
   created_at timestamptz default now()
 );
 
@@ -84,6 +85,12 @@ returns boolean language sql security definer stable as $$
   select exists(select 1 from profiles where id = auth.uid() and role = any(check_roles));
 $$;
 
+-- 当前用户是否已被管理员批准
+create or replace function is_approved()
+returns boolean language sql security definer stable as $$
+  select exists(select 1 from profiles where id = auth.uid() and approved = true);
+$$;
+
 -- 新用户注册时自动建档（默认角色 volunteer）
 -- 注意：必须 set search_path=public 并全限定表名，否则在 auth 环境下找不到 profiles，
 --      会导致注册报错「Database error saving new user」。
@@ -134,42 +141,45 @@ create policy p_profiles_admin_all on profiles for all using (has_role(array['ad
 -- visitors：同工只能看/改分配给自己的；负责人/管理员看/改全部
 drop policy if exists v_select on visitors;
 create policy v_select on visitors for select using (
-  has_role(array['leader','admin']::user_role[]) or assignee_id = auth.uid()
+  is_approved() and (has_role(array['leader','admin']::user_role[]) or assignee_id = auth.uid())
 );
 drop policy if exists v_insert on visitors;
 create policy v_insert on visitors for insert with check (
-  has_role(array['leader','admin']::user_role[])
+  is_approved() and has_role(array['leader','admin']::user_role[])
 );
 drop policy if exists v_update_leader on visitors;
 create policy v_update_leader on visitors for update using (
-  has_role(array['leader','admin']::user_role[])
+  is_approved() and has_role(array['leader','admin']::user_role[])
 );
 drop policy if exists v_update_assignee on visitors;
-create policy v_update_assignee on visitors for update using (assignee_id = auth.uid());
+create policy v_update_assignee on visitors for update using (is_approved() and assignee_id = auth.uid());
 drop policy if exists v_delete on visitors;
 create policy v_delete on visitors for delete using (has_role(array['admin']::user_role[]));
 
 -- followups：负责人/管理员看全部；同工看自己分配访客的记录；任何登录者可插入自己的记录
 drop policy if exists f_select on followups;
 create policy f_select on followups for select using (
-  has_role(array['leader','admin']::user_role[])
-  or exists(select 1 from visitors x where x.id = visitor_id and x.assignee_id = auth.uid())
+  is_approved() and (
+    has_role(array['leader','admin']::user_role[])
+    or exists(select 1 from visitors x where x.id = visitor_id and x.assignee_id = auth.uid())
+  )
 );
 drop policy if exists f_insert on followups;
-create policy f_insert on followups for insert with check (by_id = auth.uid());
+create policy f_insert on followups for insert with check (is_approved() and by_id = auth.uid());
 
--- groups / config：登录者可读；管理员可改
+-- groups / config：已批准者可读；管理员可改
 drop policy if exists g_select on groups;
-create policy g_select on groups for select using (auth.role() = 'authenticated');
+create policy g_select on groups for select using (is_approved());
 drop policy if exists g_admin on groups;
 create policy g_admin on groups for all using (has_role(array['admin']::user_role[]));
 
 drop policy if exists c_select on config;
-create policy c_select on config for select using (auth.role() = 'authenticated');
+create policy c_select on config for select using (is_approved());
 drop policy if exists c_admin on config;
 create policy c_admin on config for all using (has_role(array['admin']::user_role[]));
 
 -- ============================================================
--- 提示：注册第一个账号后，用下面这行把自己设为管理员
---   update profiles set role='admin' where email='你的邮箱';
+-- 提示：注册第一个账号后，用下面这行把自己设为「已批准的管理员」
+--   update profiles set role='admin', approved=true where email='你的邮箱';
+-- 之后新注册的用户默认「未批准」，需管理员在「管理」页批准后才能使用。
 -- ============================================================
