@@ -85,21 +85,29 @@ returns boolean language sql security definer stable as $$
 $$;
 
 -- 新用户注册时自动建档（默认角色 volunteer）
-create or replace function handle_new_user()
-returns trigger language plpgsql security definer as $$
+-- 注意：必须 set search_path=public 并全限定表名，否则在 auth 环境下找不到 profiles，
+--      会导致注册报错「Database error saving new user」。
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
 begin
-  insert into profiles(id, email, name, role)
+  insert into public.profiles(id, email, name, role)
   values (new.id, new.email,
           coalesce(new.raw_user_meta_data->>'name', split_part(new.email,'@',1)),
           'volunteer')
   on conflict (id) do nothing;
   return new;
+exception when others then
+  return new;   -- 建档失败也不阻断注册，前端会兜底创建
 end $$;
 
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
-  for each row execute function handle_new_user();
+  for each row execute function public.handle_new_user();
 
 -- ============================================================
 -- 行级安全（RLS）—— 权限的核心
@@ -117,6 +125,9 @@ create policy p_profiles_select on profiles for select using (
 );
 drop policy if exists p_profiles_self_update on profiles;
 create policy p_profiles_self_update on profiles for update using (id = auth.uid());
+-- 允许用户插入自己的档案（触发器的备份路径）
+drop policy if exists p_profiles_self_insert on profiles;
+create policy p_profiles_self_insert on profiles for insert with check (id = auth.uid());
 drop policy if exists p_profiles_admin_all on profiles;
 create policy p_profiles_admin_all on profiles for all using (has_role(array['admin']::user_role[]));
 
