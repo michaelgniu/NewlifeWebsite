@@ -89,7 +89,7 @@ const isAdmin  = () => ME && ME.role==='admin';
 function buildTabs(){
   const tabs = [{id:'todo',label:'我的待办'}];
   if (isLeader()) tabs.push({id:'board',label:'探访看板'},{id:'register',label:'登记新朋友'});
-  if (isAdmin())  tabs.push({id:'admin',label:'管理'});
+  if (isAdmin())  tabs.push({id:'users',label:'用户管理'},{id:'groups',label:'小组管理'});
   const nav = $('tabs'); nav.innerHTML='';
   tabs.forEach((t,i) => {
     const b = document.createElement('button');
@@ -111,7 +111,8 @@ function renderActive(){
   if (activeTab==='todo') loadTodo();
   else if (activeTab==='board') loadBoard();
   else if (activeTab==='register') fillAssigneeSelect();
-  else if (activeTab==='admin') loadAdmin();
+  else if (activeTab==='users') loadUsers();
+  else if (activeTab==='groups') loadGroups();
 }
 
 // ---------- 数据加载 ----------
@@ -253,40 +254,59 @@ async function submitFeedback(){
   closeModal(); renderActive();
 }
 
-// ---------- 管理 ----------
-async function loadAdmin(){
+// ---------- 用户管理（卡片式，适合手机）----------
+async function loadUsers(){
   await loadProfiles();
   const pending = PROFILES.filter(p=>!p.approved);
-  const pendingNote = pending.length
-    ? `<p style="color:var(--red);font-weight:600;margin-bottom:.6rem">有 ${pending.length} 位新注册用户待批准</p>` : '';
-  $('admin-users').innerHTML = pendingNote + `<table class="tbl"><tr><th>姓名</th><th>邮箱</th><th>审批</th><th>角色</th><th>区域</th><th>启用</th></tr>` +
-    PROFILES.map(p=>`<tr${!p.approved?' style="background:#fff6f4"':''}>
-      <td>${esc(p.name)}</td><td>${esc(p.email)}</td>
-      <td>${ p.approved
-          ? '<span style="color:var(--green)">✓ 已批准</span>'
-          : `<button class="btn btn-sm" onclick="setApproved('${p.id}',true)">批准</button>` }</td>
-      <td><select onchange="setRole('${p.id}',this.value)">
-        ${['volunteer','leader','admin'].map(r=>`<option value="${r}" ${p.role===r?'selected':''}>${ROLE_LABEL[r]}</option>`).join('')}
-      </select></td>
-      <td><input value="${esc(p.area)||''}" style="width:90px" onchange="setArea('${p.id}',this.value)"></td>
-      <td><input type="checkbox" ${p.active!==false?'checked':''} onchange="setActive('${p.id}',this.checked)"></td>
-    </tr>`).join('') + `</table>`;
-  const { data:groups } = await sb.from('groups').select('*').order('id');
-  $('admin-groups').innerHTML = (groups&&groups.length)
-    ? `<table class="tbl"><tr><th>组名</th><th>覆盖区域</th><th>负责人</th><th>邮箱</th><th>时间</th></tr>`+
-      groups.map(g=>`<tr><td>${esc(g.name)}</td><td>${esc(g.cover_area)}</td><td>${esc(g.leader_name)}</td><td>${esc(g.leader_email)}</td><td>${esc(g.meet_time)}</td></tr>`).join('')+`</table>`
-    : '<p class="muted">还没有小组。</p>';
+  const note = pending.length
+    ? `<div class="card" style="border-left:4px solid var(--red)"><b style="color:var(--red)">有 ${pending.length} 位新注册用户待批准</b></div>` : '';
+  const roleOpts = p => ['volunteer','leader','admin'].map(r=>
+    `<option value="${r}" ${p.role===r?'selected':''}>${ROLE_LABEL[r]}</option>`).join('');
+  $('users-list').innerHTML = note + PROFILES.map(p=>`
+    <div class="card"${!p.approved?' style="border-left:4px solid var(--red)"':''}>
+      <div class="vh"><span class="vn">${esc(p.name)||'（未填名）'}</span>
+        ${ p.approved ? '<span class="badge b-已联系">✓ 已批准</span>'
+                       : `<button class="btn btn-sm" onclick="setApproved('${p.id}',true)">批准登录</button>` }</div>
+      <div class="meta">${esc(p.email)}</div>
+      <div class="mrow"><label>角色</label>
+        <select onchange="setRole('${p.id}',this.value)">${roleOpts(p)}</select></div>
+      <div class="mrow"><label>区域</label>
+        <input type="text" value="${esc(p.area)||''}" placeholder="负责区域（可选）" onchange="setArea('${p.id}',this.value)"></div>
+      <label class="opt"><input type="checkbox" ${p.active!==false?'checked':''} onchange="setActive('${p.id}',this.checked)"> 启用该同工（用于自动分配）</label>
+      ${ p.approved ? `<div style="margin-top:.5rem"><button class="del" onclick="setApproved('${p.id}',false)">撤销批准</button></div>` : '' }
+    </div>`).join('');
 }
-async function setApproved(id,b){ await sb.from('profiles').update({approved:b}).eq('id',id); loadAdmin(); }
+async function setApproved(id,b){ await sb.from('profiles').update({approved:b}).eq('id',id); loadUsers(); }
 async function setRole(id,r){ await sb.from('profiles').update({role:r}).eq('id',id); }
 async function setArea(id,a){ await sb.from('profiles').update({area:a}).eq('id',id); }
 async function setActive(id,b){ await sb.from('profiles').update({active:b}).eq('id',id); }
+
+// ---------- 小组管理（卡片式）----------
+async function loadGroups(){
+  const { data:groups } = await sb.from('groups').select('*').order('id');
+  $('groups-list').innerHTML = (groups&&groups.length)
+    ? groups.map(g=>`<div class="card">
+        <div class="vh"><span class="vn">${esc(g.name)}</span>
+          <button class="del" onclick="delGroup(${g.id},'${esc(g.name)}')">删除</button></div>
+        <div class="meta">覆盖区域：${esc(g.cover_area)||'—'}</div>
+        <div class="meta">负责人：${esc(g.leader_name)||'—'}｜${esc(g.leader_email)||'—'}</div>
+        <div class="meta">聚会：${esc(g.meet_time)||'—'}</div>
+      </div>`).join('')
+    : '<p class="muted">还没有小组，用下面表单添加。</p>';
+}
 async function addGroup(){
+  const msg = $('grp-msg'); msg.className='msg';
   const rec = { name:$('g-name').value.trim(), cover_area:$('g-area').value.trim(),
     leader_name:$('g-ln').value.trim(), leader_email:$('g-le').value.trim(), meet_time:$('g-time').value.trim() };
-  if (!rec.name) return;
+  if (!rec.name){ msg.className='msg err'; msg.textContent='请填写组名'; return; }
   const { error } = await sb.from('groups').insert(rec);
-  if (error){ alert('失败：'+error.message); return; }
+  if (error){ msg.className='msg err'; msg.textContent='失败：'+error.message; return; }
   ['g-name','g-area','g-ln','g-le','g-time'].forEach(id=>$(id).value='');
-  loadAdmin();
+  msg.className='msg ok'; msg.textContent='已添加';
+  loadGroups();
+}
+async function delGroup(id,name){
+  if (!confirm('确定删除小组「'+name+'」？')) return;
+  await sb.from('groups').delete().eq('id',id);
+  loadGroups();
 }

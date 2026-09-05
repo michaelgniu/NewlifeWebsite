@@ -16,7 +16,13 @@
   .login-card h1{font-family:'Noto Serif SC',serif;color:var(--navy);font-size:1.4rem;margin-bottom:.25rem}
   .login-card .sub{color:var(--gold);font-size:.85rem;margin-bottom:1.5rem}
   label{display:block;font-weight:600;font-size:.9rem;margin:.9rem 0 .35rem}
-  input,select,textarea{width:100%;border:1px solid #ccc;border-radius:8px;padding:.6rem;font-family:inherit;font-size:.95rem}
+  /* 输入框用 16px 防止 iOS 聚焦时自动放大 */
+  input,select,textarea{width:100%;border:1px solid #ccc;border-radius:8px;padding:.65rem;font-family:inherit;font-size:16px}
+  /* 用户/小组管理卡片 */
+  .mrow{display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;margin:.4rem 0}
+  .mrow label{margin:0;min-width:3.5em;color:#555}
+  .mrow select,.mrow input[type=text]{flex:1;min-width:120px}
+  .del{background:none;border:1px solid var(--red);color:var(--red);border-radius:6px;padding:.3rem .7rem;font-size:.82rem;cursor:pointer}
   textarea{resize:vertical}
   .btn{background:var(--gold);color:var(--navy);border:none;border-radius:8px;padding:.7rem 1.2rem;font-weight:700;font-size:.95rem;cursor:pointer;transition:background .2s}
   .btn:hover{background:var(--gold-lt)}
@@ -43,9 +49,9 @@
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1rem}
   @media(max-width:560px){.form-grid{grid-template-columns:1fr}}
   .vcard{border-left:4px solid var(--gold)}
-  .vcard .vh{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;flex-wrap:wrap}
-  .vcard .vn{font-weight:700;font-size:1.05rem;color:var(--navy)}
-  .vcard .meta{font-size:.85rem;color:#555;margin:.35rem 0}
+  .vh{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;flex-wrap:wrap}
+  .vn{font-weight:700;font-size:1.05rem;color:var(--navy)}
+  .meta{font-size:.85rem;color:#555;margin:.35rem 0}
   .badge{display:inline-block;border-radius:999px;padding:.1rem .6rem;font-size:.75rem;font-weight:600}
   .b-待分配{background:#fdeede;color:#a15c00} .b-跟进中{background:#e3edff;color:#1a3f9e}
   .b-已联系{background:#e3f7e8;color:#1a7a3a} .b-已安排小组{background:#e8e3ff;color:#4b2f9e}
@@ -125,8 +131,8 @@
       <div class="card">
         <div class="form-grid">
           <div><label>姓名 *</label><input id="f-name"></div>
-          <div><label>电话</label><input id="f-phone"></div>
-          <div><label>邮箱</label><input id="f-email"></div>
+          <div><label>电话</label><input id="f-phone" inputmode="tel"></div>
+          <div><label>邮箱</label><input id="f-email" inputmode="email"></div>
           <div><label>居住区域</label><input id="f-area" placeholder="社区名或邮编前3位"></div>
           <div><label>身份</label><select id="f-identity"><option>未知</option><option>基督徒</option><option>慕道友</option></select></div>
           <div><label>首次来访日期</label><input id="f-first" type="date"></div>
@@ -138,24 +144,24 @@
         <div class="msg" id="reg-msg"></div>
       </div>
     </section>
-    <!-- 管理 -->
-    <section class="panel" id="p-admin">
-      <h2 class="title">管理</h2>
+    <!-- 用户管理 -->
+    <section class="panel" id="p-users">
+      <h2 class="title">用户管理</h2>
+      <div id="users-list"></div>
+    </section>
+    <!-- 小组管理 -->
+    <section class="panel" id="p-groups">
+      <h2 class="title">小组管理</h2>
+      <div id="groups-list"></div>
       <div class="card">
-        <h3 style="color:var(--navy);margin-bottom:.6rem">用户与角色</h3>
-        <div id="admin-users"></div>
-      </div>
-      <div class="card">
-        <h3 style="color:var(--navy);margin-bottom:.6rem">小组</h3>
-        <div id="admin-groups"></div>
-        <div class="form-grid" style="margin-top:.8rem">
-          <div><label>组名</label><input id="g-name"></div>
-          <div><label>覆盖区域</label><input id="g-area"></div>
-          <div><label>负责人姓名</label><input id="g-ln"></div>
-          <div><label>负责人邮箱</label><input id="g-le"></div>
-          <div><label>聚会时间</label><input id="g-time"></div>
-        </div>
-        <button class="btn btn-sm" style="margin-top:.7rem" onclick="addGroup()">添加小组</button>
+        <h3 style="color:var(--navy);margin-bottom:.6rem">添加小组</h3>
+        <label>组名 *</label><input id="g-name">
+        <label>覆盖区域</label><input id="g-area" placeholder="社区名或邮编前3位">
+        <label>负责人姓名</label><input id="g-ln">
+        <label>负责人邮箱</label><input id="g-le" inputmode="email">
+        <label>聚会时间</label><input id="g-time" placeholder="如：每月第一、三周六 7:30pm">
+        <button class="btn" style="margin-top:1rem;width:100%" onclick="addGroup()">添加小组</button>
+        <div class="msg" id="grp-msg"></div>
       </div>
     </section>
   </main>
