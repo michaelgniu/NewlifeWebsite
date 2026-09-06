@@ -1,6 +1,9 @@
 // ============================================================
 // 关怀探访系统 · 前端逻辑（Supabase）
 // ============================================================
+// 在 supabase 初始化清理 URL 之前，先捕获是否为密码重置回跳
+const RECOVERY = /type=recovery/.test(location.hash) || /type=recovery/.test(location.search);
+
 const cfg = window.CARE_CONFIG;
 const sb = supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON);
 
@@ -18,7 +21,37 @@ function toggleAuth(){
   $('name-wrap').style.display = signupMode ? 'block' : 'none';
   $('auth-btn').textContent = signupMode ? '注册' : '登录';
   $('toggle-auth').textContent = signupMode ? '已有账号？登录' : '还没有账号？注册';
+  $('forgot-link').style.display = signupMode ? 'none' : '';
+  $('forgot-sep').style.display  = signupMode ? 'none' : '';
   $('auth-msg').textContent = '';
+}
+
+// ---------- 忘记密码：发送重置邮件 ----------
+async function forgotPassword(){
+  const email = $('email').value.trim();
+  const msg = $('auth-msg'); msg.className='msg';
+  if (!email){ msg.className='msg err'; msg.textContent='请先在上面填写你的邮箱'; return; }
+  const redirectTo = location.origin + location.pathname;
+  const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo });
+  if (error){ msg.className='msg err'; msg.textContent = translateErr(error.message); return; }
+  msg.className='msg ok'; msg.textContent='重置邮件已发送，请查收邮箱并点击链接设置新密码。';
+}
+
+// ---------- 设置新密码 ----------
+function showReset(){
+  ['login-view','app-view','pending-view'].forEach(id=>$(id).style.display='none');
+  $('reset-view').style.display='flex';
+}
+async function doReset(){
+  const p1 = $('np1').value, p2 = $('np2').value;
+  const msg = $('reset-msg'); msg.className='msg';
+  if (p1.length < 6){ msg.className='msg err'; msg.textContent='密码至少 6 位'; return; }
+  if (p1 !== p2){ msg.className='msg err'; msg.textContent='两次输入的密码不一致'; return; }
+  const { error } = await sb.auth.updateUser({ password: p1 });
+  if (error){ msg.className='msg err'; msg.textContent = translateErr(error.message); return; }
+  msg.className='msg ok'; msg.textContent='密码已更新，请用新密码重新登录…';
+  await sb.auth.signOut();
+  setTimeout(()=>{ location.href = location.origin + location.pathname; }, 1500);
 }
 
 async function doAuth(){
@@ -50,8 +83,15 @@ function translateErr(m){
 }
 
 // ---------- 启动 ----------
-sb.auth.onAuthStateChange((_e, session) => { if (session) boot(); });
+// 邮件重置链接跳回时，URL 带 type=recovery，进入「设置新密码」而非登录
+let recovering = RECOVERY;
+
+sb.auth.onAuthStateChange((e, session) => {
+  if (e === 'PASSWORD_RECOVERY'){ recovering = true; showReset(); return; }
+  if (session && !recovering) boot();
+});
 (async () => {
+  if (recovering){ showReset(); return; }
   const { data:{ session } } = await sb.auth.getSession();
   if (session) boot();
 })();
